@@ -1,7 +1,7 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
-      <img src="../../../assets/img/dumbbell_520x520.jpg" width="112" height="28">
+    <a class="navbar-item" href="./home">
+      <img src="../../../assets/img/dumbell_512x512-icon.png">
     </a>
 
     <a role="button" class="navbar-burger burger" (click)="onNavBarClick()" #navBarBurger aria-label="menu"
@@ -14,24 +14,18 @@
 
   <div id="navbarBasic" class="navbar-menu" #navBarMenu>
     <div class="navbar-start">
-      <a class="navbar-item">
+      <a routerLink="home" class="navbar-item" (click)="onNavBarClick()">
         Home
-      </a>
-      <a class="navbar-item">
-        Treinos
       </a>
     </div>
 
     <div class="navbar-end">
-      <a class="navbar-item">
-        Sobre
-      </a>
-      <a class="navbar-item">
+      <a routerLink="contato" class="navbar-item" (click)="onNavBarClick()">
         Contato
       </a>
       <div class="navbar-item">
         <div class="buttons">
-          <a class="button is-light">
+          <a routerLink="login" class="button is-light" (click)="onNavBarClick()">
             Log in
           </a>
         </div>
@@ -39,3 +33,16 @@
     </div>
   </div>
 </nav>
+
+<section class="hero">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title has-text-centered">
+             title
+        </h1>
+        <h2 class="subtitle">
+          
+        </h2>
+      </div>
+    </div>
+</section>
