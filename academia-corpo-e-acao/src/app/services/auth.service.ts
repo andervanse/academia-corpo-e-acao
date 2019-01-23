@@ -4,8 +4,8 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import { Observable } from "rxjs";
 import { LoginCredentials } from "../models/login-credentials.model";
-import { map } from "rxjs/operators";
 import { environment } from "../../environments/environment";
+import { of } from "rxjs/observable/of";
 
 @Injectable()
 export class AuthService {
@@ -19,10 +19,17 @@ export class AuthService {
     }
 
     autenticar(login: LoginCredentials): Observable<any> {
+            if (login.login === 'teste123' && login.password === 'teste123') { 
+                localStorage.setItem("token", 'fakeToken_teste123');
+                return of(true);               
+            } else {
+               return  Observable.throw('failed');
+            }
+
+        /*
         return this.http.post<string>(`${environment.ApiBaseUrl}api/Auth`, login, {
             headers: this.getHeaders()
-        }
-        ).pipe(
+        }).pipe(
             map((resp) => {
                 this.logout();
                 const token = resp.toString();
@@ -31,13 +38,12 @@ export class AuthService {
                     localStorage.setItem("token", token);
                     this.onAuthenticating.emit(true);
                 }
-
                 this.authenticate(token);
                 return resp;
             }, (error) => {
                 return error[0];
             })
-        );
+        );*/
     }
 
     confirmarEmail(email: string, id: string): Observable<any> {

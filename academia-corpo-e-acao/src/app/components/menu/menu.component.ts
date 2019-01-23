@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -9,9 +10,14 @@ export class MenuComponent implements OnInit {
 
   @ViewChild('navBarBurger') navBarBurger :ElementRef;
   @ViewChild('navBarMenu') navBarMenu :ElementRef;
-  constructor() { }
+
+  constructor(private authService :AuthService) { }
 
   ngOnInit() {
+  }
+
+  isAuthenticated() :boolean {
+    return this.authService.isAuthenticated();
   }
 
   onNavBarClick() {

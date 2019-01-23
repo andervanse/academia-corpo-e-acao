@@ -20,12 +20,19 @@
     </div>
 
     <div class="navbar-end">
+      <a *ngIf="isAuthenticated()" routerLink="ficha-treino" class="navbar-item" (click)="onNavBarClick()">
+          Ficha
+      </a>
       <a routerLink="contato" class="navbar-item" (click)="onNavBarClick()">
         Contato
       </a>
-      <a routerLink="login" class="navbar-item" (click)="onNavBarClick()">
+      <a *ngIf="!isAuthenticated()" routerLink="login" class="navbar-item" (click)="onNavBarClick()">
           Log in
       </a>
+      <a *ngIf="isAuthenticated()" routerLink="logoff" class="navbar-item" (click)="onNavBarClick()">
+          Sair
+      </a>
+
     </div>
   </div>
 </nav>
@@ -34,7 +41,7 @@
   <div class="hero-body">
     <div class="container">
       <div class="has-text-centered">        
-        <img class="has-text-centered" src="../../../assets/img/corpo-e-acao_logo2.png">
+        <img class="has-text-centered" src="../../../assets/img/no-image.png">
       </div>
     </div>
   </div>

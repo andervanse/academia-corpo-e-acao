@@ -12,6 +12,8 @@ import { LoginCredentials } from '../../models/login-credentials.model';
 })
 export class LoginComponent implements OnInit {
 
+  loginFailed :boolean = false;
+
   constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
@@ -25,12 +27,18 @@ export class LoginComponent implements OnInit {
       credentials.password = form.value.password;
 
       this.authService.autenticar(credentials).subscribe((resp) => {
-        this.router.navigate(['home']);
+        this.loginFailed = false;
+        this.router.navigate(['home']);        
       },
       (error) => {
-        console.log(error);
+        this.loginFailed = true;
       });
     }
+  }
+
+  onNotificationClick(form) {
+    form.reset();
+    this.loginFailed = false;
   }
 
 }

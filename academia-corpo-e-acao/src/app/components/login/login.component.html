@@ -2,6 +2,13 @@
   <div class="hero-body">
 
     <div class="container">
+        <div *ngIf="loginFailed" class="notification is-danger" (click)="onNotificationClick(loginForm)">
+            <button class="delete"></button>
+            <h5 class="title is-5 has-text-centered">
+              *Usuário ou senha inválido
+            </h5>
+          </div>
+
       <div class="card">
         <header class="card-header">
           <h4 class="card-header-title title is-4">

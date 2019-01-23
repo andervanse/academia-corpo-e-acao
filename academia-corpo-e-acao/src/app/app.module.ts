@@ -11,12 +11,17 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ContatoComponent } from './components/contato/contato.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthService } from './services/auth.service';
+import { AuthGuardService } from './services/auth-guard.service';
+import { FichaTreinoComponent } from './components/ficha-treino/ficha-treino.component';
+import { LogoffComponent } from './components/logoff/logoff.component';
 
 const appRoutes :Routes = [
   { path: '', component: HomeComponent },
+  { path: 'home', redirectTo: '' },
   { path: 'contato', component: ContatoComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'home', redirectTo: '' }
+  { path: 'logoff', component: LogoffComponent },  
+  { path: 'ficha-treino', component: FichaTreinoComponent, canActivate: [AuthGuardService] }
 ]
 
 @NgModule({
@@ -26,7 +31,9 @@ const appRoutes :Routes = [
     HomeComponent,
     FooterComponent,
     ContatoComponent,
-    LoginComponent
+    LoginComponent,
+    FichaTreinoComponent,
+    LogoffComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +41,7 @@ const appRoutes :Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
