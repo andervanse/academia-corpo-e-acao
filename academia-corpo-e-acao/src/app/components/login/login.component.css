@@ -1,0 +1,22 @@
+.card-header-title {
+    background-color: rgb(50, 157, 245);  
+    color:white;
+  }
+  
+  div.container {
+      width: 500px;
+  }
+  
+  @media only screen and (max-width: 600px) {
+      div.container {
+         width: 300px;
+      }   
+  }
+  
+ .ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid #42A948; /* green */
+ }
+    
+ .ng-invalid:not(form):not(.ng-pristine)  {
+    border-left: 5px solid #a94442; /* red */
+ }

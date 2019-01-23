@@ -1,6 +1,6 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="./home">
+    <a class="navbar-item" routerLink="home" (click)="onNavBarClick()">
       <img src="../../../assets/img/dumbell_512x512-icon.png">
     </a>
 
@@ -23,26 +23,19 @@
       <a routerLink="contato" class="navbar-item" (click)="onNavBarClick()">
         Contato
       </a>
-      <div class="navbar-item">
-        <div class="buttons">
-          <a routerLink="login" class="button is-light" (click)="onNavBarClick()">
-            Log in
-          </a>
-        </div>
-      </div>
+      <a routerLink="login" class="navbar-item" (click)="onNavBarClick()">
+          Log in
+      </a>
     </div>
   </div>
 </nav>
 
 <section class="hero">
-    <div class="hero-body">
-      <div class="container">
-        <h1 class="title has-text-centered">
-             title
-        </h1>
-        <h2 class="subtitle">
-          
-        </h2>
+  <div class="hero-body">
+    <div class="container">
+      <div class="has-text-centered">        
+        <img class="has-text-centered" src="../../../assets/img/corpo-e-acao_logo2.png">
       </div>
     </div>
+  </div>
 </section>

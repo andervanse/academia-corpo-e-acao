@@ -1,0 +1,13 @@
+
+.navbar {
+    background-color: rgb(50, 157, 245);    
+}
+
+.navbar-item {
+    font-size: 20px;
+    color: white;
+}
+
+.hero-body {
+    padding: 0px;
+}

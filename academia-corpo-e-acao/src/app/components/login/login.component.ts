@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { LoginCredentials } from '../../models/login-credentials.model';
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -7,9 +12,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
+  }
+
+  onSubmit(form) {
+    
+    if (form.valid) {
+      var credentials = new LoginCredentials();
+      credentials.login = form.value.email;
+      credentials.password = form.value.password;
+
+      this.authService.autenticar(credentials).subscribe((resp) => {
+        this.router.navigate(['home']);
+      },
+      (error) => {
+        console.log(error);
+      });
+    }
   }
 
 }
