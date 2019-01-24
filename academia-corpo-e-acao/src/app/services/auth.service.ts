@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { LoginCredentials, Usuario } from "../models/login-credentials.model";
 import { environment } from "../../environments/environment";
 import { of } from "rxjs/observable/of";
+import { map } from "rxjs/operators/map";
 
 @Injectable()
 export class AuthService {
@@ -20,36 +21,34 @@ export class AuthService {
         return new HttpHeaders().append('Access-Control-Allow-Origin', environment.ApiBaseUrl);
     }
     
-    getUsuario() :Usuario {
+    obterUsuario() :Usuario {
         return this.usuario
     }
-    autenticar(login: LoginCredentials): Observable<any> {
-            if (login.login === 'teste123' && login.password === 'teste123') { 
-                localStorage.setItem("token", 'fakeToken_teste123');
-                this.usuario = { nome: login.login };
-                return of(true);               
-            } else {
-               return  Observable.throw('failed');
-            }
 
-        /*
-        return this.http.post<string>(`${environment.ApiBaseUrl}api/Auth`, login, {
-            headers: this.getHeaders()
-        }).pipe(
-            map((resp) => {
-                this.logout();
-                const token = resp.toString();
+    autenticar(login: LoginCredentials): Observable<Usuario> {
 
-                if (token !== null && !isUndefined(token)) {
-                    localStorage.setItem("token", token);
-                    this.onAuthenticating.emit(true);
-                }
-                this.authenticate(token);
-                return resp;
-            }, (error) => {
-                return error[0];
-            })
-        );*/
+        return this.http.get<Usuario[]>(`${environment.ApiBaseUrl}assets/usuarios.json`)
+            .pipe(
+                map((resp) => {
+                    let user = null;
+                    let userFound = false;
+                    let users = Object.keys(resp).map(i => resp[i]);
+                    
+                    for (var i = 0; i < users.length; i++) {
+                        if (resp[i].password === login.password) {
+                            user = resp[i];
+                            userFound = true;
+                            localStorage.setItem("token", 'fakeToken_teste123');
+                        }
+                    }
+                    
+                    if (!userFound) {                        
+                        throw new Error('Usuário ou senha inválidos');
+                    } else {
+                       return user;
+                    }
+                })
+            );
     }
 
     confirmarEmail(email: string, id: string): Observable<any> {

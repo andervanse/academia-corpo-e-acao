@@ -14,6 +14,7 @@ import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { FichaTreinoComponent } from './components/ficha-treino/ficha-treino.component';
 import { LogoffComponent } from './components/logoff/logoff.component';
+import { PlanoTreinoService } from './services/plano-treino.service';
 
 const appRoutes :Routes = [
   { path: '', component: HomeComponent },
@@ -41,7 +42,7 @@ const appRoutes :Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AuthService, AuthGuardService],
+  providers: [AuthService, AuthGuardService, PlanoTreinoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

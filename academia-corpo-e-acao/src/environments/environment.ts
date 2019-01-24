@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  baseUrl: "https://s3-sa-east-1.amazonaws.com/www.weppersonalizacoes.com/",
-  ApiBaseUrl: "https://bugressr50.execute-api.sa-east-1.amazonaws.com/Prod/"
+  baseUrl: "http://localhost:4200/",
+  ApiBaseUrl: "http://localhost:4200/"
 };
