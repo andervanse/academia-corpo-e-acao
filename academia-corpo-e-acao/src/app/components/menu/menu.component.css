@@ -9,15 +9,26 @@
 }
 
 .hero-body {
-    padding: 0px;
+    padding: 20px;
 }
 
-@media only screen and (max-width: 1020px) {
+span.tag:not(body) {
+    height: 100%;
+}
+
+@media only screen and (max-width: 1087px) {
     section.hero {
-        height: 120px;
+        height: 140px;
     }
     .container img {
-        height: 120px;
+        height: 100px;
+    }
+    .navbar-item {
+        color: black;
+    }
+    span.tag:not(body) {
+        width: 0%;
+        visibility: hidden;
     }
 
 }

@@ -1,6 +1,9 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
+
   <div class="navbar-brand">
+
     <a class="navbar-item" routerLink="home" (click)="onNavBarClick()">
+      <!-- <span class="tag is-info" *ngIf="isAuthenticated()">Logado</span> -->
       <img src="../../../assets/img/dumbell_512x512-icon.png">
     </a>
 
@@ -21,27 +24,32 @@
 
     <div class="navbar-end">
       <a *ngIf="isAuthenticated()" routerLink="ficha-treino" class="navbar-item" (click)="onNavBarClick()">
-          Ficha
+        Ficha
       </a>
       <a routerLink="contato" class="navbar-item" (click)="onNavBarClick()">
         Contato
       </a>
-      <a *ngIf="!isAuthenticated()" routerLink="login" class="navbar-item" (click)="onNavBarClick()">
-          Log in
-      </a>
-      <a *ngIf="isAuthenticated()" routerLink="logoff" class="navbar-item" (click)="onNavBarClick()">
-          Sair
-      </a>
+      <div class="navbar-item">
+        <div class="buttons">
+          <a *ngIf="!isAuthenticated()" routerLink="login" class="button is-primary" (click)="onNavBarClick()">
+            Log in
+          </a>
+          <a *ngIf="isAuthenticated()" routerLink="logoff" class="button is-primary" (click)="onNavBarClick()">
+              &nbsp;&nbsp; Sair &nbsp;&nbsp;
+          </a>
+        </div>
+      </div>
 
     </div>
   </div>
+
 </nav>
 
 <section class="hero">
   <div class="hero-body">
     <div class="container">
-      <div class="has-text-centered">        
-        <img class="has-text-centered" src="../../../assets/img/no-image.png">
+      <div class="has-text-centered">
+        <img class="has-text-centered" src="../../../assets/img/corpo-e-acao-academia.png">
       </div>
     </div>
   </div>

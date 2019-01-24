@@ -3,12 +3,14 @@ import { isUndefined } from "util";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import { Observable } from "rxjs";
-import { LoginCredentials } from "../models/login-credentials.model";
+import { LoginCredentials, Usuario } from "../models/login-credentials.model";
 import { environment } from "../../environments/environment";
 import { of } from "rxjs/observable/of";
 
 @Injectable()
 export class AuthService {
+
+    usuario : Usuario = null;
 
     constructor(private http: HttpClient) { }
 
@@ -17,10 +19,14 @@ export class AuthService {
     private getHeaders(): HttpHeaders {
         return new HttpHeaders().append('Access-Control-Allow-Origin', environment.ApiBaseUrl);
     }
-
+    
+    getUsuario() :Usuario {
+        return this.usuario
+    }
     autenticar(login: LoginCredentials): Observable<any> {
             if (login.login === 'teste123' && login.password === 'teste123') { 
                 localStorage.setItem("token", 'fakeToken_teste123');
+                this.usuario = { nome: login.login };
                 return of(true);               
             } else {
                return  Observable.throw('failed');

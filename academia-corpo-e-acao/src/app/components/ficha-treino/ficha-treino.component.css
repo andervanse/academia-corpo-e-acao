@@ -1,0 +1,14 @@
+
+table.table {
+    width:100%;
+    font-size: 14px;
+}
+
+table thead {
+    text-align: center;
+    font-weight: bolder;
+}
+
+table td {
+    text-align: center;
+}
