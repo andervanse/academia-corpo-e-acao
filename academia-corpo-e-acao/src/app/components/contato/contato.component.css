@@ -1,4 +1,8 @@
 
 div.container {
-    width: 370px;
+    width: 285px;
+}
+
+div p {
+    font-size: 16px;
 }

@@ -4,16 +4,16 @@
     <div class="container">
         <div *ngIf="loginFailed" class="notification is-danger" (click)="onNotificationClick(loginForm)">
             <button class="delete"></button>
-            <h5 class="title is-5 has-text-centered">
+            <h4 class="title is-4 has-text-centered">
               *Usuário ou senha inválido
-            </h5>
+            </h4>
           </div>
 
       <div class="card">
         <header class="card-header">
-          <h4 class="card-header-title title is-4">
+          <h5 class="card-header-title title is-5">
             Login
-          </h4>
+          </h5>
         </header>
         <div class="card-content">
           <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate> 

@@ -4,12 +4,12 @@
   }
   
   div.container {
-      width: 500px;
+      width: 30%;
   }
   
   @media only screen and (max-width: 1020px) {
       div.container {
-         width: 300px;
+         width: 255px;
       }   
   }
   

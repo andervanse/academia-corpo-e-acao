@@ -1,7 +1,10 @@
 
 table.table {
     width:100%;
-    font-size: 14px;
+}
+
+td {
+    font-size: 12px;
 }
 
 table thead {
