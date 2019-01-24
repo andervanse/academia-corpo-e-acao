@@ -6,4 +6,4 @@ Website build with angular 6
 ng build --prod --base-href "https://andervanse.github.io/academia-corpo-e-acao/"
 
 2 - Deploy to dist folder
-angular-cli-ghpages --dir=dist
+git subtree push --prefix academia-corpo-e-acao/dist origin gh-pages
