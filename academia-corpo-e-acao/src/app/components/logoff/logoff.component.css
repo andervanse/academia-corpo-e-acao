@@ -1,6 +1,6 @@
 
 div.container {
-    width: 320px;
+    width: 330px;
 }
 
 footer.card-footer {
@@ -9,4 +9,10 @@ footer.card-footer {
 
 a.card-footer-item {
     margin: 8px;
+}
+
+@media only screen and (max-width: 1020px) {
+    div.container {
+       width: 255px;
+    }   
 }

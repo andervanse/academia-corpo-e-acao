@@ -8,6 +8,10 @@
     color: white;
 }
 
+a.button {
+    font-size: 16px;    
+}
+
 .hero-body {
     padding: 20px;
 }
