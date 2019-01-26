@@ -83,7 +83,7 @@
         <p class="modal-card-title">
           {{ grupoSelecionado }}
         </p>
-        <button class="delete" aria-label="close" (click)="onToggleExercicioModal()"></button>
+        <button class="delete" aria-label="close" (click)="onToggleExercicioModal(grupoSelecionado)"></button>
       </header>
       <section class="modal-card-body">
         <div class="field">
@@ -104,7 +104,7 @@
       </section>
       <footer class="modal-card-foot is-blue">
         <button class="button is-success" type="submit">Salvar</button>
-        <button class="button" (click)="onToggleExercicioModal()">Cancelar</button>
+        <button class="button" (click)="onToggleExercicioModal(grupoSelecionado)">Cancelar</button>
       </footer>
     </form>
   </div>
