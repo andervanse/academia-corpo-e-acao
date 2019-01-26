@@ -1,0 +1,111 @@
+<div class="container" *ngIf="!aluno">
+  <div class="field is-grouped">
+    <p class="control">
+      <input class="input" type="text" placeholder="Procurar Aluno" #nameImput>
+    </p>
+    <p class="control">
+      <a class="button is-info" (click)="onFind(nameImput.value)">
+        Procurar
+      </a>
+    </p>
+  </div>
+
+  <div *ngIf="!alunos">
+    <span>Nenhum aluno selecionado</span>
+  </div>
+  <div *ngIf="alunos">
+    <table class="table">
+      <thead>
+        <tr>
+          <td>Alunos</td>
+          <td>Editar Treino</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let aluno of alunos">
+          <td>{{ aluno.nome }}</td>
+          <td><a class="button is-info" (click)="onUserSelected(aluno)">Selecionar</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="tile is-ancestor" *ngIf="aluno">
+  <div class="tile is-vertical">
+    <div class="tile">
+      <div class="tile is-parent is-vertical" *ngIf="treino">
+
+        <div class="tile notification is-info">
+          <p class="title is-4">
+            {{ aluno.nome }}
+            <a class="button is-danger is-pulled-right" (click)="onUserSelected(undefined)">Sair</a>
+          </p>
+        </div>
+        <article class="tile is-child notification is-orange" *ngFor="let grupo of treino.gruposMusculares">
+          <p class="title is-4">{{ grupo.descricao }}</p>
+          <hr>
+          <p class="subtitle">
+            <a class="button is-info" (click)="onToggleExercicioModal(grupo.descricao)">
+              Adicionar Exercício</a>
+          </p>
+          <table class="table is-striped">
+            <thead>
+              <tr>
+                <td>Exercício</td>
+                <td>Ordem</td>
+                <td>Repetições</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of grupo.items">
+                <td>{{ item.exercicio }}</td>
+                <td>{{ item.ordem }}</td>
+                <td>{{ item.repeticoes }}</td>
+                <td>
+                  <a class="button is-danger fas fa-trash-alt" (click)="onExcluirExercicio(grupo.descricao, item.exercicio)"></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" #novoExercicioModal>
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <form #exercicioForm="ngForm" novalidate autocomplete="off" (ngSubmit)="onNovoExercicioSubmit()">
+      <header class="modal-card-head is-blue">
+        <p class="modal-card-title">
+          {{ grupoSelecionado }}
+        </p>
+        <button class="delete" aria-label="close" (click)="onToggleExercicioModal()"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="field">
+          <p class="control">
+            <input class="input" type="text" placeholder="Exercício" name="exercicio" ngModel minlength="3" required>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <input class="input" type="number" placeholder="Ordem" name="ordem" ngModel required>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <input class="input" type="text" placeholder="Repetição" name="repeticoes" ngModel required>
+          </p>
+        </div>
+      </section>
+      <footer class="modal-card-foot is-blue">
+        <button class="button is-success" type="submit">Salvar</button>
+        <button class="button" (click)="onToggleExercicioModal()">Cancelar</button>
+      </footer>
+    </form>
+  </div>
+</div>

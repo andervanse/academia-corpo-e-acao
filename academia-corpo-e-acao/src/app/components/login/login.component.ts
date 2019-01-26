@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
       this.authService.autenticar(credentials).subscribe((resp) => {
         this.loginFailed = false;
-        this.router.navigate(['home']);        
+        this.router.navigate(['ficha-treino']);        
       },
       (error) => {
         this.loginFailed = true;

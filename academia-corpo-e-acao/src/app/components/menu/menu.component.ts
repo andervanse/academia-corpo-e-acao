@@ -21,7 +21,10 @@ export class MenuComponent implements OnInit {
     this.usuario = this.authService.usuario;
     return this.authService.isAuthenticated();
   }
-  
+
+  isAdmin() :boolean {
+    return this.authService.isAdmin();
+  }  
 
   onNavBarClick() {
       this.navBarBurger.nativeElement.classList.toggle('is-active');

@@ -30,6 +30,6 @@ export class TreinoItem {
     repeticoes: string;
     grupoMuscular: string;
     observacao?: string;
-}
+} 
 
 

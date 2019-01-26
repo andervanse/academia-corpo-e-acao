@@ -5,7 +5,6 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { LoginCredentials, Usuario } from "../models/login-credentials.model";
 import { environment } from "../../environments/environment";
-import { of } from "rxjs/observable/of";
 import { map } from "rxjs/operators/map";
 
 @Injectable()
@@ -22,7 +21,7 @@ export class AuthService {
     }
     
     obterUsuario() :Usuario {
-        return this.usuario
+        return { id:'', nome: localStorage.getItem('usuario') }
     }
 
     autenticar(login: LoginCredentials): Observable<Usuario> {
@@ -38,7 +37,8 @@ export class AuthService {
                         if (resp[i].password === login.password) {
                             user = resp[i];
                             userFound = true;
-                            localStorage.setItem("token", 'fakeToken_teste123');
+                            localStorage.setItem('token', 'fakeToken_teste123');
+                            localStorage.setItem('usuario', resp[i].nome);
                         }
                     }
                     
@@ -61,23 +61,28 @@ export class AuthService {
         this.logout();
 
         if (token !== null && !isUndefined(token)) {
-            localStorage.setItem("token", token);
+            localStorage.setItem('token', token);
             this.onAuthenticating.emit(true);
         }
     }
 
-
     public isAuthenticated(): boolean {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem('token');
         return token !== null && !isUndefined(token);
     }
+
+    public isAdmin(): boolean {
+        let user = this.obterUsuario();
+        return this.isAuthenticated() && user.nome == "administrador";
+    }    
 
     public getToken() {
         return localStorage.getItem('token');
     }
 
     public logout() {
-        localStorage.removeItem("token");
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
     } 
 
 }

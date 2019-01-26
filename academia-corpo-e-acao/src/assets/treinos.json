@@ -1,8 +1,8 @@
 [
     {
-        "id": "treino-teste123",
+        "id": "treino-teste",
         "dataInicio": "2019-01-01T00:00:00.000Z",
-        "gruposMusculares": [
+        "gruposMusculares": [            
             {
                 "descricao": "Membros Inferiores (Pernas)",
                 "items": [
@@ -162,6 +162,37 @@
                     }
                 ]
             }
+        ]        
+    },
+    {
+        "id": "treino-jose.silva",
+        "dataInicio": "2019-01-01T00:00:00.000Z",
+        "gruposMusculares": [
+            {
+                "descricao": "Membros Inferiores (Pernas)",
+                "items": [
+                    {
+                        "exercicio": "Agachamento",
+                        "ordem": 1,
+                        "repeticoes": "5 x 12"
+                    },
+                    {
+                        "exercicio": "Abdutora Cross",
+                        "ordem": 2,
+                        "repeticoes": "3 x 12"
+                    },
+                    {
+                        "exercicio": "Adutora Cross",
+                        "ordem": 3,
+                        "repeticoes": "4 x 10"
+                    },
+                    {
+                        "exercicio": "Extensor Quadril (Glúteo)",
+                        "ordem": 4,
+                        "repeticoes": "4 x 12"
+                    }
+                ]
+            }
         ]
-    }
+    }  
 ]

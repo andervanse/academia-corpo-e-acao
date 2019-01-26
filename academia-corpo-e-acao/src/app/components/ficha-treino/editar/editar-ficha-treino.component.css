@@ -1,0 +1,45 @@
+table thead {
+    text-align: center;
+}
+
+table td {
+    text-align: center;
+    font-weight: normal;
+}
+
+.modal-card-title {
+    color: white;
+}
+
+.modal-card-head, .modal-card-foot {
+    background-color: #209cee;
+}
+
+.ng-valid[required], .ng-valid.required  {
+    border-left: 5px solid #42A948; /* green */
+ }
+    
+ .ng-invalid:not(form):not(.ng-pristine)  {
+    border-left: 5px solid #a94442; /* red */
+ }
+ 
+table.table {
+    width:100%;
+}
+
+td, a, button, input {
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 568px) {
+    td, button, a, input {
+        font-size: 12px;
+    }
+
+    .modal-card {
+        width:98%;
+    }
+    .modal-card-title {
+        font-size: 20px;
+    }
+}

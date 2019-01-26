@@ -15,6 +15,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { FichaTreinoComponent } from './components/ficha-treino/ficha-treino.component';
 import { LogoffComponent } from './components/logoff/logoff.component';
 import { PlanoTreinoService } from './services/plano-treino.service';
+import { EditarFichaTreinoComponent } from './components/ficha-treino/editar/editar-ficha-treino.component';
 
 const appRoutes :Routes = [
   { path: '', component: HomeComponent },
@@ -22,7 +23,8 @@ const appRoutes :Routes = [
   { path: 'contato', component: ContatoComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logoff', component: LogoffComponent },  
-  { path: 'ficha-treino', component: FichaTreinoComponent, canActivate: [AuthGuardService] }
+  { path: 'ficha-treino', component: FichaTreinoComponent, canActivate: [AuthGuardService] },
+  { path: 'ficha-treino/editar', component: EditarFichaTreinoComponent, canActivate: [AuthGuardService] }
 ]
 
 @NgModule({
@@ -34,7 +36,8 @@ const appRoutes :Routes = [
     ContatoComponent,
     LoginComponent,
     FichaTreinoComponent,
-    LogoffComponent
+    LogoffComponent,
+    EditarFichaTreinoComponent
   ],
   imports: [
     BrowserModule,
