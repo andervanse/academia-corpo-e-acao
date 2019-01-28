@@ -86,6 +86,12 @@ export class EditarFichaTreinoComponent implements OnInit {
     }
   }
 
+  minimizeText(text :string) :string {
+    if (text && text.length > 9) {
+      return text.substr(0, 6) + '...';
+    }
+  }
+
   onNovoExercicioSubmit() {
 
     if (this.exercicioForm.valid) {

@@ -66,7 +66,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let item of grupo.items">
-                <td>{{ item.exercicio }}</td>
+                <td>{{ minimizeText(item.exercicio) }}</td>
                 <td class="ordem">{{ item.ordem }}</td>
                 <td>{{ item.repeticoes }}</td>
                 <td>

@@ -16,10 +16,8 @@ export class PlanoTreinoService {
         .pipe(
             map((resp) => {
                 let usersFound = (<Usuario[]>resp).filter((usr) => {
-                    console.log(usr);
                     return usr['login'].indexOf(nome) > -1 && !usr['is-admin']
                 });
-
                 return usersFound;
             })
         );        
@@ -29,11 +27,9 @@ export class PlanoTreinoService {
         return this.http.get<PlanoTreino[]>(`${environment.ApiBaseUrl}assets/treinos.json`)
         .pipe(
             map((resp) => {
-                console.log(resp);
                 let itemFound = (<PlanoTreino[]>resp).filter((treino) => {
                     return treino.id === treinoId;
                 });
-
                 return itemFound;
             })
         );         
