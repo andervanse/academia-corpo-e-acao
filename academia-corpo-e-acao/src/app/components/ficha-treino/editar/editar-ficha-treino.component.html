@@ -1,19 +1,23 @@
 <div class="container" *ngIf="!aluno">
-  <div class="field is-grouped">
-    <p class="control">
-      <input class="input" type="text" placeholder="Procurar Aluno" #nameImput>
-    </p>
-    <p class="control">
-      <a class="button is-info" (click)="onFind(nameImput.value)">
-        Procurar
-      </a>
-    </p>
+
+  <div class="box is-orange">
+    <div class="field is-grouped">
+      <p class="control">
+        <input class="input" type="text" placeholder="Procurar Aluno" #nameImput>
+      </p>
+      <p class="control">
+        <a class="button is-info" (click)="onFind(nameImput.value)">
+          Procurar
+        </a>
+      </p>
+    </div>
   </div>
 
-  <div *ngIf="!alunos">
-    <span>Nenhum aluno selecionado</span>
+  <div class="box is-orange" *ngIf="!alunos">
+    <span class="title is-6">Nenhum aluno selecionado</span>
   </div>
-  <div *ngIf="alunos">
+
+  <div class="box is-orange" *ngIf="alunos">
     <table class="table">
       <thead>
         <tr>
@@ -29,6 +33,7 @@
       </tbody>
     </table>
   </div>
+
 </div>
 
 <div class="tile is-ancestor" *ngIf="aluno">
@@ -38,9 +43,10 @@
 
         <div class="tile notification is-info">
           <p class="title is-4">
-            {{ aluno.nome }}
+            {{ aluno.nome }} &nbsp;&nbsp;
             <a class="button is-danger is-pulled-right" (click)="onUserSelected(undefined)">Sair</a>
           </p>
+
         </div>
         <article class="tile is-child notification is-orange" *ngFor="let grupo of treino.gruposMusculares">
           <p class="title is-4">{{ grupo.descricao }}</p>
@@ -52,16 +58,16 @@
           <table class="table is-striped">
             <thead>
               <tr>
-                <td>Exercício</td>
-                <td>Ordem</td>
-                <td>Repetições</td>
+                <td>Exerc.</td>
+                <td class="ordem">Ordem</td>
+                <td>Repet.</td>
                 <td></td>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of grupo.items">
                 <td>{{ item.exercicio }}</td>
-                <td>{{ item.ordem }}</td>
+                <td class="ordem">{{ item.ordem }}</td>
                 <td>{{ item.repeticoes }}</td>
                 <td>
                   <a class="button is-danger fas fa-trash-alt" (click)="onExcluirExercicio(grupo.descricao, item.exercicio)"></a>
