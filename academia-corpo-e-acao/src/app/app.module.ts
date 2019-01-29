@@ -16,6 +16,7 @@ import { FichaTreinoComponent } from './components/ficha-treino/ficha-treino.com
 import { LogoffComponent } from './components/logoff/logoff.component';
 import { PlanoTreinoService } from './services/plano-treino.service';
 import { EditarFichaTreinoComponent } from './components/ficha-treino/editar/editar-ficha-treino.component';
+import { MinimizeTextPipe } from './pipes/minimize-text.pipe';
 
 const appRoutes :Routes = [
   { path: '', component: HomeComponent },
@@ -29,6 +30,7 @@ const appRoutes :Routes = [
 
 @NgModule({
   declarations: [
+    MinimizeTextPipe,
     AppComponent,
     MenuComponent,
     HomeComponent,

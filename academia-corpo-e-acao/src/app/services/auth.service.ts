@@ -1,11 +1,10 @@
-import { Injectable, EventEmitter } from "@angular/core";
 import { isUndefined } from "util";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-
 import { Observable } from "rxjs";
 import { LoginCredentials, Usuario } from "../models/login-credentials.model";
 import { environment } from "../../environments/environment";
-import { map } from "rxjs/operators/map";
+import { map } from "rxjs/operators";
+import { Injectable, EventEmitter } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable()
 export class AuthService {

@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { PlanoTreino, Usuario } from "../models/login-credentials.model";
 import { environment } from "../../environments/environment";
-import { map } from "rxjs/operators/map";
+import { map } from "rxjs/operators";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
 
 @Injectable()

@@ -3,18 +3,17 @@
   <div class="box is-orange">
     <div class="field is-grouped">
       <p class="control">
-        <input class="input" type="text" placeholder="Procurar Aluno" #nameImput>
+        <input class="input" type="text" placeholder="Procurar Aluno" width="200px" #nameImput>
+        
       </p>
       <p class="control">
-        <a class="button is-info" (click)="onFind(nameImput.value)">
-          Procurar
-        </a>
+        <a class="button is-info fas fa-search" (click)="onFind(nameImput.value)"></a>
       </p>
     </div>
   </div>
 
   <div class="box is-orange" *ngIf="!alunos">
-    <span class="title is-6">Nenhum aluno selecionado</span>
+    <span class="title is-5 is-font-white">Nenhum aluno selecionado</span>
   </div>
 
   <div class="box is-orange" *ngIf="alunos">
@@ -55,19 +54,22 @@
             <a class="button is-info" (click)="onToggleExercicioModal(grupo.descricao)">
               Adicionar Exercício</a>
           </p>
-          <table class="table is-striped">
+          <table class="table is-striped is-narrow">
             <thead>
               <tr>
                 <td>Exerc.</td>
-                <td class="ordem">Ordem</td>
+                <td>Ordem</td>
                 <td>Repet.</td>
                 <td></td>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of grupo.items">
-                <td>{{ minimizeText(item.exercicio) }}</td>
-                <td class="ordem">{{ item.ordem }}</td>
+                <td>
+                  <span class="is-mobile">{{ item.exercicio | minimizeText:7 }}</span> 
+                  <span class="is-desktop">{{ item.exercicio }}</span>
+                </td>
+                <td>{{ item.ordem }}</td>
                 <td>{{ item.repeticoes }}</td>
                 <td>
                   <a class="button is-danger fas fa-trash-alt" (click)="onExcluirExercicio(grupo.descricao, item.exercicio)"></a>
