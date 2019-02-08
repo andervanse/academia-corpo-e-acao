@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/academia-corpo-e-acao-api/academia-corpo-e-acao.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
