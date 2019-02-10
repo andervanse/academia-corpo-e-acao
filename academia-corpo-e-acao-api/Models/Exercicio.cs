@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace dynamodb_test
+namespace academia_corpo_e_acao
 {
     [DataContract]
     public class Exercicio

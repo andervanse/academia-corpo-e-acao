@@ -1,7 +1,7 @@
 
 using System.Collections.Generic;
 
-namespace dynamodb_test
+namespace academia_corpo_e_acao
 {
     public class Response<T>
     {
@@ -23,6 +23,6 @@ namespace dynamodb_test
             } 
         }
 
-        public T ResponseObj { get; set; }
+        public T Return { get; set; }
     }
 }

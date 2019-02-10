@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace dynamodb_test
+namespace academia_corpo_e_acao
 {
     public class SecurityCrypt
     {

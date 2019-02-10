@@ -6,23 +6,39 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.Model;
+using Microsoft.Extensions.Logging;
 
-namespace dynamodb_test
+namespace academia_corpo_e_acao
 {
     public class GrupoMuscularRepository
     {
         private readonly DynamoDbContext _context;
-        private const string _type = "grupoMuscular";
+        private readonly ILogger _log;
+        private const string _type = "grupo-muscular";
 
-        public GrupoMuscularRepository(DynamoDbContext context)
+        public GrupoMuscularRepository(DynamoDbContext context, ILoggerFactory logger)
         {
             _context = context;
+            _log = logger.CreateLogger("UsuarioRepository");
         }
 
         public async Task<Response<bool>> SalvarAsync(GrupoMuscular grupoMuscular)
         {
-            string exercicios = "";
             var resp = new Response<bool>();
+
+            if (grupoMuscular == null)
+            {
+                resp.ErrorMessages.Add("Grupo Muscular inválido.");
+                return resp;
+            }            
+
+            if (grupoMuscular.UsuarioId == 0)
+            {
+                resp.ErrorMessages.Add("Usuario não informado");
+                return resp;
+            }
+
+            string exercicios = "";
 
             using (MemoryStream ms = new MemoryStream())
             {
@@ -31,12 +47,6 @@ namespace dynamodb_test
                 byte[] json = ms.ToArray();
                 ms.Close();
                 exercicios = Encoding.UTF8.GetString(json, 0, json.Length);
-            }
-
-            if (grupoMuscular.UsuarioId == 0)
-            {
-                resp.ErrorMessages.Add("Usuario não informado");
-                return resp;
             }
 
             if (grupoMuscular.Id == 0)
@@ -48,7 +58,7 @@ namespace dynamodb_test
                     TableName = _context.TableName,
                     Item = new Dictionary<string, AttributeValue>
                     {
-                        { "type", new AttributeValue { S = _type } },
+                        { "tipo", new AttributeValue { S = _type } },
                         { "id", new AttributeValue { N = grupoMuscular.Id.ToString() } },
                         { "usuario-id", new AttributeValue { N = grupoMuscular.UsuarioId.ToString() } },
                         { "descricao", new AttributeValue { S = grupoMuscular.Descricao } },
@@ -67,6 +77,7 @@ namespace dynamodb_test
                     }
                     catch (Exception e)
                     {
+                        _log.LogError(e.Message);
                         resp.ErrorMessages.Add(e.Message);
                     }
                     return resp;
@@ -79,15 +90,20 @@ namespace dynamodb_test
                     TableName = _context.TableName,
                     Key = new Dictionary<string, AttributeValue>
                     {
-                        { "type", new AttributeValue {S = _type } },
-                        { "id", new AttributeValue {S = grupoMuscular.Id.ToString() } }
+                        { "tipo", new AttributeValue { S = _type } },
+                        { "id", new AttributeValue { N = grupoMuscular.Id.ToString() } }
+                    },
+                    ExpressionAttributeNames = new Dictionary<string, string>()
+                    {
+                        {"#desc", "descricao"},
+                        {"#exercicios", "exercicios"}
                     },
                     ExpressionAttributeValues = new Dictionary<string, AttributeValue>
                     {
-                        { ":descricao", new AttributeValue { S = grupoMuscular.Descricao } },
+                        { ":desc", new AttributeValue { S = grupoMuscular.Descricao } },
                         { ":exercicios", new AttributeValue {  S = exercicios } }
                     },
-                    UpdateExpression = "SET descricao = :descricao, exercicios = :exercicios"
+                    UpdateExpression = "SET #desc = :desc, #exercicios = :exercicios"
                 };
 
                 UpdateItemResponse updResponse = null;
@@ -101,6 +117,7 @@ namespace dynamodb_test
                     }
                     catch (Exception e)
                     {
+                        _log.LogError(e.Message);
                         resp.ErrorMessages.Add(e.Message);
                     }
                     return resp;
@@ -108,9 +125,10 @@ namespace dynamodb_test
             }
         }
 
-        public async Task<Response<GrupoMuscular>> ObterGrupoMuscularAsync(Usuario usuario)
+        public async Task<Response<List<GrupoMuscular>>> ObterGrupoMuscularAsync(Usuario usuario)
         {
-            var resp = new Response<GrupoMuscular>();
+            var resp = new Response<List<GrupoMuscular>>();
+            resp.Return = new List<GrupoMuscular>();
 
             if (usuario.Id == 0)
             {
@@ -125,10 +143,10 @@ namespace dynamodb_test
                     TableName = _context.TableName,
                     KeyConditionExpression = "#type = :t",
                     FilterExpression = "#uid = :uid",
-                    ExpressionAttributeNames = new Dictionary<string, string> { { "#type", "type" }, { "#uid", "usuario-id" } },
+                    ExpressionAttributeNames = new Dictionary<string, string> { { "#type", "tipo" }, { "#uid", "usuario-id" } },
                     ExpressionAttributeValues = new Dictionary<string, AttributeValue>
                     {
-                         { ":t", new AttributeValue { S = "grupoMuscular" } },
+                         { ":t", new AttributeValue { S = "grupo-muscular" } },
                          { ":uid", new AttributeValue { N = usuario.Id.ToString() } }
                     }
                 };
@@ -141,13 +159,13 @@ namespace dynamodb_test
                 }
                 catch (Exception e)
                 {
+                    _log.LogError(e.Message);
                     resp.ErrorMessages.Add(e.Message);
                     return resp;
                 }
 
                 foreach (Dictionary<string, AttributeValue> item in response.Items)
                 {
-                    // Process the result.
                     var grupo = new GrupoMuscular();
 
                     foreach (KeyValuePair<string, AttributeValue> kvp in item)
@@ -181,7 +199,7 @@ namespace dynamodb_test
                             }
                         }
                     }
-                    resp.ResponseObj = grupo;
+                    resp.Return.Add(grupo);
                 }
 
                 return resp;

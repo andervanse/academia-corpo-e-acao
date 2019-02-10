@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+
+namespace academia_corpo_e_acao
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public static IConfiguration Configuration { get; private set; }
+
+        // This method gets called by the runtime. Use this method to add services to the container
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddScoped<IEmailSender, ZohoEmailSender>();
+            services.AddScoped<IEmailLoginConfirmation, EmailLoginConfirmation>();
+            services.AddSingleton<IConfiguration>(x => Configuration);
+            services.AddScoped<DynamoDbContext>();
+            services.AddScoped<UsuarioRepository>();
+            services.AddScoped<GrupoMuscularRepository>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(opt => {
+                        opt.TokenValidationParameters = new TokenValidationParameters {
+                            ClockSkew = TimeSpan.FromMinutes(30),
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"])),
+                            ValidateAudience = true,
+                            ValidAudience = Configuration["Token:Audience"],
+                            ValidateIssuer = true,
+                            ValidIssuer = Configuration["Token:Issuer"],
+                            RequireSignedTokens = true,                            
+                            RequireExpirationTime = true,
+                            ValidateLifetime = true
+                        };
+                    });
+
+            services.AddCors();
+
+            services.AddMvc();            
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseHsts();
+            }
+            
+            app.UseAuthentication();
+
+            app.UseCors(builder =>
+                builder.WithOrigins(Configuration["Website:CorsOrigin"])
+                       .AllowAnyMethod()
+                       .AllowAnyHeader());
+
+            app.UseHttpsRedirection();
+            app.UseMvc();
+        }
+    }
+}

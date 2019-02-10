@@ -3,9 +3,9 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace dynamodb_test
+namespace academia_corpo_e_acao
 {
-    [DataContract]
+    
     public class GrupoMuscular
     {
         public int Id { get; set; }
