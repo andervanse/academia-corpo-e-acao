@@ -24,10 +24,12 @@ namespace academia_corpo_e_acao
             _configuration = configuration;
         }
 
-
         [HttpGet("{userId}", Name = "ObterGrupoMuscular")]
         public IActionResult Get(int userId)
         {           
+            if (userId <= 0)
+              return BadRequest("usuário inválido.");
+
             var response = _grpRepo.ObterGrupoMuscularAsync(new Usuario { Id = userId }); 
 
             if (response.Result.HasError)

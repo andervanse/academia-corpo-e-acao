@@ -1,7 +1,13 @@
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace academia_corpo_e_acao
 {
@@ -13,25 +19,60 @@ namespace academia_corpo_e_acao
     {
         private readonly UsuarioRepository _userRepo;
         private readonly IEmailLoginConfirmation _emailLoginConfirmation;
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration _config;
+        private readonly ILogger _log;
 
         public UsuarioController(UsuarioRepository userRepo,
                                  IEmailLoginConfirmation emailLoginConfirmation,
-                                 IConfiguration configuration)
+                                 IConfiguration configuration,
+                                 ILoggerFactory logger)
         {
             _userRepo = userRepo;
             _emailLoginConfirmation = emailLoginConfirmation;
-            _configuration = configuration;
+            _config = configuration;
+            _log = logger.CreateLogger("UsuarioController");
         }
 
         [HttpGet("{nome}", Name = "GetUser")]
+        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> Get(string nome)
         {            
             if (string.IsNullOrEmpty(nome)) return BadRequest();
 
             var response = await _userRepo.ObterUsuarioAsync(new Usuario {Nome = nome});
-            return Ok(new[] { response.Return });            
+
+            return Ok(new Usuario 
+            { 
+                Id = response.Return.Id,
+                Nome = response.Return.Nome,  
+                Email = response.Return.Email,
+                CreatedAt = response.Return.CreatedAt,
+                Altura = response.Return.Altura,
+                Peso = response.Return.Peso,
+                Celular = response.Return.Celular
+            });            
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {            
+            var nome = ObterNomeUsuario();
+
+            if (string.IsNullOrEmpty(nome)) return BadRequest();
+
+            var response = await _userRepo.ObterUsuarioAsync(new Usuario {Nome = nome});
+
+            return Ok(new Usuario 
+            { 
+                Id = response.Return.Id,
+                Nome = response.Return.Nome,  
+                Email = response.Return.Email,
+                CreatedAt = response.Return.CreatedAt,
+                Altura = response.Return.Altura,
+                Peso = response.Return.Peso,
+                Celular = response.Return.Celular
+            });            
+        }        
 
         [HttpPost]
         [Authorize(Roles = Role.Admin)]
@@ -114,6 +155,35 @@ namespace academia_corpo_e_acao
                return BadRequest(saveResponse.ErrorMessages);
              
             return Ok();
-        }                     
+        }
+
+        protected string ObterNomeUsuario()
+        {
+            try
+            {
+                var tokenStr = HttpContext.Request.Headers["Authorization"];
+                var tokenHash = tokenStr[0].Substring(7, tokenStr[0].Length - 7);
+                var key = Encoding.ASCII.GetBytes(_config["Token:Key"]);
+                var handler = new JwtSecurityTokenHandler();
+                var tokenSecure = handler.ReadToken(tokenHash) as SecurityToken;
+
+                var validations = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+                
+                var claims = handler.ValidateToken(tokenHash, validations, out tokenSecure);
+
+                return claims.Identity.Name;
+            }
+            catch (Exception e)
+            {
+                _log.LogError(e.Message);
+                return String.Empty;
+            }
+        }    
     }
 }

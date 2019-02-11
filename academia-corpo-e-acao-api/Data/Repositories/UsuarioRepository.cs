@@ -80,7 +80,7 @@ namespace academia_corpo_e_acao
                                 {"#email", "email"},
                                 {"#peso", "peso"},
                                 {"#altura", "altura"},
-                                {"#celular", "celular"},
+                                {"#celular", "celular"}
                             },
                             ExpressionAttributeValues = dicAttrValues,
                             UpdateExpression = "SET #email = :email, #peso = :peso, #altura = :altura, #celular = :celular"
@@ -163,28 +163,8 @@ namespace academia_corpo_e_acao
             resp.Return = null;
 
             using (var client = this._context.GetClientInstance())
-            {
-                var request = new QueryRequest
-                {
-                    TableName = _context.TableName,
-                    KeyConditionExpression = "#tipo = :t",
-                    ExpressionAttributeNames = new Dictionary<string, string> {
-                        { "#id", "id" },
-                        { "#tipo", "tipo" },
-                        { "#nome", "nome" },
-                        { "#hash", "hashedPassword" },
-                        { "#salt", "salt" },
-                        { "#admin", "admin" }
-                    },
-                    FilterExpression = "#nome = :nome",                    
-                    ExpressionAttributeValues = new Dictionary<string, AttributeValue>
-                    {
-                         { ":t", new AttributeValue { S = "usuario" } },
-                         { ":nome", new AttributeValue { S = user.Nome } }
-                    },
-                    ProjectionExpression = "#id, #nome, #hash, #salt, #admin"
-                };
-
+            {               
+                QueryRequest request = obterUsuarioQueryRequest("nome", new AttributeValue { S = user.Nome });
                 QueryResponse response = null;
 
                 try
@@ -242,26 +222,7 @@ namespace academia_corpo_e_acao
 
             using (var client = this._context.GetClientInstance())
             {
-                var request = new QueryRequest
-                {
-                    TableName = _context.TableName,
-                    KeyConditionExpression = "#tipo = :t",                   
-                    FilterExpression = $"#{attrName} = :{attrName}",
-                    ExpressionAttributeNames = new Dictionary<string, string> {
-                        { "#id", "id" },
-                        { "#tipo", "tipo" },
-                        { "#nome", "nome" },
-                        { "#hashedPassword", "hashedPassword" },
-                        { "#salt", "salt" },
-                        { "#email", "email" }
-                    },
-                    ExpressionAttributeValues = new Dictionary<string, AttributeValue>
-                    {
-                         { ":t", new AttributeValue { S = "usuario" } },
-                         { $":{attrName}", attrValue }
-                    },
-                    ProjectionExpression = "#id, #nome, #hashedPassword, #salt, #email"
-                };
+                QueryRequest request = obterUsuarioQueryRequest(attrName, attrValue);
 
                 QueryResponse response = null;
 
@@ -275,11 +236,40 @@ namespace academia_corpo_e_acao
                     _log.LogError(e.Message);
                     return resp;
                 }
-                user = ExtractUserFrom(response.Items); 
+                user = ExtractUserFrom(response.Items);
                 resp.Return = user;
             }
 
             return resp;
+        }
+
+        private QueryRequest obterUsuarioQueryRequest(string attrName, AttributeValue attrValue)
+        {
+            return new QueryRequest
+            {
+                TableName = _context.TableName,
+                KeyConditionExpression = "#tipo = :t",
+                FilterExpression = $"#{attrName} = :{attrName}",
+                ExpressionAttributeNames = new Dictionary<string, string> {
+                        { "#id", "id" },
+                        { "#tipo", "tipo" },
+                        { "#nome", "nome" },
+                        { "#createdAt", "createdAt" },
+                        { "#hashedPassword", "hashedPassword" },
+                        { "#salt", "salt" },
+                        { "#email", "email" },
+                        { "#peso", "peso" },
+                        { "#altura", "altura" },
+                        { "#celular", "celular" },
+                        { "#isAdmin", "admin" }
+                    },
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                    {
+                         { ":t", new AttributeValue { S = "usuario" } },
+                         { $":{attrName}", attrValue }
+                    },
+                ProjectionExpression = "#id, #nome, #hashedPassword, #salt, #email, #createdAt, #peso, #altura, #celular, #isAdmin"
+            };
         }
 
         private Usuario ExtractUserFrom(List<Dictionary<string, AttributeValue>> dictionary)
