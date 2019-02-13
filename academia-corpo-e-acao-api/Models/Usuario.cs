@@ -16,9 +16,6 @@ namespace academia_corpo_e_acao
         public double? Altura { get; set; }
         public double? Peso { get; set; }
         public string Celular { get; set; }
-
-        [JsonIgnore]
         public bool Administrador { get; set; }
-
     }
 }

@@ -11,6 +11,7 @@ export class Usuario {
     password?: string;
     objetivo?: string;
     planosTreino?: PlanoTreino[];
+    administrador: boolean;
 }
 
 export class PlanoTreino {
@@ -20,15 +21,16 @@ export class PlanoTreino {
 }
 
 export class GrupoMuscular {
+    id: number;
+    usuarioId: number;
     descricao: string;
-    items: TreinoItem[];
+    exercicios: Exercicio[];
 }
 
-export class TreinoItem {
-    exercicio: string;
+export class Exercicio {
+    descricao: string;
     ordem: number;
     repeticoes: string;
-    grupoMuscular: string;
     observacao?: string;
 } 
 

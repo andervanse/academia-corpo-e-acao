@@ -170,10 +170,11 @@ namespace academia_corpo_e_acao
                 try
                 {
                     response = await client.QueryAsync(request);                       
-                    Usuario userDb = ExtractUserFrom(response.Items);
+                    List<Usuario> lstUser = ExtractUserFrom(response.Items);
 
-                    if (userDb != null)
+                    if (lstUser != null && lstUser.Count > 0)
                     {
+                        var userDb = lstUser[0];
                         var hash = SecurityCrypt.GenerateHash(user.Senha + userDb.Salt);
 
                         if (hash == userDb.HashedPassword) 
@@ -193,13 +194,33 @@ namespace academia_corpo_e_acao
             }
         }
 
+        public async Task<Response<List<Usuario>>> ObterUsuariosAsync(Usuario usuario)
+        {
+            var resp = new Response<List<Usuario>>();
+            QueryResponse response = await ObterUsuarioResponse<List<Usuario>>(usuario, resp);
+            List<Usuario> lstUser = ExtractUserFrom(response.Items);
+            resp.Return = lstUser;
+            return resp;
+        }
+
         public async Task<Response<Usuario>> ObterUsuarioAsync(Usuario usuario)
         {
             var resp = new Response<Usuario>();
-            Usuario user = null;
+            QueryResponse response = await ObterUsuarioResponse<Usuario>(usuario, resp);
+            List<Usuario> lstUser = ExtractUserFrom(response.Items);
 
-            string attrName = String.Empty;
-            AttributeValue attrValue = new AttributeValue();
+            if (lstUser.Count > 0)
+               resp.Return = lstUser[0];
+            else
+               resp.Messages.Add("Nenhum registro encontrado.");
+
+            return resp;
+        }        
+
+        private async Task<QueryResponse> ObterUsuarioResponse<T>(Usuario usuario, Response<T> resp)
+        {
+            var attrName = String.Empty;
+            var attrValue = new AttributeValue();
             Dictionary<string, string> attributes = new Dictionary<string, string> { { "#tipo", "tipo" } };
 
             if (usuario.Id > 0)
@@ -214,17 +235,16 @@ namespace academia_corpo_e_acao
             }
             else if (!String.IsNullOrEmpty(usuario.Email))
             {
-                attrName = "email";                
+                attrName = "email";
                 attrValue.S = usuario.Email;
             }
 
             attributes.Add($"#{attrName}", $":{attrName}");
+            QueryResponse response = null;
 
             using (var client = this._context.GetClientInstance())
             {
                 QueryRequest request = ObterUsuarioQueryRequest(attrName, attrValue);
-
-                QueryResponse response = null;
 
                 try
                 {
@@ -234,22 +254,24 @@ namespace academia_corpo_e_acao
                 {
                     resp.ErrorMessages.Add(e.Message);
                     _log.LogError(e.Message);
-                    return resp;
                 }
-                user = ExtractUserFrom(response.Items);
-                resp.Return = user;
-            }
+            }  
 
-            return resp;
+            return  response;         
         }
 
         private QueryRequest ObterUsuarioQueryRequest(string attrName, AttributeValue attrValue)
         {
+            var filterExpr = $"#{attrName} = :{attrName}";
+
+            if (attrName == "nome")
+               filterExpr = $"begins_with(#{attrName}, :{attrName})";
+
             return new QueryRequest
             {
                 TableName = _context.TableName,
-                KeyConditionExpression = "#tipo = :t",
-                FilterExpression = $"#{attrName} = :{attrName}",
+                KeyConditionExpression = "#tipo = :t",                
+                FilterExpression = filterExpr,
                 ExpressionAttributeNames = new Dictionary<string, string> {
                         { "#id", "id" },
                         { "#tipo", "tipo" },
@@ -272,8 +294,9 @@ namespace academia_corpo_e_acao
             };
         }
 
-        private Usuario ExtractUserFrom(List<Dictionary<string, AttributeValue>> dictionary)
+        private List<Usuario> ExtractUserFrom(List<Dictionary<string, AttributeValue>> dictionary)
         {
+            List<Usuario> list = new List<Usuario>();
             Usuario usuario = null;
 
             foreach (var item in dictionary)
@@ -315,10 +338,10 @@ namespace academia_corpo_e_acao
                     {
                         usuario.Administrador = value.BOOL;
                     }
-
                 }
+                list.Add(usuario);
             }
-            return usuario;
+            return list;
         }
     }
 }

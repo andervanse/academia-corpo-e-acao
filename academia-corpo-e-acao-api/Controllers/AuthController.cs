@@ -79,7 +79,8 @@ namespace academia_corpo_e_acao
                             CreatedAt = response.Return.CreatedAt,
                             Altura = response.Return.Altura,
                             Peso = response.Return.Peso,
-                            Celular = response.Return.Celular
+                            Celular = response.Return.Celular,
+                            Administrador = response.Return.Administrador
                         }
                 });
             }

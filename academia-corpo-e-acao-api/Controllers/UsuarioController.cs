@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
@@ -39,18 +40,33 @@ namespace academia_corpo_e_acao
         {            
             if (string.IsNullOrEmpty(nome)) return BadRequest();
 
-            var response = await _userRepo.ObterUsuarioAsync(new Usuario {Nome = nome});
+            var response = await _userRepo.ObterUsuariosAsync(new Usuario {Nome = nome});
 
-            return Ok(new Usuario 
-            { 
-                Id = response.Return.Id,
-                Nome = response.Return.Nome,  
-                Email = response.Return.Email,
-                CreatedAt = response.Return.CreatedAt,
-                Altura = response.Return.Altura,
-                Peso = response.Return.Peso,
-                Celular = response.Return.Celular
-            });            
+            if (!response.HasError) 
+            {
+                List<Usuario> lstUsuario = new List<Usuario>();
+
+                foreach (var usr in response.Return)
+                {
+                    lstUsuario.Add(new Usuario
+                    {
+                        Id = usr.Id,
+                        Nome = usr.Nome,
+                        Email = usr.Email,
+                        CreatedAt = usr.CreatedAt,
+                        Altura = usr.Altura,
+                        Peso = usr.Peso,
+                        Celular = usr.Celular,
+                        Administrador = usr.Administrador
+                    });
+                }
+
+                return Ok(lstUsuario);      
+            }
+            else
+            {
+                return BadRequest(response.ErrorMessages);
+            }      
         }
 
         [HttpGet]

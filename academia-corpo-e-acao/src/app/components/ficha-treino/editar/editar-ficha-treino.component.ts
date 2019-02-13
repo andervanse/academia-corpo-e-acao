@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { PlanoTreino, Usuario } from '../../../models/login-credentials.model';
+import { PlanoTreino, Usuario, GrupoMuscular } from '../../../models/login-credentials.model';
 import { PlanoTreinoService } from '../../../services/plano-treino.service';
 import { AuthService } from '../../../services/auth.service';
 import { NgForm } from '@angular/forms';
@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 export class EditarFichaTreinoComponent implements OnInit {
 
   alunos: Usuario[];
-  treino: PlanoTreino;
+  grupoMuscular: GrupoMuscular[];
   aluno: Usuario;
   grupoSelecionado: string;
 
@@ -43,18 +43,18 @@ export class EditarFichaTreinoComponent implements OnInit {
   onUserSelected(aluno: Usuario) {
     this.aluno = aluno;
     if (this.aluno) {
-      this.planoTreinoService.obterUltimoPlanoTreino('treino-' + aluno.nome).subscribe((resp) => {
-        this.treino = resp[0];
+      this.planoTreinoService.obterUltimoPlanoTreino().subscribe((resp) => {
+        this.grupoMuscular = resp;
 
-        if (!this.treino) {
-          this.treino = { id: "treino-" + aluno.nome, dataInicio: new Date(), gruposMusculares: [] };
+        if (!this.grupoMuscular) {
+          this.grupoMuscular = new GrupoMuscular[0];
         }
-        this.addIfNotExists(this.treino.gruposMusculares, 'descricao', 'Membros Inferiores (Pernas)');
-        this.addIfNotExists(this.treino.gruposMusculares, 'descricao', 'Peitorais');
-        this.addIfNotExists(this.treino.gruposMusculares, 'descricao', 'Dorsais');
-        this.addIfNotExists(this.treino.gruposMusculares, 'descricao', 'Bíceps');
-        this.addIfNotExists(this.treino.gruposMusculares, 'descricao', 'Tríceps');
-        this.addIfNotExists(this.treino.gruposMusculares, 'descricao', 'Deltóides');        
+        this.addIfNotExists(this.grupoMuscular, 'descricao', 'Membros Inferiores (Pernas)');
+        this.addIfNotExists(this.grupoMuscular, 'descricao', 'Peitorais');
+        this.addIfNotExists(this.grupoMuscular, 'descricao', 'Dorsais');
+        this.addIfNotExists(this.grupoMuscular, 'descricao', 'Bíceps');
+        this.addIfNotExists(this.grupoMuscular, 'descricao', 'Tríceps');
+        this.addIfNotExists(this.grupoMuscular, 'descricao', 'Deltóides');        
       });
     }
   }
@@ -75,11 +75,11 @@ export class EditarFichaTreinoComponent implements OnInit {
 
   onExcluirExercicio(nomeGrupo: string, nomeExercicio: string) {
 
-    for (var i = 0; i < this.treino.gruposMusculares.length; i++) {
-      if (this.treino.gruposMusculares[i].descricao === nomeGrupo) {
-        for (var l = 0; l < this.treino.gruposMusculares[i].items.length; l++) {
-          if (this.treino.gruposMusculares[i].items[l].exercicio === nomeExercicio) {
-            this.treino.gruposMusculares[i].items.splice(l, 1);
+    for (var i = 0; i < this.grupoMuscular.length; i++) {
+      if (this.grupoMuscular[i].descricao === nomeGrupo) {
+        for (var l = 0; l < this.grupoMuscular[i].exercicios.length; l++) {
+          if (this.grupoMuscular[i].exercicios[l].descricao === nomeExercicio) {
+            this.grupoMuscular[i].exercicios.splice(l, 1);
           }
         }
       }
@@ -91,14 +91,14 @@ export class EditarFichaTreinoComponent implements OnInit {
   onNovoExercicioSubmit() {
 
     if (this.exercicioForm.valid) {
-      for (var i = 0; i < this.treino.gruposMusculares.length; i++) {
-        if (this.treino.gruposMusculares[i].descricao === this.grupoSelecionado) {
+      for (var i = 0; i < this.grupoMuscular.length; i++) {
+        if (this.grupoMuscular[i].descricao === this.grupoSelecionado) {
 
-          let exists = this.treino.gruposMusculares[i].items
+          let exists = this.grupoMuscular[i].exercicios
             .find(exercicio => exercicio === this.exercicioForm.value.exercicio);
 
           if (!exists) {
-            this.treino.gruposMusculares[i].items.push(this.exercicioForm.value);
+            this.grupoMuscular[i].exercicios.push(this.exercicioForm.value);
           }
         }
       }

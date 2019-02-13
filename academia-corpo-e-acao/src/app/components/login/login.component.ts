@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['ficha-treino']);        
       },
       (error) => {
-        console.error(error);
+        console.log(error);
         this.loginFailed = true;
       });
     }

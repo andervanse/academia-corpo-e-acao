@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PlanoTreino } from '../../models/login-credentials.model';
+import { PlanoTreino, GrupoMuscular } from '../../models/login-credentials.model';
 import { PlanoTreinoService } from '../../services/plano-treino.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class FichaTreinoComponent implements OnInit {
 
-  treino :PlanoTreino;
+  gruposMusculares :GrupoMuscular[];
 
   constructor(private planoTreinoService: PlanoTreinoService,
               private authService: AuthService) { }
@@ -18,8 +18,9 @@ export class FichaTreinoComponent implements OnInit {
   ngOnInit() {
     var usuario = this.authService.obterUsuario();
     
-    this.planoTreinoService.obterUltimoPlanoTreino('treino-' + usuario.nome).subscribe((resp) => {
-      this.treino = resp[0];
+    this.planoTreinoService.obterUltimoPlanoTreino().subscribe((resp) => {
+      this.gruposMusculares = resp;
+      console.log(resp);
     });
   }
 

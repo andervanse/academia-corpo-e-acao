@@ -47,7 +47,7 @@
           </p>
 
         </div>
-        <article class="tile is-child notification is-orange" *ngFor="let grupo of treino.gruposMusculares">
+        <article class="tile is-child notification is-orange" *ngFor="let grupo of gruposMusculares">
           <p class="title is-4">{{ grupo.descricao }}</p>
           <hr>
           <p class="subtitle">
@@ -64,15 +64,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of grupo.items">
+              <tr *ngFor="let item of grupo.exercicios">
                 <td>
-                  <span class="is-mobile">{{ item.exercicio | minimizeText:7 }}</span> 
-                  <span class="is-desktop">{{ item.exercicio }}</span>
+                  <span class="is-mobile">{{ item.descricao | minimizeText:7 }}</span> 
+                  <span class="is-desktop">{{ item.descricao }}</span>
                 </td>
                 <td>{{ item.ordem }}</td>
                 <td>{{ item.repeticoes }}</td>
                 <td>
-                  <a class="button is-danger fas fa-trash-alt" (click)="onExcluirExercicio(grupo.descricao, item.exercicio)"></a>
+                  <a class="button is-danger fas fa-trash-alt" (click)="onExcluirExercicio(grupo.descricao, item.descricao)"></a>
                 </td>
               </tr>
             </tbody>

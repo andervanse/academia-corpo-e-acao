@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { PlanoTreino, Usuario } from "../models/login-credentials.model";
+import { PlanoTreino, Usuario, GrupoMuscular } from "../models/login-credentials.model";
 import { environment } from "../../environments/environment";
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
@@ -24,25 +24,21 @@ export class PlanoTreinoService {
     }
     
     obterUsuarios(nome :string): Observable<Usuario[]> {
-        return this.http.get<Usuario[]>(`${environment.apiBaseUrl}api/usuario`, { headers: this.getHeaders() })
+        return this.http.get<Usuario[]>(`${environment.apiBaseUrl}api/usuario/${nome}`, { headers: this.getHeaders() })
         .pipe(
             map((resp) => {
-                let usersFound = (<Usuario[]>resp).filter((usr) => {
-                    return usr['login'].indexOf(nome) > -1 && !usr['is-admin']
-                });
-                return usersFound;
+                return resp;
             })
         );        
     }
 
-    obterUltimoPlanoTreino(treinoId :string): Observable<PlanoTreino[]> {
-        return this.http.get<PlanoTreino[]>(`${environment.apiBaseUrl}api/grupoMuscular/${this.auth.getUser().id}`, { headers: this.getHeaders() })
+    obterUltimoPlanoTreino(): Observable<GrupoMuscular[]> {
+        let user = this.auth.obterUsuario();
+        console.log(user);
+        return this.http.get<GrupoMuscular[]>(`${environment.apiBaseUrl}api/grupoMuscular/${user.id}`, { headers: this.getHeaders() })
         .pipe(
             map((resp) => {
-                let itemFound = (<PlanoTreino[]>resp).filter((treino) => {
-                    return treino.id === treinoId;
-                });
-                return itemFound;
+                return resp;
             })
         );         
     }

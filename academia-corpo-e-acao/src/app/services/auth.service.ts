@@ -21,7 +21,17 @@ export class AuthService {
     }
     
     obterUsuario() :Usuario {
-        return { id:'', nome: localStorage.getItem('usuario') }
+        let usuario = JSON.parse(localStorage.getItem('usuario'));
+        
+        if (usuario == null || usuario == undefined) {
+            return null;
+        } else {
+            return {
+                id: usuario['id'],
+                nome: usuario['nome'],
+                administrador: usuario['administrador'] || false
+            }
+        }
     }
 
     autenticar(credentials: LoginCredentials): Observable<Usuario> {
@@ -34,16 +44,11 @@ export class AuthService {
                     let user = new Usuario();
                     user.id = resp['usuario']['id'];
                     user.nome = resp['usuario']['nome'];
+                    user.administrador = resp['usuario']['administrador'];
                     return user;                     
                 })
             );
     }
-
-    private parseJwt (token) {
-        var base64Url = token.split('.')[1];
-        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        return JSON.parse(window.atob(base64));
-    };
 
     confirmarEmail(email: string, id: string): Observable<any> {
         return this.http.get<string>(`${environment.apiBaseUrl}api/auth/${email}/${id}`, {
@@ -67,19 +72,11 @@ export class AuthService {
 
     public isAdmin(): boolean {
         let user = this.obterUsuario();
-        return this.isAuthenticated() && user.nome == "administrador";
+        return this.isAuthenticated() && user.administrador;
     }    
 
     public getToken() {
         return localStorage.getItem('token');
-    }
-
-    public getUser() {
-        let userstr = JSON.parse(localStorage.getItem('usuario'));
-        let user = new Usuario();
-        user.id = userstr['id'];
-        user.nome = userstr['nome'];
-        return user;
     }
 
     public logout() {
