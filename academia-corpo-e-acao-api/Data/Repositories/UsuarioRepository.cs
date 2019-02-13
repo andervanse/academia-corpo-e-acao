@@ -164,7 +164,7 @@ namespace academia_corpo_e_acao
 
             using (var client = this._context.GetClientInstance())
             {               
-                QueryRequest request = obterUsuarioQueryRequest("nome", new AttributeValue { S = user.Nome });
+                QueryRequest request = ObterUsuarioQueryRequest("nome", new AttributeValue { S = user.Nome });
                 QueryResponse response = null;
 
                 try
@@ -222,7 +222,7 @@ namespace academia_corpo_e_acao
 
             using (var client = this._context.GetClientInstance())
             {
-                QueryRequest request = obterUsuarioQueryRequest(attrName, attrValue);
+                QueryRequest request = ObterUsuarioQueryRequest(attrName, attrValue);
 
                 QueryResponse response = null;
 
@@ -243,7 +243,7 @@ namespace academia_corpo_e_acao
             return resp;
         }
 
-        private QueryRequest obterUsuarioQueryRequest(string attrName, AttributeValue attrValue)
+        private QueryRequest ObterUsuarioQueryRequest(string attrName, AttributeValue attrValue)
         {
             return new QueryRequest
             {

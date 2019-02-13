@@ -6,7 +6,7 @@
       "AspNetCoreFunction": {
           "Type": "AWS::Serverless::Function",
           "Properties": {
-              "Handler": "simple-webstore-api::simple_webstore_api.LambdaEntryPoint::FunctionHandlerAsync",
+              "Handler": "academia-corpo-e-acao::academia_corpo_e_acao.LambdaEntryPoint::FunctionHandlerAsync",
               "Runtime": "dotnetcore2.1",
               "CodeUri": "",
               "MemorySize": 128,

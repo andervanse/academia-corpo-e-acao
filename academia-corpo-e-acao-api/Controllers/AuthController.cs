@@ -52,16 +52,11 @@ namespace academia_corpo_e_acao
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, credentials.Login),                    
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.NameId, response.Return.Id.ToString()),
-                    new Claim(JwtRegisteredClaimNames.UniqueName, response.Return.Nome)
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 };
 
                 if (response.Return.Administrador)
-                {
                     claims.Add(new Claim(ClaimTypes.Role, Role.Admin));
-                }
 
                 var token = new JwtSecurityToken(
                                   issuer: _config["Token:Issuer"],
@@ -74,7 +69,19 @@ namespace academia_corpo_e_acao
 
                 var handler = new JwtSecurityTokenHandler();
                 var jwtToken = handler.WriteToken(token);
-                return Ok(new { token = jwtToken });
+                return Ok(new { 
+                    token = jwtToken,
+                    usuario = new Usuario
+                        {
+                            Id = response.Return.Id,
+                            Nome = response.Return.Nome,
+                            Email = response.Return.Email,
+                            CreatedAt = response.Return.CreatedAt,
+                            Altura = response.Return.Altura,
+                            Peso = response.Return.Peso,
+                            Celular = response.Return.Celular
+                        }
+                });
             }
             else
             {

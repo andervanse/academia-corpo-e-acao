@@ -2,7 +2,7 @@
 
 export class LoginCredentials {
     login: string;
-    password: string;
+    senha: string;
 }
 
 export class Usuario {

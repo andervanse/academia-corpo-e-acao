@@ -9,49 +9,44 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 @Injectable()
 export class AuthService {
 
-    usuario : Usuario = null;
+    usuario : Usuario = null; 
 
     constructor(private http: HttpClient) { }
 
     onAuthenticating: EventEmitter<boolean> = new EventEmitter();
 
     private getHeaders(): HttpHeaders {
-        return new HttpHeaders().append('Access-Control-Allow-Origin', environment.ApiBaseUrl);
+        return new HttpHeaders().append('Access-Control-Allow-Origin', environment.baseUrl)
+                                .append('Content-type', 'application/json');
     }
     
     obterUsuario() :Usuario {
         return { id:'', nome: localStorage.getItem('usuario') }
     }
 
-    autenticar(login: LoginCredentials): Observable<Usuario> {
+    autenticar(credentials: LoginCredentials): Observable<Usuario> {
 
-        return this.http.get<Usuario[]>(`${environment.ApiBaseUrl}assets/usuarios.json`)
+        return this.http.post<Usuario>(`${environment.apiBaseUrl}api/auth`, credentials, { headers: this.getHeaders() })
             .pipe(
                 map((resp) => {
-                    let user = null;
-                    let userFound = false;
-                    let users = Object.keys(resp).map(i => resp[i]);
-                    
-                    for (var i = 0; i < users.length; i++) {
-                        if (resp[i].password === login.password) {
-                            user = resp[i];
-                            userFound = true;
-                            localStorage.setItem('token', 'fakeToken_teste123');
-                            localStorage.setItem('usuario', resp[i].nome);
-                        }
-                    }
-                    
-                    if (!userFound) {                        
-                        throw new Error('Usuário ou senha inválidos');
-                    } else {
-                       return user;
-                    }
+                    localStorage.setItem('token', resp['token']);
+                    localStorage.setItem('usuario', JSON.stringify(resp['usuario']));
+                    let user = new Usuario();
+                    user.id = resp['usuario']['id'];
+                    user.nome = resp['usuario']['nome'];
+                    return user;                     
                 })
             );
     }
 
+    private parseJwt (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        return JSON.parse(window.atob(base64));
+    };
+
     confirmarEmail(email: string, id: string): Observable<any> {
-        return this.http.get<string>(`${environment.ApiBaseUrl}api/Auth/${email}/${id}`, {
+        return this.http.get<string>(`${environment.apiBaseUrl}api/auth/${email}/${id}`, {
             headers: this.getHeaders()
         });
     }
@@ -77,6 +72,14 @@ export class AuthService {
 
     public getToken() {
         return localStorage.getItem('token');
+    }
+
+    public getUser() {
+        let userstr = JSON.parse(localStorage.getItem('usuario'));
+        let user = new Usuario();
+        user.id = userstr['id'];
+        user.nome = userstr['nome'];
+        return user;
     }
 
     public logout() {

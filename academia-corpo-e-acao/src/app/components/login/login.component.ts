@@ -24,13 +24,14 @@ export class LoginComponent implements OnInit {
     if (form.valid) {
       var credentials = new LoginCredentials();
       credentials.login = form.value.email;
-      credentials.password = form.value.password;
+      credentials.senha = form.value.password;
 
       this.authService.autenticar(credentials).subscribe((resp) => {
         this.loginFailed = false;
         this.router.navigate(['ficha-treino']);        
       },
       (error) => {
+        console.error(error);
         this.loginFailed = true;
       });
     }
