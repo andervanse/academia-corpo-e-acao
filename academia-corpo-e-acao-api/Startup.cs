@@ -34,7 +34,7 @@ namespace academia_corpo_e_acao
             services.AddSingleton<IConfiguration>(x => Configuration);
             services.AddScoped<DynamoDbContext>();
             services.AddScoped<UsuarioRepository>();
-            services.AddScoped<GrupoMuscularRepository>();
+            services.AddScoped<PlanoTreinoRepository>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(opt => {

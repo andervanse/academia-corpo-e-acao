@@ -9,28 +9,28 @@ namespace academia_corpo_e_acao
     [Authorize]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public class GrupoMuscularController :Controller
+    public class PlanoTreinoController :Controller
     {
-        private readonly GrupoMuscularRepository _grpRepo;
+        private readonly PlanoTreinoRepository _grpRepo;
         private readonly IEmailLoginConfirmation _emailLoginConfirmation;
         private readonly IConfiguration _configuration;
 
-        public GrupoMuscularController(GrupoMuscularRepository grpRepo,
-                                       IEmailLoginConfirmation emailLoginConfirmation,
-                                       IConfiguration configuration)
+        public PlanoTreinoController(PlanoTreinoRepository grpRepo,
+                                     IEmailLoginConfirmation emailLoginConfirmation,
+                                     IConfiguration configuration)
         {
             _grpRepo = grpRepo;
             _emailLoginConfirmation = emailLoginConfirmation;
             _configuration = configuration;
         }
 
-        [HttpGet("{userId}", Name = "ObterGrupoMuscular")]
+        [HttpGet("{userId}", Name = "ObterPlanoTreino")]
         public IActionResult Get(int userId)
         {           
             if (userId <= 0)
               return BadRequest("usuário inválido.");
 
-            var response = _grpRepo.ObterGrupoMuscularAsync(new Usuario { Id = userId }); 
+            var response = _grpRepo.ObterPlanoTreinoAsync(new Usuario { Id = userId }); 
 
             if (response.Result.HasError)
                return BadRequest(response.Result.ErrorMessages);
@@ -39,16 +39,16 @@ namespace academia_corpo_e_acao
         }  
 
         [HttpPost]
-        public IActionResult Post([FromBody] GrupoMuscular grupoMuscular)
+        public IActionResult Post([FromBody] PlanoTreino planoTreino)
         {           
-            var response = _grpRepo.SalvarAsync(grupoMuscular); 
+            var response = _grpRepo.SalvarAsync(planoTreino); 
 
             if (response.Result.HasError)
                return BadRequest(response.Result.ErrorMessages);
 
-            return CreatedAtRoute(routeName: "ObterGrupoMuscular",
-                                routeValues: new { userId = grupoMuscular.UsuarioId },
-                                      value: new GrupoMuscular { Descricao = grupoMuscular.Descricao });
+            return CreatedAtRoute(routeName: "ObterPlanoTreino",
+                                routeValues: new { userId = planoTreino.UsuarioId },
+                                      value: response);
         }                      
     }
 }

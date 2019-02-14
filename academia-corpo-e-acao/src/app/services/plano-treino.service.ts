@@ -32,10 +32,10 @@ export class PlanoTreinoService {
         );        
     }
 
-    obterUltimoPlanoTreino(): Observable<GrupoMuscular[]> {
+    obterUltimoPlanoTreino(usuario :Usuario): Observable<PlanoTreino> {
         let user = this.auth.obterUsuario();
         console.log(user);
-        return this.http.get<GrupoMuscular[]>(`${environment.apiBaseUrl}api/grupoMuscular/${user.id}`, { headers: this.getHeaders() })
+        return this.http.get<PlanoTreino>(`${environment.apiBaseUrl}api/planoTreino/${usuario.id}`, { headers: this.getHeaders() })
         .pipe(
             map((resp) => {
                 return resp;
@@ -44,6 +44,6 @@ export class PlanoTreinoService {
     }
 
     salvarPlanoTreino(planoTreino :PlanoTreino): Observable<any> {
-        return this.http.put(`${environment.apiBaseUrl}api/grupoMuscular`, planoTreino, { headers: this.getHeaders() });
+        return this.http.post(`${environment.apiBaseUrl}api/planoTreino`, planoTreino, { headers: this.getHeaders() });
     }    
 }

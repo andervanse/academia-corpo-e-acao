@@ -6,7 +6,7 @@ export class LoginCredentials {
 }
 
 export class Usuario {
-    id: string;
+    id: number;
     nome: string;
     password?: string;
     objetivo?: string;
@@ -15,14 +15,13 @@ export class Usuario {
 }
 
 export class PlanoTreino {
-    id: string;    
+    id: number;    
+    usuarioId: number;
     dataInicio: Date;
     gruposMusculares: GrupoMuscular[]
 }
 
 export class GrupoMuscular {
-    id: number;
-    usuarioId: number;
     descricao: string;
     exercicios: Exercicio[];
 }
@@ -30,7 +29,7 @@ export class GrupoMuscular {
 export class Exercicio {
     descricao: string;
     ordem: number;
-    repeticoes: string;
+    repeticao: string;
     observacao?: string;
 } 
 

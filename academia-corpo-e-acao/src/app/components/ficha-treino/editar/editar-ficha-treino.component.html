@@ -38,7 +38,7 @@
 <div class="tile is-ancestor" *ngIf="aluno">
   <div class="tile is-vertical">
     <div class="tile">
-      <div class="tile is-parent is-vertical" *ngIf="treino">
+      <div class="tile is-parent is-vertical" *ngIf="planoTreino">
 
         <div class="tile notification is-info">
           <p class="title is-4">
@@ -47,7 +47,7 @@
           </p>
 
         </div>
-        <article class="tile is-child notification is-orange" *ngFor="let grupo of gruposMusculares">
+        <article class="tile is-child notification is-orange" *ngFor="let grupo of planoTreino.gruposMusculares">
           <p class="title is-4">{{ grupo.descricao }}</p>
           <hr>
           <p class="subtitle">
@@ -70,7 +70,7 @@
                   <span class="is-desktop">{{ item.descricao }}</span>
                 </td>
                 <td>{{ item.ordem }}</td>
-                <td>{{ item.repeticoes }}</td>
+                <td>{{ item.repeticao }}</td>
                 <td>
                   <a class="button is-danger fas fa-trash-alt" (click)="onExcluirExercicio(grupo.descricao, item.descricao)"></a>
                 </td>
@@ -96,7 +96,7 @@
       <section class="modal-card-body">
         <div class="field">
           <p class="control">
-            <input class="input" type="text" placeholder="Exercício" name="exercicio" ngModel minlength="3" required>
+            <input class="input" type="text" placeholder="Exercício" name="descricao" ngModel minlength="3" required>
           </p>
         </div>
         <div class="field">
@@ -106,7 +106,7 @@
         </div>
         <div class="field">
           <p class="control">
-            <input class="input" type="text" placeholder="Repetição" name="repeticoes" ngModel required>
+            <input class="input" type="text" placeholder="Repetição" name="repeticao" ngModel required>
           </p>
         </div>
       </section>

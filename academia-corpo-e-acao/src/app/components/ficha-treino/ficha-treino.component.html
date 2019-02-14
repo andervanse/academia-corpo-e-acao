@@ -1,8 +1,8 @@
 <div class="tile is-ancestor">
   <div class="tile is-vertical">
     <div class="tile">
-      <div class="tile is-parent is-vertical" *ngIf="gruposMusculares">
-        <article class="tile is-child notification is-orange" *ngFor="let grupo of gruposMusculares">
+      <div class="tile is-parent is-vertical" *ngIf="planoTreino">
+        <article class="tile is-child notification is-orange" *ngFor="let grupo of planoTreino.gruposMusculares">
           <p class="title is-4">{{ grupo.descricao }}</p>
           <p class="subtitle"></p>
           <table class="table is-striped">

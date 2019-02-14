@@ -5,12 +5,13 @@ using System.Runtime.Serialization;
 
 namespace academia_corpo_e_acao
 {
-    
+    [DataContract]
     public class GrupoMuscular
     {
-        public int Id { get; set; }
-        public int UsuarioId { get; set; }
+        [DataMember(Name="descricao")]
         public string Descricao { get; set; }
+
+        [DataMember(Name="exercicios")]
         public IList<Exercicio> Exercicios { get; set; }        
     }
 }

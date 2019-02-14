@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 export class EditarFichaTreinoComponent implements OnInit {
 
   alunos: Usuario[];
-  grupoMuscular: GrupoMuscular[];
+  planoTreino: PlanoTreino;
   aluno: Usuario;
   grupoSelecionado: string;
 
@@ -42,19 +42,26 @@ export class EditarFichaTreinoComponent implements OnInit {
 
   onUserSelected(aluno: Usuario) {
     this.aluno = aluno;
+    
     if (this.aluno) {
-      this.planoTreinoService.obterUltimoPlanoTreino().subscribe((resp) => {
-        this.grupoMuscular = resp;
+      this.planoTreinoService.obterUltimoPlanoTreino(this.aluno).subscribe((resp) => {
+        this.planoTreino = resp;
+        console.log(resp);
 
-        if (!this.grupoMuscular) {
-          this.grupoMuscular = new GrupoMuscular[0];
+        if (!this.planoTreino) {
+          this.planoTreino = new PlanoTreino();
+          this.planoTreino.usuarioId = this.aluno.id;
         }
-        this.addIfNotExists(this.grupoMuscular, 'descricao', 'Membros Inferiores (Pernas)');
-        this.addIfNotExists(this.grupoMuscular, 'descricao', 'Peitorais');
-        this.addIfNotExists(this.grupoMuscular, 'descricao', 'Dorsais');
-        this.addIfNotExists(this.grupoMuscular, 'descricao', 'Bíceps');
-        this.addIfNotExists(this.grupoMuscular, 'descricao', 'Tríceps');
-        this.addIfNotExists(this.grupoMuscular, 'descricao', 'Deltóides');        
+
+        if (!this.planoTreino.gruposMusculares) {
+          this.planoTreino.gruposMusculares = [];
+        }
+        this.addIfNotExists(this.planoTreino.gruposMusculares, 'descricao', 'Membros Inferiores (Pernas)');
+        this.addIfNotExists(this.planoTreino.gruposMusculares, 'descricao', 'Peitorais');
+        this.addIfNotExists(this.planoTreino.gruposMusculares, 'descricao', 'Dorsais');
+        this.addIfNotExists(this.planoTreino.gruposMusculares, 'descricao', 'Bíceps');
+        this.addIfNotExists(this.planoTreino.gruposMusculares, 'descricao', 'Tríceps');
+        this.addIfNotExists(this.planoTreino.gruposMusculares, 'descricao', 'Deltóides');        
       });
     }
   }
@@ -64,7 +71,7 @@ export class EditarFichaTreinoComponent implements OnInit {
       .find(grp => grp[field] === descr);
 
     if (!exists) {
-      array.push({ descricao: descr, items: [] });
+      array.push({ descricao: descr, exercicios: [] });
     }
   }
 
@@ -75,33 +82,37 @@ export class EditarFichaTreinoComponent implements OnInit {
 
   onExcluirExercicio(nomeGrupo: string, nomeExercicio: string) {
 
-    for (var i = 0; i < this.grupoMuscular.length; i++) {
-      if (this.grupoMuscular[i].descricao === nomeGrupo) {
-        for (var l = 0; l < this.grupoMuscular[i].exercicios.length; l++) {
-          if (this.grupoMuscular[i].exercicios[l].descricao === nomeExercicio) {
-            this.grupoMuscular[i].exercicios.splice(l, 1);
+    for (var i = 0; i < this.planoTreino.gruposMusculares.length; i++) {
+      if (this.planoTreino.gruposMusculares[i].descricao === nomeGrupo) {
+        for (var l = 0; l < this.planoTreino.gruposMusculares[i].exercicios.length; l++) {
+          if (this.planoTreino.gruposMusculares[i].exercicios[l].descricao === nomeExercicio) {
+            this.planoTreino.gruposMusculares[i].exercicios.splice(l, 1);
           }
         }
       }
     }
   }
 
-
-
   onNovoExercicioSubmit() {
 
     if (this.exercicioForm.valid) {
-      for (var i = 0; i < this.grupoMuscular.length; i++) {
-        if (this.grupoMuscular[i].descricao === this.grupoSelecionado) {
+      for (var i = 0; i < this.planoTreino.gruposMusculares.length; i++) {
+        if (this.planoTreino.gruposMusculares[i].descricao === this.grupoSelecionado) {
 
-          let exists = this.grupoMuscular[i].exercicios
+          let exists = this.planoTreino.gruposMusculares[i].exercicios
             .find(exercicio => exercicio === this.exercicioForm.value.exercicio);
 
           if (!exists) {
-            this.grupoMuscular[i].exercicios.push(this.exercicioForm.value);
+            this.planoTreino.gruposMusculares[i].exercicios.push(this.exercicioForm.value);
           }
         }
       }
+
+      this.planoTreinoService.salvarPlanoTreino(this.planoTreino).subscribe((resp) => {
+        console.log(resp);
+      }, (error) => {
+        console.log(error);
+      });
 
       this.exercicioForm.reset();
       this.onToggleExercicioModal(this.grupoSelecionado);

@@ -65,8 +65,25 @@ export class AuthService {
         }
     }
 
+    parseJwt (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        return JSON.parse(window.atob(base64));
+    };
+
     public isAuthenticated(): boolean {
         const token = localStorage.getItem('token');
+               
+        if (token !== null){
+            
+            let decodedToken = this.parseJwt(token);
+            
+            if (decodedToken.exp < Date.now() / 1000) {
+                localStorage.clear();
+                return false;
+            }
+        }
+
         return token !== null && !isUndefined(token);
     }
 
@@ -80,8 +97,7 @@ export class AuthService {
     }
 
     public logout() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('usuario');
+        localStorage.clear();
     } 
 
 }
