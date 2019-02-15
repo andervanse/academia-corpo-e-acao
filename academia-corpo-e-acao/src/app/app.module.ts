@@ -17,6 +17,8 @@ import { LogoffComponent } from './components/logoff/logoff.component';
 import { PlanoTreinoService } from './services/plano-treino.service';
 import { EditarFichaTreinoComponent } from './components/ficha-treino/editar/editar-ficha-treino.component';
 import { MinimizeTextPipe } from './pipes/minimize-text.pipe';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 const appRoutes :Routes = [
   { path: '', component: HomeComponent },
@@ -45,7 +47,8 @@ const appRoutes :Routes = [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, { useHash: true }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [AuthService, AuthGuardService, PlanoTreinoService],
   bootstrap: [AppComponent]
