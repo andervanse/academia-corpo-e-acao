@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { PlanoTreino, Usuario, GrupoMuscular } from "../models/login-credentials.model";
+import { PlanoTreino, Usuario } from "../models/login-credentials.model";
 import { environment } from "../../environments/environment";
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
@@ -24,7 +24,7 @@ export class PlanoTreinoService {
     }
     
     obterUsuarios(nome :string): Observable<Usuario[]> {
-        return this.http.get<Usuario[]>(`${environment.apiBaseUrl}api/usuario/${nome}`, { headers: this.getHeaders() })
+        return this.http.get<Usuario[]>(`${environment.apiBaseUrl}/api/usuario/${nome}`, { headers: this.getHeaders() })
         .pipe(
             map((resp) => {
                 return resp;
@@ -35,7 +35,7 @@ export class PlanoTreinoService {
     obterUltimoPlanoTreino(usuario :Usuario): Observable<PlanoTreino> {
         let user = this.auth.obterUsuario();
         console.log(user);
-        return this.http.get<PlanoTreino>(`${environment.apiBaseUrl}api/planoTreino/${usuario.id}`, { headers: this.getHeaders() })
+        return this.http.get<PlanoTreino>(`${environment.apiBaseUrl}/api/planoTreino/${usuario.id}`, { headers: this.getHeaders() })
         .pipe(
             map((resp) => {
                 return resp;
@@ -44,6 +44,6 @@ export class PlanoTreinoService {
     }
 
     salvarPlanoTreino(planoTreino :PlanoTreino): Observable<any> {
-        return this.http.post(`${environment.apiBaseUrl}api/planoTreino`, planoTreino, { headers: this.getHeaders() });
+        return this.http.post(`${environment.apiBaseUrl}/api/planoTreino`, planoTreino, { headers: this.getHeaders() });
     }    
 }

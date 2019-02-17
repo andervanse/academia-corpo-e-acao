@@ -36,7 +36,7 @@ export class AuthService {
 
     autenticar(credentials: LoginCredentials): Observable<Usuario> {
 
-        return this.http.post<Usuario>(`${environment.apiBaseUrl}api/auth`, credentials, { headers: this.getHeaders() })
+        return this.http.post<Usuario>(`${environment.apiBaseUrl}/api/auth`, credentials, { headers: this.getHeaders() })
             .pipe(
                 map((resp) => {
                     localStorage.setItem('token', resp['token']);
@@ -51,7 +51,7 @@ export class AuthService {
     }
 
     confirmarEmail(email: string, id: string): Observable<any> {
-        return this.http.get<string>(`${environment.apiBaseUrl}api/auth/${email}/${id}`, {
+        return this.http.get<string>(`${environment.apiBaseUrl}/api/auth/${email}/${id}`, {
             headers: this.getHeaders()
         });
     }
