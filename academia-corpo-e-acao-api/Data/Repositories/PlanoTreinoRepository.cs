@@ -99,17 +99,24 @@ namespace academia_corpo_e_acao
             {
                 var attributeValues = new Dictionary<string, AttributeValue>();
                 var attributeNames = new Dictionary<string, string>();
+                string updExpr = String.Empty;
 
                 if (!String.IsNullOrEmpty(planoTreino.Observacao))
                 {
                     attributeNames.Add("#obs", "observacao");
                     attributeValues.Add(":obs", new AttributeValue { S = planoTreino.Observacao });
+                    updExpr = "#obs = :obs";
                 }
 
                 if (!String.IsNullOrEmpty(gruposMuscularesJson))
                 {
                     attributeNames.Add("#grp", "grupos-musculares");
                     attributeValues.Add(":grp", new AttributeValue {  S = gruposMuscularesJson });
+
+                    if (!String.IsNullOrEmpty(updExpr))
+                       updExpr += ", ";
+
+                    updExpr += "#grp = :grp";
                 }
 
                 var request = new UpdateItemRequest
@@ -122,7 +129,7 @@ namespace academia_corpo_e_acao
                     },
                     ExpressionAttributeNames = attributeNames,
                     ExpressionAttributeValues = attributeValues,
-                    UpdateExpression = "SET #obs = :obs, #grp = :grp"
+                    UpdateExpression = "SET " + updExpr
                 };
 
                 UpdateItemResponse updResponse = null;

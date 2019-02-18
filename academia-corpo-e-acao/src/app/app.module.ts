@@ -19,6 +19,9 @@ import { EditarFichaTreinoComponent } from './components/ficha-treino/editar/edi
 import { MinimizeTextPipe } from './pipes/minimize-text.pipe';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { UsuarioComponent } from './components/usuario/usuario.component';
+import { ListaUsuarioComponent } from './components/usuario/lista-usuario/lista-usuario.component';
+import { CadastroUsuarioComponent } from './components/usuario/cadastro-usuario/cadastro-usuario.component';
 
 const appRoutes :Routes = [
   { path: '', component: HomeComponent },
@@ -27,7 +30,11 @@ const appRoutes :Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'logoff', component: LogoffComponent },  
   { path: 'ficha-treino', component: FichaTreinoComponent, canActivate: [AuthGuardService] },
-  { path: 'ficha-treino/editar', component: EditarFichaTreinoComponent, canActivate: [AuthGuardService] }
+  { path: 'ficha-treino/editar', component: EditarFichaTreinoComponent, canActivate: [AuthGuardService] },
+  { path: 'usuario', component: UsuarioComponent, children:[
+    { path: '', component: ListaUsuarioComponent, canActivate: [AuthGuardService] },
+    { path: ':usuario', component: CadastroUsuarioComponent, canActivate: [AuthGuardService] }    
+  ] }
 ]
 
 @NgModule({
@@ -41,7 +48,10 @@ const appRoutes :Routes = [
     LoginComponent,
     FichaTreinoComponent,
     LogoffComponent,
-    EditarFichaTreinoComponent
+    EditarFichaTreinoComponent,
+    UsuarioComponent,
+    ListaUsuarioComponent,
+    CadastroUsuarioComponent
   ],
   imports: [
     BrowserModule,

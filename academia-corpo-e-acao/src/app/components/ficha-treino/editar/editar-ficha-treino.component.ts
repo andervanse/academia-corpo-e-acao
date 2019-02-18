@@ -20,8 +20,7 @@ export class EditarFichaTreinoComponent implements OnInit {
   @ViewChild('exercicioForm') exercicioForm: NgForm;
 
   constructor(
-    private planoTreinoService: PlanoTreinoService,
-    private authService: AuthService) { }
+    private planoTreinoService: PlanoTreinoService) { }
 
   ngOnInit() {
   }

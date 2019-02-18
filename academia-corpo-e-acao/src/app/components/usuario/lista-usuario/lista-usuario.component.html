@@ -1,0 +1,36 @@
+<div class="container">
+
+  <div class="box is-orange">
+    <div class="field is-grouped">
+      <p class="control">
+        <input class="input" type="text" placeholder="Procurar Aluno" width="200px" #nameImput>
+        
+      </p>
+      <p class="control">
+        <a class="button is-info fas fa-search" (click)="onFind(nameImput.value)"></a>
+      </p>
+    </div>
+  </div>
+
+  <div class="box is-orange" *ngIf="!alunos">
+    <span class="title is-5 is-font-white">Nenhum aluno selecionado</span>
+  </div>
+
+  <div class="box is-orange" *ngIf="alunos">
+    <table class="table">
+      <thead>
+        <tr>
+          <td>Alunos</td>
+          <td>Editar</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let aluno of alunos">
+          <td>{{ aluno.nome }}</td>
+          <td><a class="button is-info" (click)="onUserSelected(aluno)">Selecionar</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
