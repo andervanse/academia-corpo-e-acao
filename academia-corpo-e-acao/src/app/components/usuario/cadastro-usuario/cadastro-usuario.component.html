@@ -2,33 +2,39 @@
   <div class="hero-body">
 
     <div class="container">
-      <div *ngIf="loginFailed" class="notification is-danger" (click)="onNotificationClick(loginForm)">
+      <div *ngIf="mensagemErro !== ''" class="notification is-danger" (click)="onNotificationClick()">
         <button class="delete"></button>
         <h4 class="title is-4 has-text-centered">
-          *Usuário ou senha inválido
+          {{ mensagemErro }}
         </h4>
       </div>
 
       <div class="card">
         <header class="card-header">
           <h5 class="card-header-title title is-5 is-orange">
-            Cadastro
+            Trocar Senha
           </h5>
         </header>
         <div class="card-content">
-          <form #alunoForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+          <form #alunoForm="ngForm" (ngSubmit)="onSubmit(alunoForm)" novalidate>
             <div class="field">
-              <p class="control">
+              <div class="control">
                 <input class="input" type="email" placeholder="Email" name="email" ngModel required minlength="8"
                   maxlength="30">
-              </p>
+              </div>
             </div>
             <div class="field">
-              <p class="control">
-                <input class="input" type="password" placeholder="Password" name="password" ngModel required
+              <div class="control">
+                <input class="input" type="password" placeholder="Senha" name="password" ngModel required #senha
                   minlength="6">
-              </p>
+              </div>
             </div>
+            <div class="field">
+              <div class="control">
+                <input class="input" type="password" placeholder="Confirmar Senha" name="confirmPassword" ngModel required #confirmarSenha
+                  minlength="6">
+              </div>
+            </div>            
             <br>
             <div class="is-pulled-right">
               <a type="button" class="button is-danger" [routerLink]="['/usuario']">Voltar</a>

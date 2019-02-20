@@ -13,7 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace academia_corpo_e_acao
 {
 
-    [Authorize]
+     [Authorize(Roles = Role.Admin)]
     [Route("api/[controller]")]
     [Produces("application/json")]
     public class UsuarioController :Controller
@@ -35,7 +35,6 @@ namespace academia_corpo_e_acao
         }
 
         [HttpGet("{nome}", Name = "GetUser")]
-        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> Get(string nome)
         {            
             if (string.IsNullOrEmpty(nome)) return BadRequest();
@@ -70,6 +69,7 @@ namespace academia_corpo_e_acao
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Get()
         {            
             var nome = ObterNomeUsuario();
@@ -91,7 +91,6 @@ namespace academia_corpo_e_acao
         }        
 
         [HttpPost]
-        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> Post([FromBody] UsuarioViewModel userVm)
         {
             if (userVm == null) return BadRequest();

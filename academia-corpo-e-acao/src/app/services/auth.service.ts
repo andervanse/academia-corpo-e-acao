@@ -1,10 +1,11 @@
 import { isUndefined } from "util";
 import { Observable } from "rxjs";
-import { LoginCredentials, Usuario } from "../models/login-credentials.model";
+import { LoginCredentials, UsuarioSenha } from "../models/login-credentials.model";
 import { environment } from "../../environments/environment";
 import { map } from "rxjs/operators";
 import { Injectable, EventEmitter } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Usuario } from "../models/usuario.model";
 
 @Injectable()
 export class AuthService {
@@ -16,8 +17,12 @@ export class AuthService {
     onAuthenticating: EventEmitter<boolean> = new EventEmitter();
 
     private getHeaders(): HttpHeaders {
-        return new HttpHeaders().append('Access-Control-Allow-Origin', environment.baseUrl)
-                                .append('Content-type', 'application/json');
+        const token = this.getToken();
+
+        return new HttpHeaders()
+                      .append('Content-type', 'application/json')
+                      .append('Access-Control-Allow-Origin', environment.apiBaseUrl)
+                      .append('Authorization', 'Bearer ' + token);
     }
     
     obterUsuario() :Usuario {
@@ -49,6 +54,17 @@ export class AuthService {
                 })
             );
     }
+
+    trocarSenha(usrSenha: UsuarioSenha): Observable<any> {
+
+        return this.http.patch<any>(`${environment.apiBaseUrl}/api/usuario`, usrSenha, { headers: this.getHeaders() })
+            .pipe(
+                map((resp) => {
+                    console.log(resp);
+                    return resp;                     
+                })
+            );
+    }    
 
     confirmarEmail(email: string, id: string): Observable<any> {
         return this.http.get<string>(`${environment.apiBaseUrl}/api/auth/${email}/${id}`, {

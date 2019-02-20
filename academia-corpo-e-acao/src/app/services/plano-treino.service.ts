@@ -1,10 +1,11 @@
 import { Observable } from "rxjs";
-import { PlanoTreino, Usuario } from "../models/login-credentials.model";
 import { environment } from "../../environments/environment";
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AuthService } from "./auth.service";
+import { Usuario } from "../models/usuario.model";
+import { PlanoTreino } from "../models/plano-treino.models";
 
 
 @Injectable()
