@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Usuario } from '../../models/login-credentials.model';
+import { Usuario } from '../../models/usuario.model';
 
 @Component({
   selector: 'app-menu',

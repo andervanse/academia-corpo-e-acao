@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PlanoTreinoService } from '../../../services/plano-treino.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Usuario, UsuarioSenha } from '../../../models/login-credentials.model';
+import { UsuarioSenha } from '../../../models/login-credentials.model';
 import { FormGroup } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
+import { Usuario } from '../../../models/usuario.model';
 
 @Component({
   selector: 'app-cadastro-usuario',

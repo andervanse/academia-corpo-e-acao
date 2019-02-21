@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PlanoTreino } from '../../models/login-credentials.model';
 import { PlanoTreinoService } from '../../services/plano-treino.service';
 import { AuthService } from '../../services/auth.service';
+import { PlanoTreino } from '../../models/plano-treino.models';
 
 @Component({
   selector: 'app-ficha-treino',

@@ -46,7 +46,7 @@ namespace academia_corpo_e_acao
             var response = await _userRepo.UsuarioValidoAsync(user);
 
             if (response.HasError)
-                return BadRequest(response.Messages);
+                return BadRequest(response.ErrorMessages);
             
             if (response.Return != null)
             {
@@ -107,11 +107,11 @@ namespace academia_corpo_e_acao
             var response = await _userRepo.ObterUsuarioAsync(user);
 
             if (response.HasError)
-                return BadRequest(response.Messages);
+                return BadRequest(response.ErrorMessages);
 
             if (response.Return == null)
             {
-                return BadRequest(response.Messages);
+                return BadRequest(response.ErrorMessages);
             }
             else
             {
@@ -120,7 +120,7 @@ namespace academia_corpo_e_acao
                 var saveResponse = await _userRepo.SalvarAsync(user);
 
                 if (saveResponse.HasError)
-                    return BadRequest(saveResponse.Messages);
+                    return BadRequest(saveResponse.ErrorMessages);
             }
 
             return Ok();

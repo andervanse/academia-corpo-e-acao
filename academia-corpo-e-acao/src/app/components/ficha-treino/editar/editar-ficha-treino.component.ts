@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { PlanoTreino, Usuario, GrupoMuscular } from '../../../models/login-credentials.model';
 import { PlanoTreinoService } from '../../../services/plano-treino.service';
-import { AuthService } from '../../../services/auth.service';
 import { NgForm } from '@angular/forms';
+import { Usuario } from '../../../models/usuario.model';
+import { PlanoTreino } from '../../../models/plano-treino.models';
 
 @Component({
   selector: 'app-editar-ficha-treino',

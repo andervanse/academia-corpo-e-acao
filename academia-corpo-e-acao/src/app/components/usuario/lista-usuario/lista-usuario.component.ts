@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PlanoTreinoService } from '../../../services/plano-treino.service';
-import { AuthService } from '../../../services/auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Usuario } from '../../../models/login-credentials.model';
+import { Router } from '@angular/router';
+import { Usuario } from '../../../models/usuario.model';
 
 
 @Component({
