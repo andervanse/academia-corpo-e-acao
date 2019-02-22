@@ -47,7 +47,7 @@ export class CadastroUsuarioComponent implements OnInit {
       }
 
       let usrSenha: UsuarioSenha = {
-        login: loginForm.value.email,
+        login: loginForm.value.login,
         senha: loginForm.value.password,
         confirmaSenha: loginForm.value.confirmPassword
       };

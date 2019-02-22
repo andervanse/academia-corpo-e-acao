@@ -24,4 +24,23 @@ li {
     li {
         font-size: 14px;
     }    
+
+    .hero-body {
+        padding: 0px;
+    }
+
+    section.hero {
+        height: 140px;
+    }
+    .container img {
+        height: 100px;
+    }
+    .navbar-item {
+        color: black;
+    }
+    span.tag:not(body) {
+        width: 0%;
+        visibility: hidden;
+    }    
 }
+

@@ -16,11 +16,6 @@
   </div>
 
   <div id="navbarBasic" class="navbar-menu" #navBarMenu>
-    <div class="navbar-start">
-      <a routerLink="home" class="navbar-item" (click)="onNavBarClick()">
-        Home
-      </a>
-    </div>
 
     <div class="navbar-end">
       <a *ngIf="isAdmin()" [routerLink]="['ficha-treino', 'editar']" class="navbar-item" (click)="onNavBarClick()">
@@ -53,13 +48,3 @@
   </div>
 
 </nav>
-
-<section class="hero">
-  <div class="hero-body">
-    <div class="container">
-      <div class="has-text-centered">
-        <img class="has-text-centered" src="assets/img/corpo-e-acao-academia.png">
-      </div>
-    </div>
-  </div>
-</section>
