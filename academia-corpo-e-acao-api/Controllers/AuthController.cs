@@ -39,6 +39,7 @@ namespace academia_corpo_e_acao
 
             var user = new Usuario
             {
+                Login = credentials.Login,
                 Nome = credentials.Login,
                 Senha = credentials.Senha
             };
@@ -52,7 +53,8 @@ namespace academia_corpo_e_acao
             {
                 var claims = new List<Claim>
                 {
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.UniqueName, response.Return.Login)
                 };
 
                 if (response.Return.Administrador)

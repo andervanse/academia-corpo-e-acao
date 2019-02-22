@@ -5,6 +5,10 @@ export class Usuario {
     nome: string;
     password?: string;
     objetivo?: string;
+    email?: string;
+    peso?: number;
+    altura?: number;
+    observacao?: string;
     planosTreino?: PlanoTreino[];
     administrador: boolean;
 }

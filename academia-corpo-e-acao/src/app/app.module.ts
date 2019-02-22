@@ -22,6 +22,7 @@ import { environment } from '../environments/environment';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { ListaUsuarioComponent } from './components/usuario/lista-usuario/lista-usuario.component';
 import { CadastroUsuarioComponent } from './components/usuario/cadastro-usuario/cadastro-usuario.component';
+import { TrocaSenhaComponent } from './components/usuario/troca-senha/troca-senha.component';
 
 const appRoutes :Routes = [
   { path: '', component: HomeComponent },
@@ -51,7 +52,8 @@ const appRoutes :Routes = [
     EditarFichaTreinoComponent,
     UsuarioComponent,
     ListaUsuarioComponent,
-    CadastroUsuarioComponent
+    CadastroUsuarioComponent,
+    TrocaSenhaComponent
   ],
   imports: [
     BrowserModule,

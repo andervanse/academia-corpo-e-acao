@@ -99,6 +99,7 @@ namespace academia_corpo_e_acao
 
             var user = new Usuario 
             {
+                Login = userVm.Login,
                 Nome = userVm.Login,
                 Senha = userVm.Senha                
             };
@@ -130,7 +131,8 @@ namespace academia_corpo_e_acao
 
             var user = new Usuario 
             {
-                Nome = usuario.Login,
+                Login = usuario.Login,
+                Nome = usuario.Nome,
                 Email = usuario.Email,
                 Peso = usuario.Peso,
                 Altura = usuario.Altura,
@@ -160,7 +162,7 @@ namespace academia_corpo_e_acao
 
             var user = new Usuario 
             {
-                Nome = senhaUsuarioVm.Login,
+                Login = senhaUsuarioVm.Login, 
                 Senha = senhaUsuarioVm.Senha       
             };
 

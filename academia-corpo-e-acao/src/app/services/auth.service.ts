@@ -1,4 +1,4 @@
-import { isUndefined } from "util";
+import { isUndefined, isNullOrUndefined } from "util";
 import { Observable } from "rxjs";
 import { LoginCredentials, UsuarioSenha } from "../models/login-credentials.model";
 import { environment } from "../../environments/environment";
@@ -18,11 +18,14 @@ export class AuthService {
 
     private getHeaders(): HttpHeaders {
         const token = this.getToken();
+        let headers = new HttpHeaders()
+            .append('Content-type', 'application/json')
+            .append('Access-Control-Allow-Origin', environment.apiBaseUrl);
 
-        return new HttpHeaders()
-                      .append('Content-type', 'application/json')
-                      .append('Access-Control-Allow-Origin', environment.apiBaseUrl)
-                      .append('Authorization', 'Bearer ' + token);
+        if (!isNullOrUndefined(token))
+          headers.append('Authorization', 'Bearer ' + token);
+
+        return headers;
     }
     
     obterUsuario() :Usuario {

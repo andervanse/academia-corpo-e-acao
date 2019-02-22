@@ -30,7 +30,13 @@ export class CadastroUsuarioComponent implements OnInit {
 
         if (usuario.length) {
           this.aluno = usuario[0];
-          this.alunoForm.setValue({ email: this.aluno.nome, password: '', confirmPassword: '' });
+          this.alunoForm.setValue({
+            nome: this.aluno.nome, 
+            email: this.aluno.email, 
+            peso: this.aluno.peso,
+            altura: this.aluno.altura,
+            obs: this.aluno.observacao || ''
+          });
         }
 
       })
@@ -47,7 +53,7 @@ export class CadastroUsuarioComponent implements OnInit {
       }
 
       let usrSenha: UsuarioSenha = {
-        login: loginForm.value.email,
+        login: this.aluno.nome,
         senha: loginForm.value.password,
         confirmaSenha: loginForm.value.confirmPassword
       };

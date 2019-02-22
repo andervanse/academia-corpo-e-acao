@@ -36,7 +36,7 @@ namespace academia_corpo_e_acao
                         var dic = new Dictionary<string, AttributeValue>();
                         dic.Add("tipo", new AttributeValue { S = "usuario" });
                         dic.Add("id", new AttributeValue { N = user.Id.ToString() });
-                        dic.Add("nome", new AttributeValue { S = user.Nome });
+                        dic.Add("login", new AttributeValue { S = user.Login });
                         dic.Add("createdAt", new AttributeValue { S = user.CreatedAt.ToString() });
                         dic.Add("salt", new AttributeValue { S = salt });
                         dic.Add("hashedPassword", new AttributeValue { S = hash });
@@ -54,6 +54,9 @@ namespace academia_corpo_e_acao
                     {                       
                         var dicAttrValues = new Dictionary<string, AttributeValue>();
 
+                        if (!String.IsNullOrEmpty(user.Nome))
+                           dicAttrValues.Add(":nome", new AttributeValue { S = user.Nome });
+
                         if (!String.IsNullOrEmpty(user.Email))
                            dicAttrValues.Add(":email", new AttributeValue { S = user.Email });
 
@@ -66,6 +69,10 @@ namespace academia_corpo_e_acao
                         if (!String.IsNullOrEmpty(user.Celular))
                            dicAttrValues.Add(":celular", new AttributeValue { S = user.Celular });
 
+                        if (!String.IsNullOrEmpty(user.Observacao))
+                           dicAttrValues.Add(":obs", new AttributeValue { S = user.Observacao });
+
+
                         var request = new UpdateItemRequest
                         {
                             TableName = _context.TableName,
@@ -77,13 +84,15 @@ namespace academia_corpo_e_acao
 
                             ExpressionAttributeNames = new Dictionary<string, string>()
                             {
+                                {"#nome", "nome"},
                                 {"#email", "email"},
                                 {"#peso", "peso"},
                                 {"#altura", "altura"},
-                                {"#celular", "celular"}
+                                {"#celular", "celular"},
+                                {"#obs", "obs"},
                             },
                             ExpressionAttributeValues = dicAttrValues,
-                            UpdateExpression = "SET #email = :email, #peso = :peso, #altura = :altura, #celular = :celular"
+                            UpdateExpression = "SET #nome = :nome, #email = :email, #peso = :peso, #altura = :altura, #celular = :celular, #obs = :obs"
                         };
 
                         var updResp = await client.UpdateItemAsync(request);
@@ -164,7 +173,7 @@ namespace academia_corpo_e_acao
 
             using (var client = this._context.GetClientInstance())
             {               
-                QueryRequest request = ObterUsuarioQueryRequest("nome", new AttributeValue { S = user.Nome });
+                QueryRequest request = ObterUsuarioQueryRequest("login", new AttributeValue { S = user.Login });
                 QueryResponse response = null;
 
                 try
@@ -228,6 +237,11 @@ namespace academia_corpo_e_acao
                 attrName = "id";
                 attrValue.N = usuario.Id.ToString();
             }
+            else if (!String.IsNullOrEmpty(usuario.Login))
+            {
+                attrName = "login";
+                attrValue.S = usuario.Login;
+            }            
             else if (!String.IsNullOrEmpty(usuario.Nome))
             {
                 attrName = "nome";
@@ -275,6 +289,7 @@ namespace academia_corpo_e_acao
                 ExpressionAttributeNames = new Dictionary<string, string> {
                         { "#id", "id" },
                         { "#tipo", "tipo" },
+                        { "#login", "login" },
                         { "#nome", "nome" },
                         { "#createdAt", "createdAt" },
                         { "#hashedPassword", "hashedPassword" },
@@ -283,6 +298,7 @@ namespace academia_corpo_e_acao
                         { "#peso", "peso" },
                         { "#altura", "altura" },
                         { "#celular", "celular" },
+                        { "#obs", "obs" },                        
                         { "#isAdmin", "admin" }
                     },
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
@@ -290,7 +306,7 @@ namespace academia_corpo_e_acao
                          { ":t", new AttributeValue { S = "usuario" } },
                          { $":{attrName}", attrValue }
                     },
-                ProjectionExpression = "#id, #nome, #hashedPassword, #salt, #email, #createdAt, #peso, #altura, #celular, #isAdmin"
+                ProjectionExpression = "#id, #login, #nome, #hashedPassword, #salt, #email, #createdAt, #peso, #altura, #celular, #isAdmin, #obs"
             };
         }
 
@@ -316,6 +332,26 @@ namespace academia_corpo_e_acao
                     {
                         usuario.Nome = value.S;
                     }
+                    else if (attributeName == "login")
+                    {
+                        usuario.Login = value.S;
+                    }   
+                    else if (attributeName == "peso")
+                    {
+                        double peso = 0;
+                        double.TryParse(value.N, out peso);
+                        usuario.Peso = peso;
+                    }    
+                    else if (attributeName == "altura")
+                    {
+                        double alt = 0;
+                        double.TryParse(value.N, out alt);
+                        usuario.Altura = alt;
+                    }       
+                    else if (attributeName == "obs")
+                    {
+                        usuario.Observacao = value.S;
+                    }                                                                    
                     else if (attributeName == "createdAt")
                     {
                         DateTime createdDt;
