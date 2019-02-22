@@ -14,9 +14,14 @@ div.container {
    border-left: 5px solid #a94442; /* red */
 }
 
+
+.card-content {
+   padding: 2.5rem;
+}
+
 @media only screen and (max-width: 1020px) {
    div.container {
-      width: 255px;
+      width: 100%;
    }
 }
   

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace academia_corpo_e_acao
 {
-    public class UsuarioViewModel 
+    public class UsuarioViewModel
     {
         [Required]
         [StringLength(20, MinimumLength = 6)]

@@ -1,0 +1,46 @@
+
+[
+    {
+        "id": "usuario-teste123",
+        "login": "teste123",
+        "nome": "teste",
+        "password": "teste123"
+    },
+    {
+        "id": "usuario-jose.silva",
+        "login": "jose.silva",
+        "nome": "jose.silva",
+        "password": "jose.silva"
+    },
+    {
+        "id": "usuario-joao.silva",
+        "login": "joao.silva",
+        "nome": "joao.silva",
+        "password": "joao.silva"
+    }, 
+    {
+        "id": "usuario-joao.carvalho",
+        "login": "joao.carvalho",
+        "nome": "joao.carvalho",
+        "password": "joao.carvalho"
+    }, 
+    {
+        "id": "usuario-joao.aparecido",
+        "login": "joao.aparecido",
+        "nome": "joao.aparecido",
+        "password": "joao.aparecido"
+    },        
+    {
+        "id": "usuario-juliana.oliveira",
+        "login": "juliana.oliveira",
+        "nome": "juliana.oliveira",
+        "password": "juliana.oliveira"
+    },       
+    {
+        "id": "usuario-admin",
+        "login": "admin123",
+        "nome": "administrador",
+        "password": "admin123",
+        "is-admin": "true"
+    }
+]
