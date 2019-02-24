@@ -71,7 +71,6 @@ export class CadastroUsuarioComponent implements OnInit {
         this.mensagemErro = '';
         this.router.navigate(['./usuario']);
       }, (resp) => {
-        console.log(resp);
         this.mensagemErro = resp.error;
       });
 

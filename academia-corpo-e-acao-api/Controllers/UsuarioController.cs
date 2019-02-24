@@ -157,6 +157,7 @@ namespace academia_corpo_e_acao
                 Peso = usuario.Peso,
                 Altura = usuario.Altura,
                 Celular = usuario.Celular,
+                DtAtualizacao = usuario.DtAtualizacao,
                 Observacao = usuario.Observacao
             };
         } 

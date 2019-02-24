@@ -47,7 +47,6 @@ export class EditarFichaTreinoComponent implements OnInit {
     if (this.aluno) {
       this.planoTreinoService.obterUltimoPlanoTreino(this.aluno).subscribe((resp) => {
         this.planoTreino = resp;
-        console.log(resp);
 
         if (!this.planoTreino) {
           this.planoTreino = new PlanoTreino();

@@ -2,7 +2,11 @@
   <div class="tile is-vertical">
     <div class="tile">
 
-      <div class="center">
+      <div class="tile is-parent center" *ngIf="loading">
+        <p class="title is-4">Aguarde...</p>
+      </div>
+
+      <div class="center" *ngIf="!loading">
         <div class="tile is-parent is-vertical" *ngIf="!planoTreino?.gruposMusculares">
           <article class="tile is-child notification is-orange">
             <p class="title is-4">Não há plano de treino definido</p>

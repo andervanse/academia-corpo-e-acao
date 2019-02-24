@@ -11,15 +11,20 @@ import { PlanoTreino } from '../../models/plano-treino.models';
 export class FichaTreinoComponent implements OnInit {
 
   planoTreino :PlanoTreino;
+  loading :boolean;
 
   constructor(private planoTreinoService: PlanoTreinoService,
               private authService: AuthService) { }
 
   ngOnInit() {
+    this.loading = true;
     var usuario = this.authService.obterUsuario();
     
     this.planoTreinoService.obterUltimoPlanoTreino(usuario).subscribe((resp) => {
+      this.loading = false;
       this.planoTreino = resp;
+    }, (error) => {
+      this.loading = false;
     });
   }
 

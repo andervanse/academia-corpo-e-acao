@@ -18,6 +18,15 @@ export class PlanoTreinoService {
         return this.http.get<PlanoTreino>(`${environment.apiBaseUrl}/api/planoTreino/${usuario.id}`)
         .pipe(
             map((resp) => {
+                let i, sortedArr = [];
+
+                for (i = 0; i < resp.gruposMusculares.length; i++) {
+                    sortedArr = resp.gruposMusculares[i].exercicios.sort( (a, b) => {
+                        return a.ordem - b.ordem;
+                    });
+                    resp.gruposMusculares[i].exercicios = sortedArr;
+                }
+
                 return resp;
             })
         );         

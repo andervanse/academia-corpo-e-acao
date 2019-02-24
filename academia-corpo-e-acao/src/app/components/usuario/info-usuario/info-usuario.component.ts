@@ -11,17 +11,12 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class InfoUsuarioComponent implements OnInit {
 
-  constructor(
-    private alunoService: AlunoService,
-    private authService: AuthService,
-    private route: ActivatedRoute) { }
+  constructor(private authService: AuthService) { }
 
   aluno: Usuario;
 
   ngOnInit() {
-
     this.aluno = this.authService.obterUsuario();   
-    console.log(this.aluno);
   }
 
 }

@@ -61,7 +61,6 @@ export class SenhaUsuarioComponent implements OnInit {
         this.mensagemErro = '';
         this.router.navigate(['./usuario']);
       }, (error) => {
-        console.log(error);
 
         for(let prop in error.error) {
           this.mensagemErro += error.error[prop] + '\n';

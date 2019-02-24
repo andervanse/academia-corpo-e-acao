@@ -9,7 +9,7 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.7ab5a7af61836fc56e71.js",
+        "/main.87207c69fa0eb3abe750.js",
         "/polyfills.e67f20fae656bc25ec9c.js",
         "/runtime.06daa30a2963fa413676.js",
         "/styles.b914f26e79594b356727.css"
@@ -106,8 +106,8 @@
     "/assets/treinos.json": "520a9482c8e28dde389a55276d95f50d1b7e30d9",
     "/assets/usuarios.json": "2ebd4022cb42c54ba1f23d9ff2ff84c1db3b47c4",
     "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/index.html": "fb28c8b6c54081cd761d7ac00a97c70558800627",
-    "/main.7ab5a7af61836fc56e71.js": "74146fdd85080b41e9efe2991ecf6c5ac90eb8b5",
+    "/index.html": "2b505dd1acf16df288c2845fb9dea5a9e165e47f",
+    "/main.87207c69fa0eb3abe750.js": "d77997c8bf1c27cc3434df50f867834fba1f0fa8",
     "/polyfills.e67f20fae656bc25ec9c.js": "23ddbf5a66c5edbdb265f1d98a616e66e671ea24",
     "/runtime.06daa30a2963fa413676.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
     "/styles.b914f26e79594b356727.css": "5a3dc447f609bbc68356539cc48bac219ffdae20"

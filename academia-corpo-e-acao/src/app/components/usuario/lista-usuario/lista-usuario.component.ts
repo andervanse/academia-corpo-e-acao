@@ -37,7 +37,6 @@ export class ListaUsuarioComponent implements OnInit {
 
   onUserSelected(aluno: Usuario) {
     this.aluno = aluno;
-    console.log(this.aluno); 
     this.router.navigate(['/usuario', this.aluno.nome]); 
   }
 

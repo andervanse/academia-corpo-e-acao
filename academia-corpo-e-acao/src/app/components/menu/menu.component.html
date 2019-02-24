@@ -17,20 +17,21 @@
   <div id="navbarBasic" class="navbar-menu" #navBarMenu>
 
     <div class="navbar-end">
-      <a class="navbar-item" routerLink="home" (click)="onNavBarClick()">Home</a>
-      <a *ngIf="isAdmin()" [routerLink]="['ficha-treino', 'editar']" class="navbar-item" (click)="onNavBarClick()">
-        Editar Fichas
+      <a class="navbar-item" routerLink="home" (click)="onNavBarClick()">
+        Home
       </a>
       <a *ngIf="isAdmin()" [routerLink]="['usuario']" class="navbar-item" (click)="onNavBarClick()">
         Alunos
       </a>      
-      <a *ngIf="isAuthenticated() && !isAdmin()" routerLink="ficha-treino" class="navbar-item" (click)="onNavBarClick()">
-        Ficha
+      <a *ngIf="isAdmin()" [routerLink]="['ficha-treino', 'editar']" class="navbar-item" (click)="onNavBarClick()">
+        Editar Fichas
+      </a>
+      <a *ngIf="isAuthenticated()" routerLink="ficha-treino" class="navbar-item" (click)="onNavBarClick()">
+        Minha Ficha
       </a>
       <a *ngIf="isAuthenticated() && !isAdmin()" [routerLink]="['usuario/info-usuario']" class="navbar-item" (click)="onNavBarClick()">
         Meus Dados
       </a>
- 
       <a routerLink="contato" class="navbar-item" (click)="onNavBarClick()">
         Contato
       </a>

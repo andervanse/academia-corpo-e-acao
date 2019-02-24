@@ -64,7 +64,7 @@ namespace academia_corpo_e_acao
                                   issuer: _config["Token:Issuer"],
                                   audience: _config["Token:Audience"],
                                   claims: claims,
-                                  expires: DateTime.UtcNow.AddMinutes(30),
+                                  expires: DateTime.UtcNow.AddHours(6),
                                   signingCredentials: new SigningCredentials(
                                                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"])),
                                                     SecurityAlgorithms.HmacSha256));

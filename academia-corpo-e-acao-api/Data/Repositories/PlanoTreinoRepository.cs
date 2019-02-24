@@ -24,13 +24,13 @@ namespace academia_corpo_e_acao
 
         public async Task<Response<PlanoTreino>> SalvarAsync(PlanoTreino planoTreino)
         {
-            var resp = new Response<PlanoTreino>();            
+            var resp = new Response<PlanoTreino>();
 
             if (planoTreino == null)
             {
                 resp.ErrorMessages.Add("Grupo Muscular inválido.");
                 return resp;
-            }            
+            }
 
             if (planoTreino.UsuarioId == 0)
             {
@@ -58,99 +58,69 @@ namespace academia_corpo_e_acao
             }
 
             resp.Return = planoTreino;
+            var attributeValues = new Dictionary<string, AttributeValue>();
+            var attributeNames = new Dictionary<string, string>();
+            string updExpr = String.Empty;
 
-            if (planoTreino.Id == 0)
+            planoTreino.DtAtualizacao = DateTime.Now;
+            attributeNames.Add("#dtAt", "dt-atualizacao");
+            attributeValues.Add(":dtAt", new AttributeValue { S = planoTreino.DtAtualizacao.ToString() });
+            updExpr = "#dtAt = :dtAt";
+
+            if (planoTreino.Id < 1)
             {
                 planoTreino.Id = (Int32)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
-                var attributeValues = new Dictionary<string, AttributeValue>();
-                attributeValues.Add("tipo", new AttributeValue { S = _type } );
                 attributeValues.Add("id", new AttributeValue { N = planoTreino.Id.ToString() });
-                attributeValues.Add("usuario-id", new AttributeValue { N = planoTreino.UsuarioId.ToString() });
 
-                if (!String.IsNullOrEmpty(planoTreino.Observacao))
-                   attributeValues.Add("observacao", new AttributeValue { S = planoTreino.Observacao });
-
-                if (!String.IsNullOrEmpty(gruposMuscularesJson))
-                   attributeValues.Add("grupos-musculares", new AttributeValue {  S = gruposMuscularesJson });
-
-                var request = new PutItemRequest
-                {
-                    TableName = _context.TableName,
-                    Item = attributeValues
-                };
-
-                PutItemResponse putResponse = null;
-
-                using (var client = _context.GetClientInstance())
-                {
-                    try
-                    {
-                        putResponse = await client.PutItemAsync(request);
-                        resp.Messages.Add(putResponse.HttpStatusCode.ToString());
-                    }
-                    catch (Exception e)
-                    {
-                        _log.LogError(e.Message);
-                        resp.ErrorMessages.Add(e.Message);
-                    }
-                    return resp;
-                }
+                attributeNames.Add("#usr-id", "usuario-id");
+                attributeValues.Add(":usr-id", new AttributeValue { N = planoTreino.UsuarioId.ToString() });
+                updExpr += ", #usr-id = :usr-id";
             }
-            else
+
+            if (!String.IsNullOrEmpty(planoTreino.Observacao))
             {
-                var attributeValues = new Dictionary<string, AttributeValue>();
-                var attributeNames = new Dictionary<string, string>();
-                string updExpr = String.Empty;
+                attributeNames.Add("#obs", "observacao");
+                attributeValues.Add(":obs", new AttributeValue { S = planoTreino.Observacao });
+                updExpr += ", #obs = :obs";
+            }
 
-                if (!String.IsNullOrEmpty(planoTreino.Observacao))
-                {
-                    attributeNames.Add("#obs", "observacao");
-                    attributeValues.Add(":obs", new AttributeValue { S = planoTreino.Observacao });
-                    updExpr = "#obs = :obs";
-                }
+            if (!String.IsNullOrEmpty(gruposMuscularesJson))
+            {
+                attributeNames.Add("#grp", "grupos-musculares");
+                attributeValues.Add(":grp", new AttributeValue { S = gruposMuscularesJson });
+                updExpr += ", #grp = :grp";
+            }
 
-                if (!String.IsNullOrEmpty(gruposMuscularesJson))
-                {
-                    attributeNames.Add("#grp", "grupos-musculares");
-                    attributeValues.Add(":grp", new AttributeValue {  S = gruposMuscularesJson });
-
-                    if (!String.IsNullOrEmpty(updExpr))
-                       updExpr += ", ";
-
-                    updExpr += "#grp = :grp";
-                }
-
-                var request = new UpdateItemRequest
-                {
-                    TableName = _context.TableName,
-                    Key = new Dictionary<string, AttributeValue>
+            var request = new UpdateItemRequest
+            {
+                TableName = _context.TableName,
+                Key = new Dictionary<string, AttributeValue>
                     {
                         { "tipo", new AttributeValue { S = _type } },
                         { "id", new AttributeValue { N = planoTreino.Id.ToString() } }
                     },
-                    ExpressionAttributeNames = attributeNames,
-                    ExpressionAttributeValues = attributeValues,
-                    UpdateExpression = "SET " + updExpr
-                };
+                ExpressionAttributeNames = attributeNames,
+                ExpressionAttributeValues = attributeValues,
+                UpdateExpression = "SET " + updExpr
+            };
 
-                UpdateItemResponse updResponse = null;
+            UpdateItemResponse updResponse = null;
 
-                using (var client = _context.GetClientInstance())
+            using (var client = _context.GetClientInstance())
+            {
+                try
                 {
-                    try
-                    {
-                        updResponse = await client.UpdateItemAsync(request);
-                        resp.Messages.Add(updResponse.HttpStatusCode.ToString());
-                    }
-                    catch (Exception e)
-                    {
-                        _log.LogError(e.Message);
-                        resp.ErrorMessages.Add(e.Message);
-                    }
-                    return resp;
+                    updResponse = await client.UpdateItemAsync(request);
+                    resp.Messages.Add(updResponse.HttpStatusCode.ToString());
                 }
+                catch (Exception e)
+                {
+                    _log.LogError(e.Message);
+                    resp.ErrorMessages.Add(e.Message);
+                }
+                return resp;
             }
+
         }
 
         public async Task<Response<PlanoTreino>> ObterPlanoTreinoAsync(Usuario usuario)
@@ -172,7 +142,7 @@ namespace academia_corpo_e_acao
                     TableName = _context.TableName,
                     KeyConditionExpression = "#type = :t",
                     FilterExpression = "#uid = :uid",
-                    ExpressionAttributeNames = new Dictionary<string, string> { { "#type", "tipo" }, { "#uid", "usuario-id" } },
+                    ExpressionAttributeNames = new Dictionary<string, string> { { "#type", "tipo" }, { "#uid", "usuario-id" }},
                     ExpressionAttributeValues = new Dictionary<string, AttributeValue>
                     {
                          { ":t", new AttributeValue { S = _type } },
@@ -209,6 +179,12 @@ namespace academia_corpo_e_acao
                         else if (attributeName == "observacao")
                         {
                             planoTreino.Observacao = value.S;
+                        }
+                        else if (attributeName == "dt-atualizacao")
+                        {
+                            DateTime dtAtual;
+                            DateTime.TryParse(value.S, out dtAtual);
+                            planoTreino.DtAtualizacao = dtAtual;
                         }
                         else if (attributeName == "usuario-id")
                         {

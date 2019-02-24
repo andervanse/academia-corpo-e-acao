@@ -33,12 +33,12 @@ namespace academia_corpo_e_acao
                     if (user.Id < 1)
                     {
                         user.Id = (Int32)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
-                        user.CreatedAt = DateTime.Now;
-                        exprAttrValues.Add(":createdAt", new AttributeValue { S = user.CreatedAt.ToString() });
-                        updExp.Append(" #createdAt = :createdAt,");
-                        exprAttrNames.Add("#createdAt", "createdAt");
                     }
+
+                    user.DtAtualizacao = DateTime.Now;
+                    exprAttrValues.Add(":dtAt", new AttributeValue { S = user.DtAtualizacao.ToString() });
+                    updExp.Append(" #dtAt = :dtAt,");
+                    exprAttrNames.Add("#dtAt", "dt-atualizacao");
 
                     if (!String.IsNullOrEmpty(user.Senha))
                     {
@@ -263,7 +263,7 @@ namespace academia_corpo_e_acao
                         { "#tipo", "tipo" },
                         { "#login", "login" },
                         { "#nome", "nome" },
-                        { "#createdAt", "createdAt" },
+                        { "#dtAt", "dt-atualizacao" },
                         { "#hashedPassword", "hashedPassword" },
                         { "#salt", "salt" },
                         { "#email", "email" },
@@ -278,7 +278,7 @@ namespace academia_corpo_e_acao
                          { ":t", new AttributeValue { S = "usuario" } },
                          { $":{attrName}", attrValue }
                     },
-                ProjectionExpression = "#id, #login, #nome, #hashedPassword, #salt, #email, #createdAt, #peso, #altura, #celular, #isAdmin, #obs"
+                ProjectionExpression = "#id, #login, #nome, #hashedPassword, #salt, #email, #dtAt, #peso, #altura, #celular, #isAdmin, #obs"
             };
         }
 
@@ -324,11 +324,11 @@ namespace academia_corpo_e_acao
                     {
                         usuario.Observacao = value.S;
                     }
-                    else if (attributeName == "createdAt")
+                    else if (attributeName == "dt-atualizacao")
                     {
-                        DateTime createdDt;
-                        DateTime.TryParse(value.S, out createdDt);
-                        usuario.CreatedAt = createdDt;
+                        DateTime dtAtual;
+                        DateTime.TryParse(value.S, out dtAtual);
+                        usuario.DtAtualizacao = dtAtual;
                     }
                     else if (attributeName == "email")
                     {

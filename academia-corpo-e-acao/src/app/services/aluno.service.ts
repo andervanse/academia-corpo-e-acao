@@ -34,7 +34,6 @@ export class AlunoService {
     return this.http.post<any>(`${environment.apiBaseUrl}/api/usuario`, aluno)
       .pipe(
         map((resp) => {
-          console.log(resp);
           return resp;
         })
       );
