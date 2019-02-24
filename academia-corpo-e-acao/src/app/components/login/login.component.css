@@ -6,6 +6,12 @@ div.container {
       width: 30%;
 }
 
+.notification.is-danger {
+   background-color: #ff6666;
+   color: #fff;
+   font-size: 14px;
+}
+
 .ng-valid[required], .ng-valid.required  {
    border-left: 5px solid #42A948; /* green */
 }

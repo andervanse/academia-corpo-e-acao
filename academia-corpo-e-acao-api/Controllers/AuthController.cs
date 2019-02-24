@@ -38,7 +38,7 @@ namespace academia_corpo_e_acao
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var user = new Usuario
-            {
+            {                
                 Login = credentials.Login,
                 Nome = credentials.Login,
                 Senha = credentials.Senha
@@ -78,11 +78,11 @@ namespace academia_corpo_e_acao
                             Id = response.Return.Id,
                             Nome = response.Return.Nome,
                             Email = response.Return.Email,
-                            CreatedAt = response.Return.CreatedAt,
                             Altura = response.Return.Altura,
                             Peso = response.Return.Peso,
                             Celular = response.Return.Celular,
-                            Administrador = response.Return.Administrador
+                            Administrador = response.Return.Administrador,
+                            Observacao = response.Return.Observacao
                         }
                 });
             }
@@ -102,7 +102,8 @@ namespace academia_corpo_e_acao
 
             var user = new Usuario
             {
-                Email = credentials.Login,
+                Nome = credentials.Login,
+                Login = credentials.Login,
                 Senha = credentials.Senha
             };
 

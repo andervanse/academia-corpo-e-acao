@@ -2,8 +2,7 @@
 
   <div class="navbar-brand">
 
-    <a class="navbar-item" routerLink="home">
-      <!-- <span class="tag is-info" *ngIf="isAuthenticated()">Logado</span> -->
+    <a class="navbar-item" routerLink="home">      
       <img src="assets/img/dumbell_512x512-icon.png">
     </a>
 
@@ -18,21 +17,24 @@
   <div id="navbarBasic" class="navbar-menu" #navBarMenu>
 
     <div class="navbar-end">
+      <a class="navbar-item" routerLink="home" (click)="onNavBarClick()">Home</a>
       <a *ngIf="isAdmin()" [routerLink]="['ficha-treino', 'editar']" class="navbar-item" (click)="onNavBarClick()">
         Editar Fichas
       </a>
       <a *ngIf="isAdmin()" [routerLink]="['usuario']" class="navbar-item" (click)="onNavBarClick()">
         Alunos
       </a>      
-
       <a *ngIf="isAuthenticated() && !isAdmin()" routerLink="ficha-treino" class="navbar-item" (click)="onNavBarClick()">
         Ficha
       </a>
-
+      <a *ngIf="isAuthenticated() && !isAdmin()" [routerLink]="['usuario/info-usuario']" class="navbar-item" (click)="onNavBarClick()">
+        Meus Dados
+      </a>
+ 
       <a routerLink="contato" class="navbar-item" (click)="onNavBarClick()">
         Contato
       </a>
-      
+      <hr>
       <div class="navbar-item">
         <div class="buttons">
           <a *ngIf="!isAuthenticated()" routerLink="login" class="button is-orange" (click)="onNavBarClick()">

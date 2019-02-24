@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -22,7 +22,11 @@ import { environment } from '../environments/environment';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { ListaUsuarioComponent } from './components/usuario/lista-usuario/lista-usuario.component';
 import { CadastroUsuarioComponent } from './components/usuario/cadastro-usuario/cadastro-usuario.component';
-import { TrocaSenhaComponent } from './components/usuario/troca-senha/troca-senha.component';
+import { SenhaUsuarioComponent } from './components/usuario/senha-usuario/senha-usuario.component';
+import { AlunoService } from './services/aluno.service';
+import { JwtInterceptor } from './services/jwt-interceptor.service';
+import { ErrorInterceptor } from './services/error-interceptor.service';
+import { InfoUsuarioComponent } from './components/usuario/info-usuario/info-usuario.component';
 
 const appRoutes :Routes = [
   { path: '', component: HomeComponent },
@@ -34,8 +38,12 @@ const appRoutes :Routes = [
   { path: 'ficha-treino/editar', component: EditarFichaTreinoComponent, canActivate: [AuthGuardService] },
   { path: 'usuario', component: UsuarioComponent, children:[
     { path: '', component: ListaUsuarioComponent, canActivate: [AuthGuardService] },
-    { path: ':usuario', component: CadastroUsuarioComponent, canActivate: [AuthGuardService] }    
-  ] }
+    { path: 'info-usuario', component: InfoUsuarioComponent, canActivate: [AuthGuardService] },
+    { path: 'senha-usuario/:usuario', component: SenhaUsuarioComponent, canActivate: [AuthGuardService] },
+    { path: ':usuario', component: CadastroUsuarioComponent, canActivate: [AuthGuardService] }
+    
+  ] },
+  { path: '**', redirectTo: '' }
 ]
 
 @NgModule({
@@ -53,7 +61,8 @@ const appRoutes :Routes = [
     UsuarioComponent,
     ListaUsuarioComponent,
     CadastroUsuarioComponent,
-    TrocaSenhaComponent
+    SenhaUsuarioComponent,
+    InfoUsuarioComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +71,13 @@ const appRoutes :Routes = [
     RouterModule.forRoot(appRoutes, { useHash: true }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [AuthService, AuthGuardService, PlanoTreinoService],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    AuthService,
+    AuthGuardService,
+    PlanoTreinoService,
+    AlunoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

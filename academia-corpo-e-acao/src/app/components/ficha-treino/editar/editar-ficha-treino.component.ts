@@ -3,6 +3,7 @@ import { PlanoTreinoService } from '../../../services/plano-treino.service';
 import { NgForm } from '@angular/forms';
 import { Usuario } from '../../../models/usuario.model';
 import { PlanoTreino } from '../../../models/plano-treino.models';
+import { AlunoService } from '../../../services/aluno.service';
 
 @Component({
   selector: 'app-editar-ficha-treino',
@@ -20,6 +21,7 @@ export class EditarFichaTreinoComponent implements OnInit {
   @ViewChild('exercicioForm') exercicioForm: NgForm;
 
   constructor(
+    private alunoService: AlunoService,
     private planoTreinoService: PlanoTreinoService) { }
 
   ngOnInit() {
@@ -28,7 +30,7 @@ export class EditarFichaTreinoComponent implements OnInit {
   onFind(nomeAluno: string) {
 
     if (nomeAluno.length > 2) {
-      this.planoTreinoService.obterUsuarios(nomeAluno).subscribe((resp) => {
+      this.alunoService.obterUsuarios(nomeAluno).subscribe((resp) => {
         if (resp && resp.length > 0) {
            this.alunos = resp;
         } else {

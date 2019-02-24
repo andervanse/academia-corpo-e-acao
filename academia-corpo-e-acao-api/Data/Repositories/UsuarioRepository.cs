@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.Model;
 using Microsoft.Extensions.Logging;
@@ -25,110 +26,81 @@ namespace academia_corpo_e_acao
             {
                 try
                 {
-                    if (user.Id == 0)
+                    StringBuilder updExp = new StringBuilder("SET ");
+                    var exprAttrValues = new Dictionary<string, AttributeValue>();
+                    var exprAttrNames = new Dictionary<string, string>();
+
+                    if (user.Id < 1)
+                    {
+                        user.Id = (Int32)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+                        user.CreatedAt = DateTime.Now;
+                        exprAttrValues.Add(":createdAt", new AttributeValue { S = user.CreatedAt.ToString() });
+                        updExp.Append(" #createdAt = :createdAt,");
+                        exprAttrNames.Add("#createdAt", "createdAt");
+                    }
+
+                    if (!String.IsNullOrEmpty(user.Senha))
                     {
                         var salt = SecurityCrypt.GenerateSalt();
+                        exprAttrValues.Add(":salt", new AttributeValue { S = salt });
+                        updExp.Append(" #salt = :salt,");
+                        exprAttrNames.Add("#salt", "salt");
+
                         var hash = SecurityCrypt.GenerateHash(user.Senha + salt);
-
-                        user.Id = (Int32)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-                        user.CreatedAt = DateTime.Now;
-
-                        var dic = new Dictionary<string, AttributeValue>();
-                        dic.Add("tipo", new AttributeValue { S = "usuario" });
-                        dic.Add("id", new AttributeValue { N = user.Id.ToString() });
-                        dic.Add("login", new AttributeValue { S = user.Login });
-                        dic.Add("createdAt", new AttributeValue { S = user.CreatedAt.ToString() });
-                        dic.Add("salt", new AttributeValue { S = salt });
-                        dic.Add("hashedPassword", new AttributeValue { S = hash });
-
-                        var request = new PutItemRequest
-                        {
-                            TableName = _context.TableName,
-                            Item = dic
-                        };
-
-                        var updResp = await client.PutItemAsync(request);
-                        resp.Return = user;
+                        exprAttrValues.Add(":hash", new AttributeValue { S = hash });
+                        updExp.Append(" #hash = :hash,");
+                        exprAttrNames.Add("#hash", "hashedPassword");
                     }
-                    else
-                    {                       
-                        var dicAttrValues = new Dictionary<string, AttributeValue>();
 
-                        if (!String.IsNullOrEmpty(user.Nome))
-                           dicAttrValues.Add(":nome", new AttributeValue { S = user.Nome });
-
-                        if (!String.IsNullOrEmpty(user.Email))
-                           dicAttrValues.Add(":email", new AttributeValue { S = user.Email });
-
-                        if (user.Peso.HasValue)
-                           dicAttrValues.Add(":peso", new AttributeValue { N = user.Peso.Value.ToString() });
-
-                        if (user.Altura.HasValue)
-                           dicAttrValues.Add(":altura", new AttributeValue { N = user.Altura.Value.ToString() });
-
-                        if (!String.IsNullOrEmpty(user.Celular))
-                           dicAttrValues.Add(":celular", new AttributeValue { S = user.Celular });
-
-                        if (!String.IsNullOrEmpty(user.Observacao))
-                           dicAttrValues.Add(":obs", new AttributeValue { S = user.Observacao });
-
-
-                        var request = new UpdateItemRequest
-                        {
-                            TableName = _context.TableName,
-                            Key = new Dictionary<string, AttributeValue>
-                            {
-                                { "tipo", new AttributeValue { S = "usuario" } },
-                                { "id", new AttributeValue { N = user.Id.ToString() } }
-                            },
-
-                            ExpressionAttributeNames = new Dictionary<string, string>()
-                            {
-                                {"#nome", "nome"},
-                                {"#email", "email"},
-                                {"#peso", "peso"},
-                                {"#altura", "altura"},
-                                {"#celular", "celular"},
-                                {"#obs", "obs"},
-                            },
-                            ExpressionAttributeValues = dicAttrValues,
-                            UpdateExpression = "SET #nome = :nome, #email = :email, #peso = :peso, #altura = :altura, #celular = :celular, #obs = :obs"
-                        };
-
-                        var updResp = await client.UpdateItemAsync(request);
-                        resp.Return = user;
+                    if (!String.IsNullOrEmpty(user.Login))
+                    {
+                        exprAttrValues.Add(":login", new AttributeValue { S = user.Login });
+                        updExp.Append(" #login = :login,");
+                        exprAttrNames.Add("#login", "login");
                     }
-                    return resp;
-                }
-                catch (Exception e)
-                {
-                    resp.Return = user;
-                    resp.ErrorMessages.Add(e.Message);
-                    _log.LogError(e.Message);
-                    return resp;
-                }
-            }
-        }
-        
-        public async Task<Response<bool>> AlterarSenhaAsync(Usuario usuario)
-        {
-            var resp = new Response<bool>();
 
-            var respUserDb = this.ObterUsuarioAsync(usuario);
+                    if (!String.IsNullOrEmpty(user.Nome))
+                    {
+                        exprAttrValues.Add(":nome", new AttributeValue { S = user.Nome });
+                        updExp.Append(" #nome = :nome,");
+                        exprAttrNames.Add("#nome", "nome");
+                    }
 
-            if (respUserDb.Result.Return == null)
-            {
-                resp.ErrorMessages.Add("usuario inválido.");
-                return resp;
-            }
-            
-            using (var client = this._context.GetClientInstance())
-            {
-                try
-                {
-                    var userdb = respUserDb.Result.Return;
-                    var salt = SecurityCrypt.GenerateSalt();
-                    var hash = SecurityCrypt.GenerateHash(usuario.Senha + salt);
+                    if (!String.IsNullOrEmpty(user.Email))
+                    {
+                        exprAttrValues.Add(":email", new AttributeValue { S = user.Email });
+                        updExp.Append(" #email = :email,");
+                        exprAttrNames.Add("#email", "email");
+                    }
+
+                    if (user.Peso.HasValue)
+                    {
+                        exprAttrValues.Add(":peso", new AttributeValue { N = user.Peso.Value.ToString() });
+                        updExp.Append(" #peso = :peso,");
+                        exprAttrNames.Add("#peso", "peso");
+                    }
+
+                    if (user.Altura.HasValue)
+                    {
+                        exprAttrValues.Add(":altura", new AttributeValue { N = user.Altura.Value.ToString() });
+                        updExp.Append(" #altura = :altura,");
+                        exprAttrNames.Add("#altura", "altura");
+                    }
+
+                    if (!String.IsNullOrEmpty(user.Celular))
+                    {
+                        exprAttrValues.Add(":celular", new AttributeValue { S = user.Celular });
+                        updExp.Append(" #celular = :celular,");
+                        exprAttrNames.Add("#celular", "celular");
+                    }
+
+                    if (!String.IsNullOrEmpty(user.Observacao))
+                    {
+                        exprAttrValues.Add(":obs", new AttributeValue { S = user.Observacao });
+                        updExp.Append(" #obs = :obs,");
+                        exprAttrNames.Add("#obs", "obs");
+                    }                                  
 
                     var request = new UpdateItemRequest
                     {
@@ -136,29 +108,22 @@ namespace academia_corpo_e_acao
                         Key = new Dictionary<string, AttributeValue>
                             {
                                 { "tipo", new AttributeValue { S = "usuario" } },
-                                { "id", new AttributeValue { N = userdb.Id.ToString() } }
+                                { "id", new AttributeValue { N = user.Id.ToString() } }
                             },
-                        ExpressionAttributeNames = new Dictionary<string, string>()
-                            {
-                                {"#salt", "salt"},
-                                {"#hash", "hashedPassword"}
-                            },
-                        ExpressionAttributeValues = new Dictionary<string, AttributeValue>
-                            {
-                                { ":salt", new AttributeValue { S = salt } },
-                                { ":hash", new AttributeValue { S = hash } }
-                            },
-                        UpdateExpression = "SET #salt = :salt, #hash = :hash"
+
+                        ExpressionAttributeNames = exprAttrNames,
+                        ExpressionAttributeValues = exprAttrValues,
+                        UpdateExpression = updExp.ToString().Substring(0, updExp.ToString().Length - 1)
                     };
 
-                    await client.UpdateItemAsync(request);
-                    resp.Return = true;
-                    
+                    var updResp = await client.UpdateItemAsync(request);
+                    resp.Return = user;
+
                     return resp;
                 }
                 catch (Exception e)
                 {
-                    resp.Return = false;
+                    resp.Return = user;
                     resp.ErrorMessages.Add(e.Message);
                     _log.LogError(e.Message);
                     return resp;
@@ -172,13 +137,13 @@ namespace academia_corpo_e_acao
             resp.Return = null;
 
             using (var client = this._context.GetClientInstance())
-            {               
+            {
                 QueryRequest request = ObterUsuarioQueryRequest("login", new AttributeValue { S = user.Login });
                 QueryResponse response = null;
 
                 try
                 {
-                    response = await client.QueryAsync(request);                       
+                    response = await client.QueryAsync(request);
                     List<Usuario> lstUser = ExtractUserFrom(response.Items);
 
                     if (lstUser != null && lstUser.Count > 0)
@@ -186,16 +151,16 @@ namespace academia_corpo_e_acao
                         var userDb = lstUser[0];
                         var hash = SecurityCrypt.GenerateHash(user.Senha + userDb.Salt);
 
-                        if (hash == userDb.HashedPassword) 
+                        if (hash == userDb.HashedPassword)
                         {
-                           resp.Return = userDb;
+                            resp.Return = userDb;
                         }
                     }
 
                     return resp;
                 }
                 catch (Exception e)
-                {                    
+                {
                     resp.ErrorMessages.Add(e.Message);
                     _log.LogError(e.Message);
                     return resp;
@@ -219,12 +184,12 @@ namespace academia_corpo_e_acao
             List<Usuario> lstUser = ExtractUserFrom(response.Items);
 
             if (lstUser.Count > 0)
-               resp.Return = lstUser[0];
+                resp.Return = lstUser[0];
             else
-               resp.Messages.Add("Nenhum registro encontrado.");
+                resp.Messages.Add("Nenhum registro encontrado.");
 
             return resp;
-        }        
+        }
 
         private async Task<QueryResponse> ObterUsuarioResponse<T>(Usuario usuario, Response<T> resp)
         {
@@ -241,7 +206,7 @@ namespace academia_corpo_e_acao
             {
                 attrName = "login";
                 attrValue.S = usuario.Login;
-            }            
+            }
             else if (!String.IsNullOrEmpty(usuario.Nome))
             {
                 attrName = "nome";
@@ -251,7 +216,7 @@ namespace academia_corpo_e_acao
             {
                 attrName = "email";
                 attrValue.S = usuario.Email;
-            }
+            }          
 
             attributes.Add($"#{attrName}", $":{attrName}");
             QueryResponse response = null;
@@ -269,22 +234,29 @@ namespace academia_corpo_e_acao
                     resp.ErrorMessages.Add(e.Message);
                     _log.LogError(e.Message);
                 }
-            }  
+            }
 
-            return  response;         
+            return response;
         }
 
         private QueryRequest ObterUsuarioQueryRequest(string attrName, AttributeValue attrValue)
         {
-            var filterExpr = $"#{attrName} = :{attrName}";
+            string filterExpr = null;
+            string keyExpr = "#tipo = :t";
+
+            if (attrName == "id") {
+                keyExpr = "#tipo = :t AND #id = :id";
+            } else {
+                filterExpr = $"#{attrName} = :{attrName}";
+            }
 
             if (attrName == "nome")
-               filterExpr = $"begins_with(#{attrName}, :{attrName})";
+                filterExpr = $"begins_with(#{attrName}, :{attrName})";
 
             return new QueryRequest
             {
                 TableName = _context.TableName,
-                KeyConditionExpression = "#tipo = :t",                
+                KeyConditionExpression = keyExpr,
                 FilterExpression = filterExpr,
                 ExpressionAttributeNames = new Dictionary<string, string> {
                         { "#id", "id" },
@@ -298,7 +270,7 @@ namespace academia_corpo_e_acao
                         { "#peso", "peso" },
                         { "#altura", "altura" },
                         { "#celular", "celular" },
-                        { "#obs", "obs" },                        
+                        { "#obs", "obs" },
                         { "#isAdmin", "admin" }
                     },
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
@@ -335,23 +307,23 @@ namespace academia_corpo_e_acao
                     else if (attributeName == "login")
                     {
                         usuario.Login = value.S;
-                    }   
+                    }
                     else if (attributeName == "peso")
                     {
                         double peso = 0;
                         double.TryParse(value.N, out peso);
                         usuario.Peso = peso;
-                    }    
+                    }
                     else if (attributeName == "altura")
                     {
                         double alt = 0;
                         double.TryParse(value.N, out alt);
                         usuario.Altura = alt;
-                    }       
+                    }
                     else if (attributeName == "obs")
                     {
                         usuario.Observacao = value.S;
-                    }                                                                    
+                    }
                     else if (attributeName == "createdAt")
                     {
                         DateTime createdDt;
@@ -362,6 +334,10 @@ namespace academia_corpo_e_acao
                     {
                         usuario.Email = value.S;
                     }
+                    else if (attributeName == "celular")
+                    {
+                        usuario.Celular = value.S;
+                    }                    
                     else if (attributeName == "hashedPassword")
                     {
                         usuario.HashedPassword = value.S;

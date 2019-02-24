@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PlanoTreinoService } from '../../../services/plano-treino.service';
 import { Router } from '@angular/router';
 import { Usuario } from '../../../models/usuario.model';
+import { AlunoService } from '../../../services/aluno.service';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class ListaUsuarioComponent implements OnInit {
 
   constructor (
     private router: Router,
-    private planoTreinoService: PlanoTreinoService) { }
+    private alunoService: AlunoService) { }
 
   ngOnInit() {
   }
@@ -24,7 +24,7 @@ export class ListaUsuarioComponent implements OnInit {
   onFind(nomeAluno: string) {
 
     if (nomeAluno.length > 2) {
-      this.planoTreinoService.obterUsuarios(nomeAluno).subscribe((resp) => {
+      this.alunoService.obterUsuarios(nomeAluno).subscribe((resp) => {
         if (resp && resp.length > 0) {
            this.alunos = resp;
         } else {

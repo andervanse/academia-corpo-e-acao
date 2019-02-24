@@ -6,9 +6,14 @@ export class Usuario {
     password?: string;
     objetivo?: string;
     email?: string;
+    celular?: string;
     peso?: number;
     altura?: number;
     observacao?: string;
     planosTreino?: PlanoTreino[];
-    administrador: boolean;
+    administrador?: boolean;
+    login?: string;
+    senha?: string;
+    confirmaSenha?: string;
 }
+

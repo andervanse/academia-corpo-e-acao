@@ -22,9 +22,9 @@ namespace academia_corpo_e_acao
             _log = logger.CreateLogger("UsuarioRepository");
         }
 
-        public async Task<Response<bool>> SalvarAsync(PlanoTreino planoTreino)
+        public async Task<Response<PlanoTreino>> SalvarAsync(PlanoTreino planoTreino)
         {
-            var resp = new Response<bool>();
+            var resp = new Response<PlanoTreino>();            
 
             if (planoTreino == null)
             {
@@ -56,6 +56,8 @@ namespace academia_corpo_e_acao
                 _log.LogError(e.Message);
                 resp.ErrorMessages.Add(e.Message);
             }
+
+            resp.Return = planoTreino;
 
             if (planoTreino.Id == 0)
             {

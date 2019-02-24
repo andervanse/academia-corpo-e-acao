@@ -7,6 +7,10 @@ table thead {
     text-align: center;
 }
 
+p.title {
+    color: white;
+}
+
 table td {
     text-align: center;
     font-weight: normal;
@@ -47,18 +51,33 @@ td, a, button, input {
     color:white;
 }
 
-@media only screen and (max-width: 600px) {
+.notification {
+   padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+@media only screen and (max-width: 568px) {
     .modal-card {
         width:98%;
     }
+
     .modal-card-title {
-        font-size: 20px;
+        font-size: 16px;
     }
+
     .is-mobile {
         display: block;
     }
+
     .is-desktop {
         display: none;
     }
+
+    td {
+        font-size: 12px;
+    }  
+    
+    td a {
+        font-size: 12px;
+    }  
 
 }

@@ -19,3 +19,12 @@ a.button {
 span.tag:not(body) {
     height: 100%;
 }
+
+hr {
+    margin: auto;
+}
+@media only screen and (max-width: 1087px) {
+    .navbar-item {
+        color: black;
+    }
+}

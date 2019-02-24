@@ -48,7 +48,7 @@ namespace academia_corpo_e_acao
 
             return CreatedAtRoute(routeName: "ObterPlanoTreino",
                                 routeValues: new { userId = planoTreino.UsuarioId },
-                                      value: response);
+                                      value: response.Result.Return);
         }                      
     }
 }

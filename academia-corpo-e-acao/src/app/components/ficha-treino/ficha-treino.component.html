@@ -1,16 +1,25 @@
 <div class="tile is-ancestor">
   <div class="tile is-vertical">
     <div class="tile">
+
+      <div class="center">
+        <div class="tile is-parent is-vertical" *ngIf="!planoTreino?.gruposMusculares">
+          <article class="tile is-child notification is-orange">
+            <p class="title is-4">Não há plano de treino definido</p>
+          </article>
+        </div>
+      </div>
+
       <div class="tile is-parent is-vertical" *ngIf="planoTreino">
         <article class="tile is-child notification is-orange" *ngFor="let grupo of planoTreino.gruposMusculares">
-          <p class="title is-4">{{ grupo.descricao }}</p>
+          <p class="title is-5">{{ grupo.descricao }}</p>
           <p class="subtitle"></p>
           <table class="table is-striped">
             <thead>
               <tr>
-                <td>Exercício</td>
-                <td>Ordem</td>
-                <td>Séries/Repet.</td>
+                <td style="width:60%;">Exercício</td>
+                <td style="width:10%;">Ordem</td>
+                <td style="width:20%;">Séries/Repet.</td>
               </tr>
             </thead>
             <tbody>
@@ -23,6 +32,7 @@
           </table>
         </article>
       </div>
+      
     </div>
   </div>
 </div>

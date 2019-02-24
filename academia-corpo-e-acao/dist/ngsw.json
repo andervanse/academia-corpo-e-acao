@@ -1,0 +1,133 @@
+{
+  "configVersion": 1,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/favicon.ico",
+        "/index.html",
+        "/main.7ab5a7af61836fc56e71.js",
+        "/polyfills.e67f20fae656bc25ec9c.js",
+        "/runtime.06daa30a2963fa413676.js",
+        "/styles.b914f26e79594b356727.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/assets/icons/android/android-launchericon-144-144.png",
+        "/assets/icons/android/android-launchericon-192-192.png",
+        "/assets/icons/android/android-launchericon-48-48.png",
+        "/assets/icons/android/android-launchericon-512-512.png",
+        "/assets/icons/android/android-launchericon-72-72.png",
+        "/assets/icons/android/android-launchericon-96-96.png",
+        "/assets/icons/chrome/chrome-extensionmanagementpage-48-48.png",
+        "/assets/icons/chrome/chrome-favicon-16-16.png",
+        "/assets/icons/chrome/chrome-installprocess-128-128.png",
+        "/assets/icons/firefox/firefox-general-128-128.png",
+        "/assets/icons/firefox/firefox-general-16-16.png",
+        "/assets/icons/firefox/firefox-general-256-256.png",
+        "/assets/icons/firefox/firefox-general-32-32.png",
+        "/assets/icons/firefox/firefox-general-48-48.png",
+        "/assets/icons/firefox/firefox-general-64-64.png",
+        "/assets/icons/firefox/firefox-general-90-90.png",
+        "/assets/icons/firefox/firefox-marketplace-128-128.png",
+        "/assets/icons/firefox/firefox-marketplace-512-512.png",
+        "/assets/icons/ios/ios-appicon-1024-1024.png",
+        "/assets/icons/ios/ios-appicon-120-120.png",
+        "/assets/icons/ios/ios-appicon-152-152.png",
+        "/assets/icons/ios/ios-appicon-180-180.png",
+        "/assets/icons/ios/ios-appicon-76-76.png",
+        "/assets/icons/ios/ios-launchimage-1024-768.png",
+        "/assets/icons/ios/ios-launchimage-1242-2208.png",
+        "/assets/icons/ios/ios-launchimage-1334-750.png",
+        "/assets/icons/ios/ios-launchimage-1536-2048.png",
+        "/assets/icons/ios/ios-launchimage-2048-1536.png",
+        "/assets/icons/ios/ios-launchimage-2208-1242.png",
+        "/assets/icons/ios/ios-launchimage-640-1136.png",
+        "/assets/icons/ios/ios-launchimage-640-960.png",
+        "/assets/icons/ios/ios-launchimage-750-1334.png",
+        "/assets/icons/ios/ios-launchimage-768-1024.png",
+        "/assets/img/corpo-e-acao-academia.png",
+        "/assets/img/corpo-e-acao_logo.png",
+        "/assets/img/dumbell_512x512-icon.png",
+        "/assets/img/no-image.png",
+        "/assets/treinos.json",
+        "/assets/usuarios.json"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/assets/icons/android/android-launchericon-144-144.png": "7cc6bf32162721d847e9eb68badb3852732e3ef7",
+    "/assets/icons/android/android-launchericon-192-192.png": "8ebd898f8141d0513d56ce4d71502e8b2569fddc",
+    "/assets/icons/android/android-launchericon-48-48.png": "451432ff0378354aaf36d5fa7728b1854adf4657",
+    "/assets/icons/android/android-launchericon-512-512.png": "b3df15a0a2a59bf24ec90ac9eeb1c05bddfc4cc7",
+    "/assets/icons/android/android-launchericon-72-72.png": "c4f4f8a7ed78943a72b3730d66021edb4498a6f3",
+    "/assets/icons/android/android-launchericon-96-96.png": "b0089ece5bf2e04b5d3faf0dd8c6ed5193e9d9ee",
+    "/assets/icons/chrome/chrome-extensionmanagementpage-48-48.png": "451432ff0378354aaf36d5fa7728b1854adf4657",
+    "/assets/icons/chrome/chrome-favicon-16-16.png": "eb0c116c6ec7deac2df51002e382b1e1e71da32a",
+    "/assets/icons/chrome/chrome-installprocess-128-128.png": "8ae4377c2d0653a79c6671ec695f2ac856bb1ae3",
+    "/assets/icons/firefox/firefox-general-128-128.png": "8ae4377c2d0653a79c6671ec695f2ac856bb1ae3",
+    "/assets/icons/firefox/firefox-general-16-16.png": "eb0c116c6ec7deac2df51002e382b1e1e71da32a",
+    "/assets/icons/firefox/firefox-general-256-256.png": "43b9f6f18eff53dbabfbb35d00d518ef7ff47972",
+    "/assets/icons/firefox/firefox-general-32-32.png": "ce3ffd0f1e75adde90caa53e5ef3dd57f38bf93f",
+    "/assets/icons/firefox/firefox-general-48-48.png": "451432ff0378354aaf36d5fa7728b1854adf4657",
+    "/assets/icons/firefox/firefox-general-64-64.png": "5516bc155a4c7cbfe1ef36e62c243961a5683d0b",
+    "/assets/icons/firefox/firefox-general-90-90.png": "fa598626db63b86bdfa5ec88bd5864c01938c4c4",
+    "/assets/icons/firefox/firefox-marketplace-128-128.png": "8ae4377c2d0653a79c6671ec695f2ac856bb1ae3",
+    "/assets/icons/firefox/firefox-marketplace-512-512.png": "b3df15a0a2a59bf24ec90ac9eeb1c05bddfc4cc7",
+    "/assets/icons/ios/ios-appicon-1024-1024.png": "5410124b945a95b7c8a7da0aec2aac5fdf748b47",
+    "/assets/icons/ios/ios-appicon-120-120.png": "b9754d7e484cf0e5e38ce6498c8047c52adfef95",
+    "/assets/icons/ios/ios-appicon-152-152.png": "3e6d2fec8f4f8a1f2fc155cd0b126e79add1f0a5",
+    "/assets/icons/ios/ios-appicon-180-180.png": "27b8a6dc95ea3e9bcbdf0af0be0223ad43e6869e",
+    "/assets/icons/ios/ios-appicon-76-76.png": "c966b7c25def5a4cf47328612561ac02c6da07e4",
+    "/assets/icons/ios/ios-launchimage-1024-768.png": "da58cf9f7c6077e21c53ab78f2137a49da4c436a",
+    "/assets/icons/ios/ios-launchimage-1242-2208.png": "769670599062572e10f1d91aecacf83bb34f9ad3",
+    "/assets/icons/ios/ios-launchimage-1334-750.png": "389d681f65bc8c37073128f3dad9955ceb834058",
+    "/assets/icons/ios/ios-launchimage-1536-2048.png": "a4e7feaf79ab51d227d55df6386de15cbad5345d",
+    "/assets/icons/ios/ios-launchimage-2048-1536.png": "3340069c13171c22faa13223b95804bc17f2bf22",
+    "/assets/icons/ios/ios-launchimage-2208-1242.png": "477001d6c3b2d65656b0c5e4497be50932bbe9fa",
+    "/assets/icons/ios/ios-launchimage-640-1136.png": "e9da57486e36b1447a046fa9e51600f45647a753",
+    "/assets/icons/ios/ios-launchimage-640-960.png": "1291e362d63a9a6692d606be73641bbe43f205d1",
+    "/assets/icons/ios/ios-launchimage-750-1334.png": "a73b884f9c96c6642458a27efc98f84e350289bc",
+    "/assets/icons/ios/ios-launchimage-768-1024.png": "4ea52e2994ba21ba25f27dcd13419f5f82a4e15b",
+    "/assets/img/corpo-e-acao-academia.png": "9e987dd12be878abfe840421d44c6e845ea1080f",
+    "/assets/img/corpo-e-acao_logo.png": "7f8d7d11e801c2c40f1a723d37a818cd897e0017",
+    "/assets/img/dumbell_512x512-icon.png": "8f8fe2133aa035cdad9c65c38c413cdf2f7514e3",
+    "/assets/img/no-image.png": "8a6ba321094b21cfb3d0a40b1628fab4faf37c0f",
+    "/assets/treinos.json": "520a9482c8e28dde389a55276d95f50d1b7e30d9",
+    "/assets/usuarios.json": "2ebd4022cb42c54ba1f23d9ff2ff84c1db3b47c4",
+    "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
+    "/index.html": "fb28c8b6c54081cd761d7ac00a97c70558800627",
+    "/main.7ab5a7af61836fc56e71.js": "74146fdd85080b41e9efe2991ecf6c5ac90eb8b5",
+    "/polyfills.e67f20fae656bc25ec9c.js": "23ddbf5a66c5edbdb265f1d98a616e66e671ea24",
+    "/runtime.06daa30a2963fa413676.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
+    "/styles.b914f26e79594b356727.css": "5a3dc447f609bbc68356539cc48bac219ffdae20"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}

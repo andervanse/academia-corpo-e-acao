@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PlanoTreinoService } from '../../../services/plano-treino.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UsuarioSenha } from '../../../models/login-credentials.model';
 import { FormGroup } from '@angular/forms';
-import { AuthService } from '../../../services/auth.service';
 import { Usuario } from '../../../models/usuario.model';
+import { AlunoService } from '../../../services/aluno.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -20,49 +19,59 @@ export class CadastroUsuarioComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private planoTreinoService: PlanoTreinoService,
-    private authService: AuthService) { }
+    private alunoService: AlunoService) { }
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
 
-      this.planoTreinoService.obterUsuarios(params['usuario']).subscribe((usuario) => {
+      if (params['usuario']) {
+        this.alunoService.obterUsuarios(params['usuario']).subscribe((usuario) => {
 
-        if (usuario.length) {
-          this.aluno = usuario[0];
-          this.alunoForm.setValue({
-            nome: this.aluno.nome, 
-            email: this.aluno.email, 
-            peso: this.aluno.peso,
-            altura: this.aluno.altura,
-            obs: this.aluno.observacao || ''
-          });
-        }
+          if (usuario.length) {
+            this.aluno = usuario[0];
+            this.alunoForm.setValue({
+              id: this.aluno.id || '',
+              nome: this.aluno.nome || '',
+              email: this.aluno.email || '',
+              celular: this.aluno.celular || '',
+              peso: this.aluno.peso || '',
+              altura: this.aluno.altura || '',
+              obs: this.aluno.observacao || '',
+              senha: '',
+              confirmaSenha: ''
+            });
+          }
 
-      })
-    })
-
+        });
+      }
+    });
   }
 
   onSubmit(loginForm) {
-    console.log(loginForm);
 
     if (loginForm.valid) {
-      if (loginForm.value.password !== loginForm.value.confirmPassword) {
+      if ((!isNullOrUndefined(loginForm.value.password) && !isNullOrUndefined(loginForm.value.confirmPassword))
+          && (loginForm.value.password !== loginForm.value.confirmPassword) ){
         this.mensagemErro = 'Senha e confirmação de senha diferentes!';
       }
 
-      let usrSenha: UsuarioSenha = {
-        login: this.aluno.nome,
-        senha: loginForm.value.password,
-        confirmaSenha: loginForm.value.confirmPassword
+      let usrSenha: Usuario = {
+        id: loginForm.value.id,
+        nome: loginForm.value.nome,
+        email: loginForm.value.email,
+        celular: loginForm.value.celular,
+        peso: loginForm.value.peso,
+        altura: loginForm.value.altura,
+        observacao: loginForm.value.obs,
+        senha: loginForm.value.senha,
+        confirmaSenha: loginForm.value.confirmaSenha
       };
 
-      this.authService.trocarSenha(usrSenha).subscribe((resp) => {
-        console.log(resp);
+      this.alunoService.salvarAluno(usrSenha).subscribe((resp) => {
         this.mensagemErro = '';
         this.router.navigate(['./usuario']);
       }, (resp) => {
+        console.log(resp);
         this.mensagemErro = resp.error;
       });
 

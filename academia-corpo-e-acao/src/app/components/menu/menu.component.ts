@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Usuario } from '../../models/usuario.model';
 
 @Component({
   selector: 'app-menu',
@@ -8,17 +7,15 @@ import { Usuario } from '../../models/usuario.model';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  usuario :Usuario;
   @ViewChild('navBarBurger') navBarBurger :ElementRef;
   @ViewChild('navBarMenu') navBarMenu :ElementRef;
 
   constructor(private authService :AuthService) { }
-
+  
   ngOnInit() {
   }
 
   isAuthenticated() :boolean {
-    this.usuario = this.authService.usuario;
     return this.authService.isAuthenticated();
   }
 

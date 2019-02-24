@@ -1,0 +1,54 @@
+<section class="hero">
+    <div class="hero-body">
+  
+      <div class="container">
+        <div *ngIf="mensagemErro !== ''" class="notification is-danger" (click)="onNotificationClick()">
+          <button class="delete"></button>
+          <h4 class="title is-4 has-text-centered">
+            {{ mensagemErro }}
+          </h4>
+        </div>
+  
+        <div class="card">
+          <header class="card-header">
+            <h5 class="card-header-title title is-5 is-orange">
+              Novo do Aluno
+            </h5>
+          </header>
+          <div class="card-content">
+            <form #alunoForm="ngForm" (ngSubmit)="onSubmit(alunoForm)" novalidate>
+              <input type="hidden" name="id" ngModel>
+              <div class="field">
+                <label for="login">Login</label>
+                <div class="control" id="login">
+                  <input class="input" type="text" placeholder="Login" name="login" ngModel required minlength="8"
+                    maxlength="60">
+                </div>
+              </div>
+              <div class="field">
+                <label for="senha">Senha</label>
+                <div class="control" id="senha">
+                  <input class="input" type="password" placeholder="Senha" name="senha" ngModel required minlength="6" maxlength="60">
+                </div>
+              </div>
+              <div class="field">
+                  <label for="confirmaSenha">Confirmação da Senha</label>
+                  <div class="control" id="confirmaSenha">
+                    <input class="input" type="password" placeholder="Confirmar Senha" name="confirmaSenha" ngModel required minlength="6" maxlength="60">
+                  </div>
+              </div>              
+  
+              <div class="is-pulled-right">
+                <a type="button" class="button is-danger" [routerLink]="['/usuario']">Voltar</a>
+                &nbsp;
+                <button type="submit" class="button is-info" [disabled]="!alunoForm.form.valid">Salvar</button>              
+              </div>
+              
+            </form>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </section>
+  

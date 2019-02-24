@@ -1,9 +1,17 @@
 .card-header-title {
-    color:white;
+   color:white;
+}
+
+.hero-body {
+   padding: 1.0rem 0rem 0rem 0rem;
 }
   
-div.container {
-      width: 30%;
+div .container {
+   width: 30%;
+}
+
+.card-content {
+   padding: 3rem;
 }
 
 .ng-valid[required], .ng-valid.required  {
@@ -14,14 +22,16 @@ div.container {
    border-left: 5px solid #a94442; /* red */
 }
 
-
-.card-content {
-   padding: 2.5rem;
+textarea.input {
+   height: 56px;
 }
 
 @media only screen and (max-width: 1020px) {
-   div.container {
+   div .container {
       width: 100%;
    }
+   .card-content {
+      padding: 0.5rem 0.5rem 2.5rem 0.5rem;
+   }   
 }
   

@@ -20,7 +20,6 @@ export class FichaTreinoComponent implements OnInit {
     
     this.planoTreinoService.obterUltimoPlanoTreino(usuario).subscribe((resp) => {
       this.planoTreino = resp;
-      console.log(resp);
     });
   }
 

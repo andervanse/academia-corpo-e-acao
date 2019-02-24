@@ -1,4 +1,3 @@
-
 table.table {
     width:100%;
 }
@@ -6,6 +5,10 @@ table.table {
 td {
     font-size: 14px;
 }
+
+.notification {
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+ }
 
 @media only screen and (max-width: 568px) {
     td {
