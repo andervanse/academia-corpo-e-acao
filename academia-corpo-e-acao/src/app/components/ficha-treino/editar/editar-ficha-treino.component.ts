@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Usuario } from '../../../models/usuario.model';
 import { PlanoTreino } from '../../../models/plano-treino.models';
 import { AlunoService } from '../../../services/aluno.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-editar-ficha-treino',
@@ -16,9 +17,11 @@ export class EditarFichaTreinoComponent implements OnInit {
   planoTreino: PlanoTreino;
   aluno: Usuario;
   grupoSelecionado: string;
+  loading: boolean = false;
 
   @ViewChild('novoExercicioModal') editarExercicio: ElementRef;
   @ViewChild('exercicioForm') exercicioForm: NgForm;
+  @ViewChild('btnFind') btnFind: ElementRef;
 
   constructor(
     private alunoService: AlunoService,
@@ -28,15 +31,21 @@ export class EditarFichaTreinoComponent implements OnInit {
   }
 
   onFind(nomeAluno: string) {
-
+    
     if (nomeAluno.length > 2) {
+      this.btnFind.nativeElement.classList.add('is-loading');
+
       this.alunoService.obterUsuarios(nomeAluno).subscribe((resp) => {
+        
         if (resp && resp.length > 0) {
            this.alunos = resp;
         } else {
           this.alunos = null;
         }
-
+        this.btnFind.nativeElement.classList.remove('is-loading');
+      }, (error) => {
+        this.alunos = null;
+        this.btnFind.nativeElement.classList.remove('is-loading');
       });
     }
   }
@@ -44,7 +53,9 @@ export class EditarFichaTreinoComponent implements OnInit {
   onUserSelected(aluno: Usuario) {
     this.aluno = aluno;
     
-    if (this.aluno) {
+    if (!isNullOrUndefined(this.aluno)) {
+      this.loading = true;
+
       this.planoTreinoService.obterUltimoPlanoTreino(this.aluno).subscribe((resp) => {
         this.planoTreino = resp;
 
@@ -61,7 +72,11 @@ export class EditarFichaTreinoComponent implements OnInit {
         this.addIfNotExists(this.planoTreino.gruposMusculares, 'descricao', 'Dorsais');
         this.addIfNotExists(this.planoTreino.gruposMusculares, 'descricao', 'Bíceps');
         this.addIfNotExists(this.planoTreino.gruposMusculares, 'descricao', 'Tríceps');
-        this.addIfNotExists(this.planoTreino.gruposMusculares, 'descricao', 'Deltóides');        
+        this.addIfNotExists(this.planoTreino.gruposMusculares, 'descricao', 'Deltóides');
+        this.loading = false;
+      }, (error) => {
+        console.error(error);
+        this.loading = false;
       });
     }
   }
@@ -107,9 +122,7 @@ export class EditarFichaTreinoComponent implements OnInit {
           }
         }
       }
-
       this.planoTreinoService.salvarPlanoTreino(this.planoTreino).subscribe((resp) => {
-        console.log(resp);
       }, (error) => {
         console.log(error);
       });

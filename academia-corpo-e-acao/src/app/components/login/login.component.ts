@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   loginFailed :boolean = false;
   errorMessage :string;
+  @ViewChild('btnLogin') btnLogin : ElementRef;
 
   constructor(
     private router: Router, 
@@ -30,12 +31,15 @@ export class LoginComponent implements OnInit {
       credentials.login = form.value.login;
       credentials.senha = form.value.password;
 
+      this.btnLogin.nativeElement.classList.add('is-loading'); 
       this.authService.autenticar(credentials).subscribe((resp) => {
         this.loginFailed = false;
         this.errorMessage = '';
+        this.btnLogin.nativeElement.classList.remove('is-loading');
         this.router.navigate(['ficha-treino']);        
       },
       (error) => {
+        this.btnLogin.nativeElement.classList.remove('is-loading');
         if (error.status == 400) {
           this.errorMessage = 'Usuário ou Senha inválidos';
         }else {

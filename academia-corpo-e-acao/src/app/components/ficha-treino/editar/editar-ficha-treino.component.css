@@ -80,4 +80,8 @@ td, a, button, input {
         font-size: 12px;
     }  
 
+    .tile.is-parent {
+        padding: 0.25rem;
+    }
+
 }

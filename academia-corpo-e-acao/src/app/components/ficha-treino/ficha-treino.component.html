@@ -3,7 +3,9 @@
     <div class="tile">
 
       <div class="tile is-parent center" *ngIf="loading">
-        <p class="title is-4">Aguarde...</p>
+        <div class="notification is-orange">
+          <span class="title is-5">Aguarde...</span>
+        </div>
       </div>
 
       <div class="center" *ngIf="!loading">

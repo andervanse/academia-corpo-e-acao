@@ -29,7 +29,7 @@
                 <input class="input" type="password" placeholder="Senha" name="password" ngModel required minlength="6">
               </div>
             </div>
-            <button type="submit" class="button is-info is-pulled-right" [disabled]="!loginForm.form.valid">Login</button>
+            <button type="submit" class="button is-info is-pulled-right" [disabled]="!loginForm.form.valid" #btnLogin>Login</button>
           </form>
           <br>
         </div>

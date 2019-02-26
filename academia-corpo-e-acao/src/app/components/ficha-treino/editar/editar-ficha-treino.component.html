@@ -1,16 +1,15 @@
 <div class="center">
-    <h3 class="title is-4">Fichas</h3>
+  <h3 class="title is-4">Fichas</h3>
 </div>
-<div class="container" *ngIf="!aluno">
 
+<div class="container" *ngIf="!aluno">
   <div class="box is-orange">
     <div class="field is-grouped">
-      <p class="control">
-        <input class="input" type="text" placeholder="Procurar Aluno" width="200px" #nameImput>
-        
+      <p class="control"  style="width:65%;">
+        <input class="input" type="text" placeholder="Procurar Aluno" #nameImput>
       </p>
       <p class="control">
-        <a class="button is-info fas fa-search" (click)="onFind(nameImput.value)"></a>
+        <button class="button is-info" name="btn-find" (click)="onFind(nameImput.value)" #btnFind>Procurar</button>
       </p>
     </div>
   </div>
@@ -18,7 +17,6 @@
   <div class="box is-orange" *ngIf="!alunos">
     <span class="title is-5 is-font-white">Nenhum aluno selecionado</span>
   </div>
-
   <div class="box is-orange" *ngIf="alunos">
     <table class="table">
       <thead>
@@ -35,20 +33,22 @@
       </tbody>
     </table>
   </div>
-
 </div>
 
-<div class="tile is-ancestor" *ngIf="aluno">
+<div class="box is-orange" *ngIf="loading">
+    <span class="title is-5 is-font-white">Carregando...</span>
+</div>
+<div class="tile is-ancestor" *ngIf="aluno && !loading">
   <div class="tile is-vertical">
     <div class="tile">
       <div class="tile is-parent is-vertical" *ngIf="planoTreino">
 
         <div class="box is-info is-orange">
           <p class="title is-4 field">
-            {{ aluno.nome }} 
+            {{ aluno.nome }}
             <a class="button is-danger is-pulled-right" (click)="onUserSelected(undefined)">Trocar</a>
           </p>
-        </div>     
+        </div>
 
         <input type="hidden" name="id" ngModel>
         <article class="tile is-child notification is-orange" *ngFor="let grupo of planoTreino.gruposMusculares">
@@ -71,13 +71,14 @@
             <tbody>
               <tr *ngFor="let item of grupo.exercicios">
                 <td>
-                  <span class="is-mobile">{{ item.descricao | minimizeText:7 }}</span> 
+                  <span class="is-mobile">{{ item.descricao | minimizeText:7 }}</span>
                   <span class="is-desktop">{{ item.descricao }}</span>
                 </td>
                 <td>{{ item.ordem }}</td>
                 <td>{{ item.repeticao }}</td>
                 <td>
-                  <a class="button is-danger fas fa-trash-alt" (click)="onExcluirExercicio(grupo.descricao, item.descricao)"></a>
+                  <a class="button is-danger fas fa-trash-alt"
+                    (click)="onExcluirExercicio(grupo.descricao, item.descricao)"></a>
                 </td>
               </tr>
             </tbody>
