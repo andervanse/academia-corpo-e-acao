@@ -13,15 +13,15 @@ body {
 
 #body {
    padding:10px;
-   padding-bottom:40px;   /* Height of the footer */
+   padding-bottom:20px;   /* Height of the footer */
 }
 
 #footer {
-   position:absolute;
+   position: fixed;
    bottom:0;
    width:100%;
-   height:40px;   /* Height of the footer */
-   line-height: 40px;
+   height:20px;   /* Height of the footer */
+   line-height: 20px;
    background-color: rgb(50, 157, 245);  
 }
 
@@ -42,3 +42,8 @@ body {
    color: #fff;
    font-size: 20px;
 }
+
+router-outlet ~ * {
+   position: absolute;
+   width: 94%;   
+ }

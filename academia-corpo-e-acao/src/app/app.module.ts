@@ -1,5 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
@@ -36,13 +37,14 @@ const appRoutes :Routes = [
   { path: 'logoff', component: LogoffComponent },  
   { path: 'ficha-treino', component: FichaTreinoComponent, canActivate: [AuthGuardService] },
   { path: 'ficha-treino/editar', component: EditarFichaTreinoComponent, canActivate: [AuthGuardService] },
-  { path: 'usuario', component: UsuarioComponent, children:[
-    { path: '', component: ListaUsuarioComponent, canActivate: [AuthGuardService] },
-    { path: 'info-usuario', component: InfoUsuarioComponent, canActivate: [AuthGuardService] },
-    { path: 'senha-usuario/:usuario', component: SenhaUsuarioComponent, canActivate: [AuthGuardService] },
-    { path: ':usuario', component: CadastroUsuarioComponent, canActivate: [AuthGuardService] }
-    
-  ] },
+  { path: 'usuario', component: UsuarioComponent, 
+     children:[
+       { path: '', component: ListaUsuarioComponent, canActivate: [AuthGuardService] },
+       { path: 'info-usuario', component: InfoUsuarioComponent, canActivate: [AuthGuardService] },
+       { path: 'senha-usuario/:usuario', component: SenhaUsuarioComponent, canActivate: [AuthGuardService] },
+       { path: ':usuario', component: CadastroUsuarioComponent, canActivate: [AuthGuardService] }    
+     ]  
+  },
   { path: '**', redirectTo: '' }
 ]
 
@@ -66,6 +68,7 @@ const appRoutes :Routes = [
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes, { useHash: true }),
