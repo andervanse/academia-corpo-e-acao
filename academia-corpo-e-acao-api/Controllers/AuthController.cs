@@ -14,13 +14,13 @@ namespace academia_corpo_e_acao
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
-        private readonly UsuarioRepository _userRepo;
+        private readonly IUsuarioRepository _userRepo;
         private readonly IConfiguration _config;
         private readonly IEmailLoginConfirmation _emailLoginConfirmation;
 
-        public AuthController(UsuarioRepository userRepo,
+        public AuthController(IUsuarioRepository userRepo,
                               IConfiguration configuration,
                               IEmailLoginConfirmation emailLoginConfirmation)
         {
@@ -54,7 +54,8 @@ namespace academia_corpo_e_acao
                 var claims = new List<Claim>
                 {
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.UniqueName, response.Return.Login)
+                    new Claim(JwtRegisteredClaimNames.UniqueName, response.Return.Login),
+                    new Claim(JwtRegisteredClaimNames.NameId, response.Return.Id.ToString())
                 };
 
                 if (response.Return.Administrador)
@@ -78,8 +79,6 @@ namespace academia_corpo_e_acao
                             Id = response.Return.Id,
                             Nome = response.Return.Nome,
                             Email = response.Return.Email,
-                            Altura = response.Return.Altura,
-                            Peso = response.Return.Peso,
                             Celular = response.Return.Celular,
                             Administrador = response.Return.Administrador,
                             Observacao = response.Return.Observacao

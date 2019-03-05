@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace academia_corpo_e_acao
 {
-    public class UsuarioRepository
+    public class UsuarioRepository : IUsuarioRepository
     {
         private readonly DynamoDbContext _context;
         private readonly ILogger _log;
@@ -72,20 +72,6 @@ namespace academia_corpo_e_acao
                         exprAttrValues.Add(":email", new AttributeValue { S = user.Email });
                         updExp.Append(" #email = :email,");
                         exprAttrNames.Add("#email", "email");
-                    }
-
-                    if (user.Peso.HasValue)
-                    {
-                        exprAttrValues.Add(":peso", new AttributeValue { N = user.Peso.Value.ToString() });
-                        updExp.Append(" #peso = :peso,");
-                        exprAttrNames.Add("#peso", "peso");
-                    }
-
-                    if (user.Altura.HasValue)
-                    {
-                        exprAttrValues.Add(":altura", new AttributeValue { N = user.Altura.Value.ToString() });
-                        updExp.Append(" #altura = :altura,");
-                        exprAttrNames.Add("#altura", "altura");
                     }
 
                     if (!String.IsNullOrEmpty(user.Celular))
@@ -171,7 +157,7 @@ namespace academia_corpo_e_acao
         public async Task<Response<List<Usuario>>> ObterUsuariosAsync(Usuario usuario)
         {
             var resp = new Response<List<Usuario>>();
-            QueryResponse response = await ObterUsuarioResponse<List<Usuario>>(usuario, resp);
+            QueryResponse response = await ObterUsuarioResponseAsync<List<Usuario>>(usuario, resp);
             List<Usuario> lstUser = ExtractUserFrom(response.Items);
             resp.Return = lstUser;
             return resp;
@@ -180,7 +166,7 @@ namespace academia_corpo_e_acao
         public async Task<Response<Usuario>> ObterUsuarioAsync(Usuario usuario)
         {
             var resp = new Response<Usuario>();
-            QueryResponse response = await ObterUsuarioResponse<Usuario>(usuario, resp);
+            QueryResponse response = await ObterUsuarioResponseAsync<Usuario>(usuario, resp);
             List<Usuario> lstUser = ExtractUserFrom(response.Items);
 
             if (lstUser.Count > 0)
@@ -191,7 +177,7 @@ namespace academia_corpo_e_acao
             return resp;
         }
 
-        private async Task<QueryResponse> ObterUsuarioResponse<T>(Usuario usuario, Response<T> resp)
+        private async Task<QueryResponse> ObterUsuarioResponseAsync<T>(Usuario usuario, Response<T> resp)
         {
             var attrName = String.Empty;
             var attrValue = new AttributeValue();
@@ -267,8 +253,6 @@ namespace academia_corpo_e_acao
                         { "#hashedPassword", "hashedPassword" },
                         { "#salt", "salt" },
                         { "#email", "email" },
-                        { "#peso", "peso" },
-                        { "#altura", "altura" },
                         { "#celular", "celular" },
                         { "#obs", "obs" },
                         { "#isAdmin", "admin" }
@@ -278,7 +262,7 @@ namespace academia_corpo_e_acao
                          { ":t", new AttributeValue { S = "usuario" } },
                          { $":{attrName}", attrValue }
                     },
-                ProjectionExpression = "#id, #login, #nome, #hashedPassword, #salt, #email, #dtAt, #peso, #altura, #celular, #isAdmin, #obs"
+                ProjectionExpression = "#id, #login, #nome, #hashedPassword, #salt, #email, #dtAt, #celular, #isAdmin, #obs"
             };
         }
 
@@ -307,18 +291,6 @@ namespace academia_corpo_e_acao
                     else if (attributeName == "login")
                     {
                         usuario.Login = value.S;
-                    }
-                    else if (attributeName == "peso")
-                    {
-                        double peso = 0;
-                        double.TryParse(value.N, out peso);
-                        usuario.Peso = peso;
-                    }
-                    else if (attributeName == "altura")
-                    {
-                        double alt = 0;
-                        double.TryParse(value.N, out alt);
-                        usuario.Altura = alt;
                     }
                     else if (attributeName == "obs")
                     {

@@ -24,7 +24,7 @@ export class SenhaUsuarioComponent implements OnInit {
     this.mensagemErro = '';
 
     this.route.params.subscribe((params) => {
-      if (params['usuario'] !== 0) {
+      if ((params['usuario']) && (params['usuario'] != '0')) {
         this.alunoService.obterUsuarios(params['usuario'])
            .subscribe((resp) => {
                 this.aluno = resp[0];
@@ -44,7 +44,7 @@ export class SenhaUsuarioComponent implements OnInit {
   onSubmit(loginForm) {
 
     if (loginForm.valid) {
-      if (loginForm.value.password !== loginForm.value.confirmPassword) {
+      if (loginForm.value.senha !== loginForm.value.confirmaSenha) {
         this.mensagemErro = 'Senha e confirmação de senha diferentes!';
         return;
       }

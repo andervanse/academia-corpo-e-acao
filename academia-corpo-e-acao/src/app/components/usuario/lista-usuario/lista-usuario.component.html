@@ -1,40 +1,56 @@
-<div class="container">
-  <br>
-  <div>
-    <a class="button is-info is-medium" [routerLink]="['./senha-usuario/0']">Novo Aluno</a>
-  </div>
-  <br>
-  <div class="box is-orange">
-    <div class="field is-grouped">
-      <p class="control">
-        <input class="input" type="text" placeholder="Procurar Aluno" width="200px" #nameImput>
-        
-      </p>
-      <p class="control">
-        <a class="button is-info fas fa-search" (click)="onFind(nameImput.value)"></a>
-      </p>
+<div class="tile is-ancestor">
+  <div class="tile is-parent is-vertical">
+
+    <div class="tile is-child">
+      <a class="button is-info is-medium" [routerLink]="['./senha-usuario/0']">Novo</a>
+    </div>
+
+    <div class="tile is-child notification is-orange">
+      <div class="field is-grouped">
+        <p class="control">
+          <input class="input" type="text" placeholder="Procurar Aluno" #nameImput>
+        </p>
+        <p class="control">
+          <a class="button is-info fas fa-search" (click)="onFind(nameImput.value)" #btnFind></a>
+        </p>
+      </div>
+    </div>
+
+    <div class="tile is-child notification is-orange" *ngIf="alunos.length === 0 && !firstSearch">
+      <span class="title is-5 is-font-white">Nenhum resultado</span>
+    </div>
+
+    <div class="tile is-child notification is-orange" *ngFor="let aluno of alunos">
+      <article class="media">
+        <div class="media-left">
+          <figure class="image is-64x64">
+            <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+          </figure>
+        </div>
+        <div class="media-content">
+          <div class="content">
+            <p>
+              {{ aluno.nome }}
+              <br>
+              {{ aluno.email }}
+              <br>
+              {{ aluno.celular }}
+            </p>
+          </div>
+          <nav class="level level-left">
+            <a class="button fas fa-book" aria-label="cadastro" [routerLink]="['../usuario/', aluno.id]"
+              [queryParams]="{search:searchWord, aluno:aluno.nome}">
+            </a>&nbsp;&nbsp;
+            <a class="button fas fa-clipboard" aria-label="ficha treino"
+              [routerLink]="['ficha-treino/editar/', aluno.id]" [queryParams]="{search:searchWord, aluno:aluno.nome}">
+            </a>&nbsp;&nbsp;
+            <a class="button fas fa-weight" aria-label="avaliação física"
+              [routerLink]="[aluno.id, 'avaliacoes-fisicas']" [queryParams]="{search:searchWord, aluno:aluno.nome}">
+            </a>
+          </nav>
+        </div>
+      </article>
     </div>
   </div>
-
-  <div class="box is-orange" *ngIf="!alunos">
-    <span class="title is-5 is-font-white">Nenhum aluno selecionado</span>
-  </div>
-
-  <div class="box is-orange" *ngIf="alunos">
-    <table class="table">
-      <thead>
-        <tr>
-          <td>Alunos</td>
-          <td>Editar</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let aluno of alunos">
-          <td>{{ aluno.nome }}</td>
-          <td><a class="button is-info" (click)="onUserSelected(aluno)">Selecionar</a></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
 </div>
+<br>

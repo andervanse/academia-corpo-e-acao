@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace academia_corpo_e_acao
 {
     [Route("api/[controller]")]
-    public class HomeController :Controller
+    public class HomeController :ControllerBase
     {
         public DynamoDbContext _ctx { get; }
 

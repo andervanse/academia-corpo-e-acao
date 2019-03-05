@@ -1,0 +1,82 @@
+
+  <div *ngIf="mensagemErro !== ''" class="notification is-danger" (click)="onNotificationClick()">
+    <button class="delete"></button>
+    <h4 class="title is-4 has-text-centered">
+      {{ mensagemErro }}
+    </h4>
+  </div>
+
+  <h5 class="card-header-title title is-5 is-orange has-text-centered">
+      Editar Medidas  -  {{ nomeAluno }}
+  </h5> 
+
+  <form #avaliacaoForm="ngForm" (ngSubmit)="onSubmit(avaliacaoForm)" novalidate>
+    <input type="hidden" name="id" ngModel>
+    <input type="hidden" name="usuarioId" ngModel>
+
+    <div class="columns is-mobile">
+      <div class="control column is-6">
+        <label for="altura">Altura</label>
+        <input class="input" type="number" placeholder="Altura" name="altura" ngModel required>
+      </div>
+      <div class="control column is-6">
+        <label for="peso">Peso</label>
+        <input class="input" type="number" placeholder="Peso" name="peso" ngModel required>
+      </div>
+    </div>
+
+    <hr>
+    <div class="columns is-mobile">
+      <div class="column">
+        <label for="ombro">Ombro</label>
+        <input class="input" type="number" placeholder="Ombro" name="ombro" ngModel>
+      </div>
+      <div class="column">
+        <label for="peitoral">Peitoral</label>
+        <input class="input" type="number" placeholder="Peitoral" name="peitoral" ngModel>
+      </div>
+    </div>
+
+    <div class="columns is-mobile">
+      <div class="column">
+        <label for="braco">Braço</label>
+        <input class="input" type="number" placeholder="Braço" name="braco" ngModel>
+      </div>
+      <div class="column">
+        <label for="cintura">Cintura</label>
+        <input class="input" type="number" placeholder="Cintura" name="cintura" ngModel>
+      </div>
+    </div>
+
+    <div class="columns is-mobile">
+      <div class="column">
+        <label for="quadril">Quadril</label>
+        <input class="input" type="number" placeholder="Quadril" name="quadril" ngModel>
+      </div>
+      <div class="column">
+        <label for="coxa">Coxa</label>
+        <input class="input" type="number" placeholder="Coxa" name="coxa" ngModel>
+      </div>
+    </div>
+    <hr>
+
+    <div class="field">
+      <label for="observacao">Observação</label>
+      <div class="control" id="observacao">
+        <textarea class="textarea" type="text" rows="4" placeholder="Observação" name="obs" ngModel
+          maxlength="1000"></textarea>
+      </div>
+    </div>
+
+    <div class="is-pulled-right">
+      <a type="button" class="button is-danger is-medium" 
+         [routerLink]="['/usuario', usuarioId, 'avaliacoes-fisicas']"
+         [queryParams]="{search:searchWord, aluno:nomeAluno}">Voltar</a>
+      &nbsp;
+      <button type="submit" class="button is-info is-medium" [disabled]="!avaliacaoForm.form.valid">Salvar</button>
+    </div>
+
+  </form>
+<br>
+<br>
+<br>

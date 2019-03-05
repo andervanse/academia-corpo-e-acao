@@ -16,7 +16,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { FichaTreinoComponent } from './components/ficha-treino/ficha-treino.component';
 import { LogoffComponent } from './components/logoff/logoff.component';
 import { PlanoTreinoService } from './services/plano-treino.service';
-import { EditarFichaTreinoComponent } from './components/ficha-treino/editar/editar-ficha-treino.component';
+import { EditarFichaTreinoAlunoComponent } from './components/ficha-treino/editar/editar-ficha-treino-aluno.component';
 import { MinimizeTextPipe } from './pipes/minimize-text.pipe';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -28,6 +28,10 @@ import { AlunoService } from './services/aluno.service';
 import { JwtInterceptor } from './services/jwt-interceptor.service';
 import { ErrorInterceptor } from './services/error-interceptor.service';
 import { InfoUsuarioComponent } from './components/usuario/info-usuario/info-usuario.component';
+import { AvaliacaoFisicaComponent } from './components/avaliacao-fisica/avaliacao-fisica.component';
+import { AvaliacaoFisicaService } from './services/avaliacao-fisica.service';
+import { EditarAvaliacaoFisicaComponent } from './components/avaliacao-fisica/editar-avaliacao-fisica/editar-avaliacao-fisica.component';
+import { FichaTreinoAlunoComponent } from './components/ficha-treino/ficha-treino-aluno/ficha-treino-aluno.component';
 
 const appRoutes :Routes = [
   { path: '', component: HomeComponent },
@@ -35,13 +39,17 @@ const appRoutes :Routes = [
   { path: 'contato', component: ContatoComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logoff', component: LogoffComponent },  
-  { path: 'ficha-treino', component: FichaTreinoComponent, canActivate: [AuthGuardService] },
-  { path: 'ficha-treino/editar', component: EditarFichaTreinoComponent, canActivate: [AuthGuardService] },
+  { path: 'ficha-treino-aluno', component: FichaTreinoAlunoComponent, canActivate: [AuthGuardService] },
+  { path: 'ficha-treino', component: FichaTreinoComponent, canActivate: [AuthGuardService] },  
+  { path: 'ficha-treino/editar/:treino', component: EditarFichaTreinoAlunoComponent, canActivate: [AuthGuardService] },  
   { path: 'usuario', component: UsuarioComponent, 
      children:[
        { path: '', component: ListaUsuarioComponent, canActivate: [AuthGuardService] },
-       { path: 'info-usuario', component: InfoUsuarioComponent, canActivate: [AuthGuardService] },
+       { path: 'info-usuario', component: InfoUsuarioComponent, canActivate: [AuthGuardService] },       
+       { path: 'ficha-treino/editar/:usuario', component: EditarFichaTreinoAlunoComponent, canActivate: [AuthGuardService] },
        { path: 'senha-usuario/:usuario', component: SenhaUsuarioComponent, canActivate: [AuthGuardService] },
+       { path: ':usuario/avaliacoes-fisicas', component: AvaliacaoFisicaComponent, canActivate: [AuthGuardService] },
+       { path: ':usuario/avaliacoes-fisicas/editar/:avaliacao', component: EditarAvaliacaoFisicaComponent, canActivate: [AuthGuardService] },
        { path: ':usuario', component: CadastroUsuarioComponent, canActivate: [AuthGuardService] }    
      ]  
   },
@@ -59,12 +67,15 @@ const appRoutes :Routes = [
     LoginComponent,
     FichaTreinoComponent,
     LogoffComponent,
-    EditarFichaTreinoComponent,
+    EditarFichaTreinoAlunoComponent,
     UsuarioComponent,
     ListaUsuarioComponent,
     CadastroUsuarioComponent,
     SenhaUsuarioComponent,
-    InfoUsuarioComponent
+    InfoUsuarioComponent,
+    AvaliacaoFisicaComponent,
+    EditarAvaliacaoFisicaComponent,
+    FichaTreinoAlunoComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +91,8 @@ const appRoutes :Routes = [
     AuthService,
     AuthGuardService,
     PlanoTreinoService,
-    AlunoService],
+    AlunoService,
+    AvaliacaoFisicaService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

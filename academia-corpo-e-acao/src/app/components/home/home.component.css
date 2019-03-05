@@ -1,30 +1,13 @@
-
-div.container {
-    width: 80%;    
-}
+li {
+    font-size: 18px;
+    padding-bottom: 8px;
+}    
 
 div p {
     font-size: 18px;
-}
- 
-li {
-    padding: 8px;
-    font-size: 16px;
-}
+}    
 
 @media only screen and (max-width: 1020px) {
-    div.container {
-       width: 280px;
-    }
-
-    div p {
-        font-size: 14px;
-    }    
-
-    li {
-        font-size: 14px;
-    }    
-
     .hero-body {
         padding: 0px;
     }
@@ -32,12 +15,15 @@ li {
     section.hero {
         height: 140px;
     }
+
     .container img {
         height: 100px;
     }
+
     .navbar-item {
         color: black;
     }
+    
     span.tag:not(body) {
         width: 0%;
         visibility: hidden;

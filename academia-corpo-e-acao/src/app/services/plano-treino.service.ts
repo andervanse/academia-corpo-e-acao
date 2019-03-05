@@ -3,7 +3,6 @@ import { environment } from "../../environments/environment";
 import { map } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Usuario } from "../models/usuario.model";
 import { PlanoTreino } from "../models/plano-treino.models";
 import { isNullOrUndefined } from "util";
 
@@ -11,12 +10,12 @@ import { isNullOrUndefined } from "util";
 @Injectable()
 export class PlanoTreinoService {
 
-    constructor(
-        private http: HttpClient) { }
+    private planoTreinos :PlanoTreino[];
+    
+    constructor(private http: HttpClient) { }
 
-    obterUltimoPlanoTreino(usuario: Usuario): Observable<PlanoTreino> {
-
-        return this.http.get<PlanoTreino>(`${environment.apiBaseUrl}/api/planoTreino/${usuario.id}`)
+    obterUltimoPlanoTreino(usuarioId: number): Observable<PlanoTreino> {
+        return this.http.get<PlanoTreino>(`${environment.apiBaseUrl}/api/planoTreino/usuario/${usuarioId}`)
             .pipe(
                 map((resp) => {
 
@@ -36,7 +35,29 @@ export class PlanoTreinoService {
             );
     }
 
+    obterTemplatesPlanoTreino(): Observable<PlanoTreino[]> {
+        return this.http.get<PlanoTreino[]>(`${environment.apiBaseUrl}/api/planoTreino/templates`)
+            .pipe(
+                map((resp) => {
+                    return resp;
+                })
+            );
+    }   
+
+    obterTemplatePlanoTreino(planoTreinoId :number): Observable<PlanoTreino> {
+        return this.http.get<PlanoTreino>(`${environment.apiBaseUrl}/api/planoTreino/templates/${planoTreinoId}`)
+            .pipe(
+                map((resp) => {
+                    return resp;
+                })
+            );
+    }     
+
     salvarPlanoTreino(planoTreino: PlanoTreino): Observable<any> {
         return this.http.post(`${environment.apiBaseUrl}/api/planoTreino`, planoTreino);
     }
+
+    excluirPlanoTreino(planoTreinoId: number): Observable<any> {
+        return this.http.delete(`${environment.apiBaseUrl}/api/planoTreino/${planoTreinoId}`);
+    }    
 }

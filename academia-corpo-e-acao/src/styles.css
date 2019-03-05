@@ -7,8 +7,7 @@ body {
 }
 
 #container {
-   min-height:100%;
-   position:relative;
+   position: relative;
 }
 
 #body {
@@ -18,9 +17,9 @@ body {
 
 #footer {
    position: fixed;
-   bottom:0;
+   bottom: 0;
    width:100%;
-   height:20px;   /* Height of the footer */
+   height:20px; 
    line-height: 20px;
    background-color: rgb(50, 157, 245);  
 }
@@ -42,8 +41,37 @@ body {
    color: #fff;
    font-size: 20px;
 }
+@media only screen and (max-width: 1020px) {
+   router-outlet ~ * {
+      width: 93%;
+   }
+}
+
+@media only screen and (min-width: 1020px) {
+   router-outlet ~ * {
+      left: 20%;
+      margin-left: -50px;
+      width: 60%;
+   }
+}
+
+p {
+   font-size: 16px;
+}
+
+.notification {
+   padding: 0.5rem 0.2rem 0.5rem 0.5rem;
+}
+
+.modal-card-title {
+   color: white;
+}
+
+.modal-card-head, .modal-card-foot {
+   background-color: #209cee;
+}
 
 router-outlet ~ * {
    position: absolute;
-   width: 94%;   
- }
+
+}

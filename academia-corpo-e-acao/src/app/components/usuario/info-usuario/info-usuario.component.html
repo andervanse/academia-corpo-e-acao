@@ -1,57 +1,31 @@
-<section class="hero">
-    <div class="hero-body">
-      <div class="container">
-        <div class="card">
-          <header class="card-header">
-            <h5 class="card-header-title title is-5 is-orange">
-              Meus Dados
-            </h5>
-          </header>
-          <div class="card-content">
-            <form>
-              <input type="hidden" name="id" ngModel>
-              <div class="field">
-                <label for="Nome">Nome</label>
-                <div class="control" id="nome">
-                  <div class="input">{{ aluno.nome }}</div>
-                </div>
-              </div>
-              <div class="field">
-                <label for="email">E-mail</label>
-                <div class="control" id="email">
-                    <div class="input">{{ aluno.email }}</div>
-                </div>
-              </div>
-              <div class="field">
-                  <label for="celular">Celular</label>
-                  <div class="control" id="celular">
-                      <div class="input">{{ aluno.celular }}</div>
-                  </div>
-                </div>            
-              <div class="field">
-                <label for="peso">Peso</label>
-                <div class="control" id="peso">
-                    <div class="input">{{ aluno.peso }}</div>
-                </div>
-              </div>
-              <div class="field">
-                <label for="altura">Altura</label>
-                <div class="control" id="altura">
-                    <div class="input">{{ aluno.altura }}</div>
-                </div>
-              </div>
-              <div class="field">
-                <label for="observacao">Observação</label>
-                <div class="control" id="observacao">
-                  <textarea rows="4" class="input">{{ aluno.observacao }}</textarea>
-                </div>
-              </div>
-
-            </form>
-          </div>
-  
-        </div>
+  <p class="is-5 notification is-orange">
+    Meus Dados
+  </p>
+  <form>
+    <input type="hidden" name="id" ngModel>
+    <div class="field">
+      <label for="Nome">Nome</label>
+      <div class="control" id="nome">
+        <div class="input" disabled>{{ aluno.nome }}</div>
       </div>
     </div>
-  </section>
-  
+    <div class="field">
+      <label for="email">E-mail</label>
+      <div class="control" id="email">
+        <div class="input" disabled>{{ aluno.email }}</div>
+      </div>
+    </div>
+    <div class="field">
+      <label for="celular">Celular</label>
+      <div class="control" id="celular">
+        <div class="input" disabled>{{ aluno.celular }}</div>
+      </div>
+    </div>
+    <div class="field">
+      <label for="observacao">Observação</label>
+      <div class="control" id="observacao">
+        <textarea rows="4" class="textarea" readonly>{{ aluno.observacao }}</textarea>
+      </div>
+    </div>
+  </form>
+<br>

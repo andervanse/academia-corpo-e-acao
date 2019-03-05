@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PlanoTreinoService } from '../../services/plano-treino.service';
 import { AuthService } from '../../services/auth.service';
 import { PlanoTreino } from '../../models/plano-treino.models';
@@ -10,8 +10,10 @@ import { PlanoTreino } from '../../models/plano-treino.models';
 })
 export class FichaTreinoComponent implements OnInit {
 
-  planoTreino :PlanoTreino;
-  loading :boolean;
+  planosTreino: PlanoTreino[] = [];
+  loading: boolean;
+  planoTreinoIdSelecionado: number;
+  @ViewChild('dialogModal') dialogModal: ElementRef;
 
   constructor(private planoTreinoService: PlanoTreinoService,
               private authService: AuthService) { }
@@ -20,12 +22,30 @@ export class FichaTreinoComponent implements OnInit {
     this.loading = true;
     var usuario = this.authService.obterUsuario();
     
-    this.planoTreinoService.obterUltimoPlanoTreino(usuario).subscribe((resp) => {
+    this.planoTreinoService.obterTemplatesPlanoTreino().subscribe((resp) => {
       this.loading = false;
-      this.planoTreino = resp;
+      this.planosTreino = resp;
     }, (error) => {
       this.loading = false;
     });
   }
+
+  onExcluirClick() {
+    if (this.planoTreinoIdSelecionado) {
+      this.planoTreinoService.excluirPlanoTreino(this.planoTreinoIdSelecionado).subscribe((resp) => {
+        let idx = this.planosTreino.findIndex((v) => { return v.id == this.planoTreinoIdSelecionado; });
+        this.planosTreino.splice(idx, 1);
+        this.dialogModal.nativeElement.classList.toggle('is-active');
+      }, (error) => {
+        console.log(error);
+        this.dialogModal.nativeElement.classList.toggle('is-active');
+      });
+    }
+  }
+
+  onToggleModal(planoTreinoId: number) {
+    this.planoTreinoIdSelecionado = planoTreinoId;
+    this.dialogModal.nativeElement.classList.toggle('is-active');
+  }  
 
 }

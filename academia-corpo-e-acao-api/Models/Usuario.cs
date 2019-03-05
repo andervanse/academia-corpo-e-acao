@@ -14,9 +14,8 @@ namespace academia_corpo_e_acao
         public string Senha { get; set; }
         public string Salt { get; set; }
         public string HashedPassword { get; set; }
-        public double? Altura { get; set; }
-        public double? Peso { get; set; }
         public string Celular { get; set; }
+        public DateTime? DtNascimento { get; set; }
         public string Observacao { get; set; }
         public bool Administrador { get; set; }
     }

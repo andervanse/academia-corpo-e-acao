@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,15 +32,16 @@ namespace academia_corpo_e_acao
 
             services.AddScoped<IEmailSender, ZohoEmailSender>();
             services.AddScoped<IEmailLoginConfirmation, EmailLoginConfirmation>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IPlanoTreinoRepository, PlanoTreinoRepository>();
+            services.AddScoped<IAvaliacaoFisicaRepository, AvaliacaoFisicaRepository>();
             services.AddSingleton<IConfiguration>(x => Configuration);
             services.AddScoped<DynamoDbContext>();
-            services.AddScoped<UsuarioRepository>();
-            services.AddScoped<PlanoTreinoRepository>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(opt => {
                         opt.TokenValidationParameters = new TokenValidationParameters {
-                            ClockSkew = TimeSpan.FromMinutes(30),
+                            ClockSkew = TimeSpan.FromHours(6),
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"])),
                             ValidateAudience = true,
                             ValidAudience = Configuration["Token:Audience"],
@@ -70,6 +72,10 @@ namespace academia_corpo_e_acao
             {
                 app.UseHsts();
             }
+
+            Debug.WriteLine($"ValidIssuer.: { Configuration["Token:ValidIssuer"] }");
+            Debug.WriteLine($"ValidAudience.: { Configuration["Token:Audience"] }");
+            Debug.WriteLine($"Cors.: { Configuration["Website:CorsOrigin"] }");
             
             app.UseAuthentication();
 

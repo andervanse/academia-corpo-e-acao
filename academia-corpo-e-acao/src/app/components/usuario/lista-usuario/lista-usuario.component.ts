@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Usuario } from '../../../models/usuario.model';
 import { AlunoService } from '../../../services/aluno.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -12,32 +12,40 @@ import { AlunoService } from '../../../services/aluno.service';
 export class ListaUsuarioComponent implements OnInit {
 
   alunos: Usuario[];
-  aluno: Usuario;
+  firstSearch: boolean;
+  searchWord: string;
+  @ViewChild('btnFind') bntFind : ElementRef;
 
   constructor (
-    private router: Router,
+    private route: ActivatedRoute,
     private alunoService: AlunoService) { }
 
   ngOnInit() {
+    this.firstSearch = true;
+    this.alunos = [];
+
+    this.route.queryParams.subscribe((params) => {
+      this.searchWord = params['search'];
+      this.onFind(this.searchWord);
+    });
   }
 
   onFind(nomeAluno: string) {
+    this.firstSearch = true;
+    this.searchWord = nomeAluno;
+     
+    if (nomeAluno && nomeAluno.length > 2) {
+      this.bntFind.nativeElement.classList.add('is-loading');
 
-    if (nomeAluno.length > 2) {
       this.alunoService.obterUsuarios(nomeAluno).subscribe((resp) => {
-        if (resp && resp.length > 0) {
-           this.alunos = resp;
-        } else {
-          this.alunos = null;
-        }
-
+        this.alunos = resp;        
+        this.firstSearch = false;
+        this.bntFind.nativeElement.classList.remove('is-loading');
+      }, (error) => {
+        this.firstSearch = false;
+        this.bntFind.nativeElement.classList.remove('is-loading');
       });
     }
-  }
-
-  onUserSelected(aluno: Usuario) {
-    this.aluno = aluno;
-    this.router.navigate(['/usuario', this.aluno.nome]); 
   }
 
 }

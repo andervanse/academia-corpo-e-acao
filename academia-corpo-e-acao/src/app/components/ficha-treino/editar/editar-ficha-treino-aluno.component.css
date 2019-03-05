@@ -16,14 +16,6 @@ table td {
     font-weight: normal;
 }
 
-.modal-card-title {
-    color: white;
-}
-
-.modal-card-head, .modal-card-foot {
-    background-color: #209cee;
-}
-
 .ng-valid[required], .ng-valid.required  {
     border-left: 5px solid #42A948; /* green */
  }
@@ -32,10 +24,6 @@ table td {
     border-left: 5px solid #a94442; /* red */
  }
  
-table.table {
-    width:100%;
-}
-
 td, a, button, input {
     font-size: 16px;
 }
@@ -55,9 +43,16 @@ td, a, button, input {
    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
+select {
+    width: 98%;
+}
+.select {
+    width: 55%;
+}
+
 @media only screen and (max-width: 568px) {
     .modal-card {
-        width:98%;
+        width:96%;
     }
 
     .modal-card-title {

@@ -6,10 +6,6 @@
     padding: 1.0rem 0rem 0rem 0rem;
  }
    
- div .container {
-    width: 30%;
- }
- 
  .card-content {
     padding: 3rem;
  }
@@ -24,7 +20,7 @@
  
  @media only screen and (max-width: 1020px) {
     div .container {
-       width: 100%;
+       width: 96%;
     }
     .card-content {
        padding: 0.5rem 0.5rem 2.5rem 0.5rem;

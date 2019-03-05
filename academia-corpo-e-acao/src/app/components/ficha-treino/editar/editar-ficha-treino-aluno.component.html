@@ -1,0 +1,125 @@
+<div class="box is-orange" *ngIf="loading">
+  <span class="title is-5 is-font-white">Carregando...</span>
+</div>
+
+<div class="tile is-ancestor" *ngIf="!loading">
+
+  <div class="tile is-parent is-vertical" *ngIf="planoTreino">
+    <div class="box is-orange has-text-centered">
+      <p class="title is-5">( {{ nomeAluno }} )</p>
+    </div>
+
+    <article class="tile is-child notification is-orange">
+      <p class="title is-5">Usar Template</p>
+      <div class="field">
+        <div class="control">
+          <div class="select">
+            <select [(ngModel)]="selectedTemplate">
+              <option>Nenhum</option>
+              <option *ngFor="let template of templatesPlanoTreino" [ngValue]="template">{{ template.descricao }}
+              </option>
+            </select>
+          </div>
+          &nbsp;
+          <a class="button is-info fa fa-copy" (click)="onCopyTemplate(selectedTemplate)"></a>
+          &nbsp;
+          <a class="button is-danger fa fa-undo" (click)="onUndoCopyTemplate()"></a>
+        </div>
+      </div>
+    </article>
+
+    <article class="tile is-child notification is-orange">
+      <div class="field">
+        <div class="control">
+          <p class="subtitle is-5">Descrição</p>
+          <input class="input" type="text" id="descricao" name="descricao" [(ngModel)]="planoTreino.descricao">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <p class="subtitle is-5">Observação</p>
+          <textarea rows="4" class="textarea" type="text" id="observacao" name="observacao"
+            [(ngModel)]="planoTreino.observacao"></textarea>
+        </div>
+      </div>
+    </article>
+
+    <input type="hidden" name="id" ngModel>
+    <article class="tile is-child notification is-orange" *ngFor="let grupo of planoTreino.gruposMusculares">
+      <p class="title is-5">{{ grupo.descricao }}</p>
+      <hr>
+      <p class="subtitle">
+        <a class="button is-info" (click)="onToggleExercicioModal(grupo.descricao)">
+          Adicionar Exercício
+        </a>
+      </p>
+      <table class="table is-striped is-narrow">
+        <thead>
+          <tr>
+            <td style="width:60%;">Exerc.</td>
+            <td style="width:10%;">Ordem</td>
+            <td style="width:20%;">Repet.</td>
+            <td style="width:10%;"></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of grupo.exercicios">
+            <td>
+              <span class="is-mobile">{{ item.descricao | minimizeText:7 }}</span>
+              <span class="is-desktop">{{ item.descricao }}</span>
+            </td>
+            <td>{{ item.ordem }}</td>
+            <td>{{ item.repeticao }}</td>
+            <td>
+              <a class="button is-danger fas fa-times"
+                (click)="onExcluirExercicio(grupo.descricao, item.descricao)"></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+    <div class="is-pulled-right" *ngIf="!loading">
+      <a class="button is-danger is-medium" (click)="onGoBack($event)">Voltar</a> &nbsp;
+      <a class="button is-info is-medium" (click)="onSubmit()">Salvar</a>
+    </div>
+  </div>
+
+</div>
+<br>
+<br>
+<div class="modal" #novoExercicioModal>
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <form #exercicioForm="ngForm" novalidate autocomplete="off" (ngSubmit)="onAdicionarExercicio()">
+      <header class="modal-card-head is-blue">
+        <p class="modal-card-title">
+          {{ grupoSelecionado }}
+        </p>
+        <button class="delete" aria-label="close" (click)="onToggleExercicioModal(grupoSelecionado)"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="field">
+          <p class="control">
+            <input class="input" type="text" placeholder="Exercício" name="descricao" ngModel minlength="3" required>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <input class="input" type="number" placeholder="Ordem" name="ordem" ngModel required>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <input class="input" type="text" placeholder="Repetição" name="repeticao" ngModel required>
+          </p>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="is-pulled-right">
+          <button class="button is-success" type="submit">Salvar</button>
+          <a class="button is-danger" (click)="onToggleExercicioModal(grupoSelecionado)">Cancelar</a>
+        </div>
+      </footer>
+    </form>
+  </div>
+</div>

@@ -16,17 +16,17 @@ namespace academia_corpo_e_acao
     [Authorize(Roles = Role.Admin)]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public class UsuarioController :Controller
+    public class UsuarioController :AcademiaControllerBase
     {
-        private readonly UsuarioRepository _userRepo;
+        private readonly IUsuarioRepository _userRepo;
         private readonly IEmailLoginConfirmation _emailLoginConfirmation;
         private readonly IConfiguration _config;
         private readonly ILogger _log;
 
-        public UsuarioController(UsuarioRepository userRepo,
+        public UsuarioController(IUsuarioRepository userRepo,
                                  IEmailLoginConfirmation emailLoginConfirmation,
                                  IConfiguration configuration,
-                                 ILoggerFactory logger)
+                                 ILoggerFactory logger): base(configuration, logger)
         {
             _userRepo = userRepo;
             _emailLoginConfirmation = emailLoginConfirmation;
@@ -128,8 +128,8 @@ namespace academia_corpo_e_acao
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateIssuer = true,
+                    ValidateAudience = true
                 };
                 
                 var claims = handler.ValidateToken(tokenHash, validations, out tokenSecure);
@@ -154,8 +154,6 @@ namespace academia_corpo_e_acao
                 Login = usuario.Login,
                 Nome = usuario.Nome,
                 Email = usuario.Email,
-                Peso = usuario.Peso,
-                Altura = usuario.Altura,
                 Celular = usuario.Celular,
                 DtAtualizacao = usuario.DtAtualizacao,
                 Observacao = usuario.Observacao
@@ -173,8 +171,6 @@ namespace academia_corpo_e_acao
                 Login = usuario.Login,
                 Nome = usuario.Nome,
                 Email = usuario.Email,
-                Peso = usuario.Peso,
-                Altura = usuario.Altura,
                 Celular = usuario.Celular,
                 Observacao = usuario.Observacao
             };

@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
         this.loginFailed = false;
         this.errorMessage = '';
         this.btnLogin.nativeElement.classList.remove('is-loading');
-        this.router.navigate(['ficha-treino']);        
+        this.router.navigate(['ficha-treino-aluno']);        
       },
       (error) => {
         this.btnLogin.nativeElement.classList.remove('is-loading');

@@ -2,6 +2,8 @@ export class PlanoTreino {
     id: number;    
     usuarioId: number;
     dataInicio: Date;
+    descricao: string;
+    observacao: string;
     gruposMusculares: GrupoMuscular[]
 }
 

@@ -21,8 +21,8 @@ export class AlunoService {
     );        
   }
 
-  obterInfoUsuario(id :number): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(`${environment.apiBaseUrl}/api/usuario/${id}`)
+  obterInfoUsuario(id :number): Observable<Usuario> {
+    return this.http.get<Usuario>(`${environment.apiBaseUrl}/api/usuario/${id}`)
     .pipe(
         map((resp) => {
             return resp;

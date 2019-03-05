@@ -14,6 +14,8 @@ export class CadastroUsuarioComponent implements OnInit {
 
   mensagemErro: string = '';
   aluno: Usuario;
+  searchWord: string;
+  nomeAluno: string;
   @ViewChild('alunoForm') alunoForm: FormGroup;
 
   constructor(
@@ -22,20 +24,22 @@ export class CadastroUsuarioComponent implements OnInit {
     private alunoService: AlunoService) { }
 
   ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      this.searchWord = params['search'];
+      this.nomeAluno = params['aluno'];
+    });
+
     this.route.params.subscribe((params) => {
 
       if (params['usuario']) {
-        this.alunoService.obterUsuarios(params['usuario']).subscribe((usuario) => {
-
-          if (usuario.length) {
-            this.aluno = usuario[0];
+        this.alunoService.obterInfoUsuario(params['usuario']).subscribe((usuario) => {
+          if (usuario) {
+            this.aluno = usuario;
             this.alunoForm.setValue({
               id: this.aluno.id || '',
               nome: this.aluno.nome || '',
               email: this.aluno.email || '',
               celular: this.aluno.celular || '',
-              peso: this.aluno.peso || '',
-              altura: this.aluno.altura || '',
               obs: this.aluno.observacao || '',
               senha: '',
               confirmaSenha: ''
@@ -53,6 +57,7 @@ export class CadastroUsuarioComponent implements OnInit {
       if ((!isNullOrUndefined(loginForm.value.password) && !isNullOrUndefined(loginForm.value.confirmPassword))
           && (loginForm.value.password !== loginForm.value.confirmPassword) ){
         this.mensagemErro = 'Senha e confirmação de senha diferentes!';
+        return;
       }
 
       let usrSenha: Usuario = {
@@ -60,8 +65,6 @@ export class CadastroUsuarioComponent implements OnInit {
         nome: loginForm.value.nome,
         email: loginForm.value.email,
         celular: loginForm.value.celular,
-        peso: loginForm.value.peso,
-        altura: loginForm.value.altura,
         observacao: loginForm.value.obs,
         senha: loginForm.value.senha,
         confirmaSenha: loginForm.value.confirmaSenha
