@@ -11,33 +11,34 @@ import { PlanoTreino } from '../../models/plano-treino.models';
 export class FichaTreinoComponent implements OnInit {
 
   planosTreino: PlanoTreino[] = [];
-  loading: boolean;
+  loading: boolean = false;
   planoTreinoIdSelecionado: number;
   @ViewChild('dialogModal') dialogModal: ElementRef;
 
-  constructor(private planoTreinoService: PlanoTreinoService,
-              private authService: AuthService) { }
+  constructor(private planoTreinoService: PlanoTreinoService) { }
 
   ngOnInit() {
-    this.loading = true;
-    var usuario = this.authService.obterUsuario();
-    
+    this.loading = true;   
     this.planoTreinoService.obterTemplatesPlanoTreino().subscribe((resp) => {
       this.loading = false;
       this.planosTreino = resp;
     }, (error) => {
       this.loading = false;
+      console.error(error.message);
     });
   }
 
   onExcluirClick() {
     if (this.planoTreinoIdSelecionado) {
+      this.loading = true;
       this.planoTreinoService.excluirPlanoTreino(this.planoTreinoIdSelecionado).subscribe((resp) => {
         let idx = this.planosTreino.findIndex((v) => { return v.id == this.planoTreinoIdSelecionado; });
         this.planosTreino.splice(idx, 1);
         this.dialogModal.nativeElement.classList.toggle('is-active');
+        this.loading = false;
       }, (error) => {
-        console.log(error);
+        this.loading = false;
+        console.error(error.message);
         this.dialogModal.nativeElement.classList.toggle('is-active');
       });
     }

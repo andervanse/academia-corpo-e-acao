@@ -9,10 +9,10 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.b5006a0bfb670c6fd2a5.js",
+        "/main.56c96a477f26a04743c2.js",
         "/polyfills.e67f20fae656bc25ec9c.js",
         "/runtime.06daa30a2963fa413676.js",
-        "/styles.6d809694b6bc6d729fbd.css"
+        "/styles.7336f05669fe486c68f0.css"
       ],
       "patterns": []
     },
@@ -103,14 +103,14 @@
     "/assets/img/corpo-e-acao_logo.png": "7f8d7d11e801c2c40f1a723d37a818cd897e0017",
     "/assets/img/dumbell_512x512-icon.png": "8f8fe2133aa035cdad9c65c38c413cdf2f7514e3",
     "/assets/img/no-image.png": "8a6ba321094b21cfb3d0a40b1628fab4faf37c0f",
-    "/assets/treinos.json": "520a9482c8e28dde389a55276d95f50d1b7e30d9",
-    "/assets/usuarios.json": "2ebd4022cb42c54ba1f23d9ff2ff84c1db3b47c4",
+    "/assets/treinos.json": "8802f463d43b5c953d99128b10bd862ad722eeb9",
+    "/assets/usuarios.json": "6388a86784fd9493b0222bdff55f7f0ebd792664",
     "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/index.html": "3918ed5d4e526a70b93f49a29cdf2c04e0edcb10",
-    "/main.b5006a0bfb670c6fd2a5.js": "62dcdc58fc592695a469b60bbda317bc8f2f1eac",
+    "/index.html": "85046c221adade0e33efaa65294b87b9fe36079c",
+    "/main.56c96a477f26a04743c2.js": "d6436e8b3eadd287bc25595941190c7f1172c3e0",
     "/polyfills.e67f20fae656bc25ec9c.js": "23ddbf5a66c5edbdb265f1d98a616e66e671ea24",
     "/runtime.06daa30a2963fa413676.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
-    "/styles.6d809694b6bc6d729fbd.css": "053aa292f1dedfc77c50f256bcacb40cc489700e"
+    "/styles.7336f05669fe486c68f0.css": "53cb918b746dcf3ebd6b430a4e65480f3eaac735"
   },
   "navigationUrls": [
     {

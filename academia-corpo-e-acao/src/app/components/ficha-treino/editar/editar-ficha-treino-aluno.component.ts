@@ -40,39 +40,46 @@ export class EditarFichaTreinoAlunoComponent implements OnInit {
     });
 
     this.route.params.subscribe((params) => {
+      this.loading = true;
 
       if (params['usuario']) {
         let usuarioId = +params['usuario'];
-        this.loading = true;
 
         this.planoTreinoService.obterUltimoPlanoTreino(usuarioId).subscribe((resp) => {
           this.planoTreino = resp;
           this.createPlanoTreinoIfNotExists(usuarioId);
           this.loading = false;
         }, (error) => {
-          console.error(error);
-          
+          console.error(error.message);
+          this.loading = false;
+
           if (error.status === 404) {
               this.createPlanoTreinoIfNotExists(usuarioId);
           }
-
-          this.loading = false;
         });
       } else {
-        if (this.authService.isAdmin()) {
-          this.usuarioAdmin = this.authService.obterUsuario();
-          this.createPlanoTreinoIfNotExists(this.usuarioAdmin.id);
-          this.loading = false;
-        }
 
         if (params['treino']) {
           this.isTemplate = true;
         }
-  
-        this.planoTreinoService.obterTemplatePlanoTreino(params['treino']).subscribe((planosTreino) => {
-          this.planoTreino = planosTreino;
-        });      
-  
+
+        if ((this.authService.isAdmin()) && (params['treino']  == '0')) {
+
+          this.usuarioAdmin = this.authService.obterUsuario();
+          this.createPlanoTreinoIfNotExists(this.usuarioAdmin.id);
+          this.loading = false;
+          
+        } else {
+
+          this.planoTreinoService.obterTemplatePlanoTreino(params['treino']).subscribe((planosTreino) => {
+            this.planoTreino = planosTreino;
+            this.loading = false;
+          }, (error) => {
+            console.error(error.message);
+            this.loading = false;
+          });
+        }
+
       }
 
       this.planoTreinoService.obterTemplatesPlanoTreino().subscribe((planosTreino) => {
