@@ -120,13 +120,16 @@ export class EditarFichaTreinoAlunoComponent implements OnInit {
     this.planoTreino.gruposMusculares = [];
 
     if (this.isTemplate) {
+
        this.planoTreino.descricao = planoTreinoTemplate.descricao + ' (cópia)';
        this.planoTreino.observacao = planoTreinoTemplate.observacao;
+
     } else {
-      if (isNullOrUndefined(this.planoTreino.descricao))
+
+      if (isNullOrUndefined(this.planoTreino.descricao) || this.planoTreino.descricao == '')
         this.planoTreino.descricao = planoTreinoTemplate.descricao + ' (cópia)';
 
-      if (isNullOrUndefined(this.planoTreino.observacao))
+      if (isNullOrUndefined(this.planoTreino.observacao) || this.planoTreino.observacao == '')
         this.planoTreino.observacao = planoTreinoTemplate.observacao;
     }
 

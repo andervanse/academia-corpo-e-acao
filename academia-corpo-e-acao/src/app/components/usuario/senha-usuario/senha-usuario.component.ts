@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlunoService } from '../../../services/aluno.service';
 import { Usuario } from '../../../models/usuario.model';
@@ -14,6 +14,7 @@ export class SenhaUsuarioComponent implements OnInit {
   mensagemErro: string;
   aluno: Usuario;
   @ViewChild('alunoForm') alunoForm: FormGroup;
+  @ViewChild('btnSalvar') btnSalvar: ElementRef;
   
   constructor(
     private router: Router,
@@ -56,18 +57,20 @@ export class SenhaUsuarioComponent implements OnInit {
         senha: loginForm.value.senha,
         confirmaSenha: loginForm.value.confirmaSenha
       };
+      this.btnSalvar.nativeElement.classList.add('is-loading');
 
       this.alunoService.salvarAluno(aluno).subscribe((resp) => {
         this.mensagemErro = '';
-        this.router.navigate(['./usuario']);
+        this.btnSalvar.nativeElement.classList.remove('is-loading');
+        this.router.navigate(['./usuario']); 
       }, (error) => {
+        console.error(error.message);
+        this.btnSalvar.nativeElement.classList.remove('is-loading');
 
         for(let prop in error.error) {
           this.mensagemErro += error.error[prop] + '\n';
-
         }
       });
-
     }
   }
 

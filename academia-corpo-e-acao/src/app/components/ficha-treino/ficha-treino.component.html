@@ -1,9 +1,9 @@
-<div class="box is-orange" *ngIf="loading">
-   <span class="title is-5 is-font-white">Carregando...</span>
-</div>
-
 <div class="tile is-ancestor" *ngIf="!loading">
   <div class="tile is-parent is-vertical">
+
+    <div class="tile is-child is-orange" *ngIf="loading">
+      <span class="title is-5 is-font-white">Aguarde...</span>
+   </div>
 
     <div class="tile is-child">
       <a type="button" class="button is-info is-medium" [routerLink]="['editar', 0]">Novo</a>

@@ -59,7 +59,7 @@
          [routerLink]="['/usuario']"
          [queryParams]="{search:searchWord}">Voltar</a>
       &nbsp;
-      <button type="submit" class="button is-info is-medium" [disabled]="!alunoForm.form.valid">Salvar</button>
+      <button type="submit" class="button is-info is-medium" [disabled]="!alunoForm.form.valid" #btnSalvar>Salvar</button>
     </div>
 
   </form>

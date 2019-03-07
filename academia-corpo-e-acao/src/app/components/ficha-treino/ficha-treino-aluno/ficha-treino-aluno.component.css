@@ -6,17 +6,9 @@ td {
     font-size: 14px;
 }
 
-.notification {
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
- }
-
 @media only screen and (max-width: 568px) {
     td {
         font-size: 12px;
-    }
-
-    .tile.is-parent {
-        padding: 0.10rem;
     }
 }
 

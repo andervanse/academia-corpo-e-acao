@@ -1,21 +1,26 @@
-<div class="title notification is-5 is-orange has-text-centered">
-    Avaliações  -  {{ nomeAluno }}
+<div class="tile notification is-orange" *ngIf="loading">
+  <span class="title is-5 is-font-white">Carregando...</span>
 </div>
-<div>
-    <a type="button" class="button is-info is-medium" 
-       [routerLink]="['editar', 0]"
-       [queryParams]="{search:searchWord, aluno:nomeAluno}">Novo</a>
-</div>
-<br>
 
-<div class="box" *ngIf="avaliacoesFisicas.length == 0">
-    <article class="media">
-        <div class="media-content">
-          <div class="content">
-            <h5>Nenhuma avaliação encontrada</h5>
-          </div> 
-        </div>
-      </article>  
+<div *ngIf="!loading">
+  <div class="title notification is-5 is-orange has-text-centered">
+    Avaliações - {{ nomeAluno }}
+  </div>
+  <div>
+    <a type="button" class="button is-info is-medium" [routerLink]="['editar', 0]"
+      [queryParams]="{search:searchWord, aluno:nomeAluno}">Novo</a>
+  </div>
+  <br>
+</div>
+
+<div class="box" *ngIf="avaliacoesFisicas.length == 0 && !loading">
+  <article class="media">
+    <div class="media-content">
+      <div class="content">
+        <h5>Nenhuma avaliação encontrada</h5>
+      </div>
+    </div>
+  </article>
 </div>
 
 <div class="box" *ngFor="let avaliacaoFisica of avaliacoesFisicas">
@@ -33,23 +38,18 @@
         </p>
       </div>
       <nav class="level level-left">
-        <a class="button is-info" 
-           aria-label="avaliação física" 
-           [routerLink]="['editar', avaliacaoFisica.id]" 
+        <a class="button is-info"
+           [routerLink]="['editar', avaliacaoFisica.id]"
            [queryParams]="{search:searchWord, aluno: nomeAluno}">Editar</a>
         &nbsp;
-        <a class="button is-danger" 
-           (click)="onToggleModal(avaliacaoFisica.id)">Excluir</a>
-
+        <a class="button is-danger" (click)="onToggleModal(avaliacaoFisica.id)">Excluir</a>
       </nav>
     </div>
   </article>
 </div>
-<div class="is-pulled-right">
-  <a type="button" 
-     class="button is-danger is-medium" 
-     [routerLink]="['/usuario']" 
-     [queryParams]="{search:searchWord, aluno:nomeAluno}">Voltar</a>
+<div class="is-pulled-right" *ngIf="!loading">
+  <a type="button" class="button is-danger is-medium" [routerLink]="['/usuario']"
+    [queryParams]="{search:searchWord, aluno:nomeAluno}">Voltar</a>
 </div>
 <br>
 <br>

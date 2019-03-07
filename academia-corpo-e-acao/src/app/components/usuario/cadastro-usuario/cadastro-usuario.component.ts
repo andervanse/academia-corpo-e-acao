@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { Usuario } from '../../../models/usuario.model';
@@ -17,6 +17,7 @@ export class CadastroUsuarioComponent implements OnInit {
   searchWord: string;
   nomeAluno: string;
   @ViewChild('alunoForm') alunoForm: FormGroup;
+  @ViewChild('btnSalvar') btnSalvar : ElementRef;
 
   constructor(
     private router: Router,
@@ -54,9 +55,12 @@ export class CadastroUsuarioComponent implements OnInit {
   onSubmit(loginForm) {
 
     if (loginForm.valid) {
+      this.btnSalvar.nativeElement.classList.add('is-loading');
+
       if ((!isNullOrUndefined(loginForm.value.password) && !isNullOrUndefined(loginForm.value.confirmPassword))
           && (loginForm.value.password !== loginForm.value.confirmPassword) ){
         this.mensagemErro = 'Senha e confirmação de senha diferentes!';
+        this.btnSalvar.nativeElement.classList.remove('is-loading');
         return;
       }
 
@@ -72,11 +76,13 @@ export class CadastroUsuarioComponent implements OnInit {
 
       this.alunoService.salvarAluno(usrSenha).subscribe((resp) => {
         this.mensagemErro = '';
+        this.btnSalvar.nativeElement.classList.remove('is-loading');
         this.router.navigate(['./usuario']);
-      }, (resp) => {
-        this.mensagemErro = resp.error;
+      }, (error) => {
+        console.error(error.message);
+        this.mensagemErro = error.error;
+        this.btnSalvar.nativeElement.classList.remove('is-loading');
       });
-
     }
   }
 

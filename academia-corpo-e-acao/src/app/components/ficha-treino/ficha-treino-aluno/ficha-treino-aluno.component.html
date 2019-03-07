@@ -1,56 +1,44 @@
+<div class="tile is-child notification is-orange" *ngIf="loading">
+  <span class="title is-5 is-font-white">Aguarde...</span>
+</div>
+
 <div class="tile is-ancestor">
-  <div class="tile is-vertical">
-    <div class="tile">
+  <div class="tile is-parent is-vertical" *ngIf="!loading">
 
-      <div class="tile is-parent center" *ngIf="loading">
-        <br>
-        <div class="notification is-orange">
-          <span class="title is-5">Aguarde...</span>
-        </div>
+      <div class="tile is-child notification is-orange" *ngIf="!planoTreino?.gruposMusculares">
+        <p class="title is-5">Não há plano de treino definido</p>
       </div>
 
-      <div class="center" *ngIf="!loading">
-        <br>
-        <div class="tile is-parent is-vertical" *ngIf="!planoTreino?.gruposMusculares">
-          <article class="tile is-child notification is-orange">
-            <p class="title is-4">Não há plano de treino definido</p>
-          </article>
-        </div>
-
-        <div class="tile is-parent is-vertical" *ngIf="planoTreino">
-
-          <div class="notification is-orange has-text-centered">
-            <p class="title is-5">{{ planoTreino.descricao }}</p>
-          </div>
-
-          <article class="tile is-child notification is-orange" *ngFor="let grupo of planoTreino.gruposMusculares">
-            <p class="title is-5">{{ grupo.descricao }}</p>
-            <p class="subtitle"></p>
-            <table class="table is-striped">
-              <thead>
-                <tr>
-                  <td style="width:60%;">Exercício</td>
-                  <td style="width:10%;">Ordem</td>
-                  <td style="width:20%;">Séries/Repet.</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of grupo.exercicios">
-                  <td>{{ item.descricao }}</td>
-                  <td>{{ item.ordem }}</td>
-                  <td>{{ item.repeticao }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </article>
-
-          <div class="notification is-orange">
-            <p class="title is-5 has-text-centered">Observação</p>
-            <textarea class="textarea" readonly>{{ planoTreino.observacao }}</textarea>
-          </div>
-        </div>
+      <div class="tile is-child notification is-orange has-text-centered">
+        <p class="title is-5">{{ planoTreino.descricao }}</p>
       </div>
-    </div>
+
+      <article class="tile is-child notification is-orange" *ngFor="let grupo of planoTreino.gruposMusculares">
+        <p class="title is-5">{{ grupo.descricao }}</p>
+        <p class="subtitle"></p>
+        <table class="table is-striped is-narrow">
+          <thead>
+            <tr>
+              <td style="width:70%;">Exercício</td>
+              <td style="width:10%;">Ordem</td>
+              <td style="width:20%;">Séries/Repet.</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of grupo.exercicios">
+              <td>{{ item.descricao }}</td>
+              <td>{{ item.ordem }}</td>
+              <td>{{ item.repeticao }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <div class="notification is-orange">
+        <p class="title is-5 has-text-centered">Observação</p>
+        <textarea class="textarea" readonly>{{ planoTreino.observacao }}</textarea>
+      </div>
+
   </div>
 </div>
 <br>

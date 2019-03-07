@@ -16,6 +16,7 @@ export class AvaliacaoFisicaComponent implements OnInit {
   avaliacoesFisicas: AvaliacaoFisica[] = [];
   avaliacaoFisicaIdSelecionada: number;
   usuarioId: number;
+  loading: boolean = false;
   @ViewChild('dialogModal') dialogModal: ElementRef;
 
   constructor(
@@ -31,14 +32,17 @@ export class AvaliacaoFisicaComponent implements OnInit {
 
     this.route.params.subscribe((params) => {
       this.usuarioId = params['usuario'];
+      this.loading = true;
 
       if (params['usuario']) {
         this.avaliacaoService.obterAvaliacoesFisicas(params['usuario']).subscribe((avaliacoesFisicas) => {
           if (avaliacoesFisicas) {
             this.avaliacoesFisicas = avaliacoesFisicas;
+            this.loading = false;
           }
         }, (error) => {
           console.error(error.message);
+          this.loading = false;
         });
       }
     });
