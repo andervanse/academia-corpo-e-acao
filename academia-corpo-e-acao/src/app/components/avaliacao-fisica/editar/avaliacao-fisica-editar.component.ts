@@ -6,11 +6,11 @@ import { AvaliacaoFisicaService } from '../../../services/avaliacao-fisica.servi
 import { isNullOrUndefined } from 'util';
 
 @Component({
-  selector: 'app-editar-avaliacao-fisica',
-  templateUrl: './editar-avaliacao-fisica.component.html',
-  styleUrls: ['./editar-avaliacao-fisica.component.css']
+  selector: 'app-avaliacao-fisica-editar',
+  templateUrl: './avaliacao-fisica-editar.component.html',
+  styleUrls: ['./avaliacao-fisica-editar.component.css']
 })
-export class EditarAvaliacaoFisicaComponent implements OnInit {
+export class AvaliacaoFisicaEditarComponent implements OnInit {
 
   mensagemErro: string = '';
   searchWord: string;

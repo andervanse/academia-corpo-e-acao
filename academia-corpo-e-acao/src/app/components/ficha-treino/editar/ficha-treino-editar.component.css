@@ -1,0 +1,62 @@
+div.center {
+    text-align: center;
+    margin: 10px;
+}
+
+table thead {
+    text-align: center;
+}
+
+p.title {
+    color: white;
+}
+
+table td {
+    text-align: center;
+    font-weight: normal;
+}
+ 
+td, a, button, input {
+    font-size: 16px;
+}
+
+.is-mobile {
+    display: none;
+}
+
+.is-desktop {
+    display: block;
+}
+
+select {
+    width: 98%;
+}
+.select {
+    width: 55%;
+}
+
+@media only screen and (max-width: 568px) {
+    .modal-card {
+        width:96%;
+    }
+
+    .modal-card-title {
+        font-size: 16px;
+    }
+
+    .is-mobile {
+        display: block;
+    }
+
+    .is-desktop {
+        display: none;
+    }
+
+    td {
+        font-size: 12px;
+    }  
+    
+    td a {
+        font-size: 12px;
+    }  
+}

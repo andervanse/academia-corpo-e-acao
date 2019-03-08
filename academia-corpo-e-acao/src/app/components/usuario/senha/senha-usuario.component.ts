@@ -18,24 +18,10 @@ export class SenhaUsuarioComponent implements OnInit {
   
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private alunoService: AlunoService) { }
 
   ngOnInit() {
     this.mensagemErro = '';
-
-    this.route.params.subscribe((params) => {
-      if ((params['usuario']) && (params['usuario'] != '0')) {
-        this.alunoService.obterUsuarios(params['usuario'])
-           .subscribe((resp) => {
-                this.aluno = resp[0];
-                this.alunoForm.setValue({
-                  id: this.aluno.id,
-                  login: this.aluno.login
-                });                
-           });
-      }
-    });
   }
 
   onNotificationClick() {

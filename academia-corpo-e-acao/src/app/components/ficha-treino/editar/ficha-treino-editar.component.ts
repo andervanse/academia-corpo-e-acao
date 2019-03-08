@@ -8,11 +8,11 @@ import { Usuario } from '../../../models/usuario.model';
 import { isNullOrUndefined } from 'util';
 
 @Component({
-  selector: 'app-editar-ficha-treino-aluno',
-  templateUrl: './editar-ficha-treino-aluno.component.html',
-  styleUrls: ['./editar-ficha-treino-aluno.component.css']
+  selector: 'app-ficha-treino-editar',
+  templateUrl: './ficha-treino-editar.component.html',
+  styleUrls: ['./ficha-treino-editar.component.css']
 })
-export class EditarFichaTreinoAlunoComponent implements OnInit {
+export class FichaTreinoAlunoEditarComponent implements OnInit {
 
   planoTreino: PlanoTreino;
   planoTreinoAnterior: PlanoTreino;

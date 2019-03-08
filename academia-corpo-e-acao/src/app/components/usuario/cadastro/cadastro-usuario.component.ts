@@ -77,7 +77,7 @@ export class CadastroUsuarioComponent implements OnInit {
       this.alunoService.salvarAluno(usrSenha).subscribe((resp) => {
         this.mensagemErro = '';
         this.btnSalvar.nativeElement.classList.remove('is-loading');
-        this.router.navigate(['./usuario']);
+        this.router.navigate(['./usuario'], { queryParams: { search: this.searchWord } });
       }, (error) => {
         console.error(error.message);
         this.mensagemErro = error.error;
