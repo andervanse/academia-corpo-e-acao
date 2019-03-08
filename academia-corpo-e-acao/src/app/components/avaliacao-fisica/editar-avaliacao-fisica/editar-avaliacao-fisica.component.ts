@@ -31,17 +31,19 @@ export class EditarAvaliacaoFisicaComponent implements OnInit {
     });
 
     this.route.params.subscribe((params) => {
-      this.usuarioId = params['usuario'];
+      this.usuarioId = +params['usuario'];
 
-      this.avaliacaoService.obterAvaliacaoFisica(this.usuarioId, params['avaliacao']).subscribe((avaliacaoFisica) => {
-        this.avaliacaoFisica = avaliacaoFisica;
-        this.setFormFields();
-      }, (error) => {
-        console.error(error.message);
-        if (error.status == 404) {
+      if (params['avaliacao'] > 0) {
+        this.avaliacaoService.obterAvaliacaoFisica(this.usuarioId, params['avaliacao']).subscribe((avaliacaoFisica) => {
+          this.avaliacaoFisica = avaliacaoFisica;
           this.setFormFields();
-        }
-      });
+        }, (error) => {
+          console.error(error.message);
+          if (error.status == 404) {
+            this.setFormFields();
+          }
+        });
+      }
     });
   }
 
@@ -89,7 +91,7 @@ export class EditarAvaliacaoFisicaComponent implements OnInit {
 
       let avlFisica: AvaliacaoFisica = {
         id: loginForm.value.id,
-        usuarioId: loginForm.value.usuarioId,
+        usuarioId: this.usuarioId,
         peso: loginForm.value.peso,
         altura: loginForm.value.altura,
         medidas: {
@@ -105,7 +107,7 @@ export class EditarAvaliacaoFisicaComponent implements OnInit {
 
       this.avaliacaoService.salvarAvaliacaoFisica(avlFisica).subscribe((resp) => {
         this.mensagemErro = '';
-        this.router.navigate(['/usuario', avlFisica.usuarioId, 'avaliacoes-fisicas'], { queryParams: {search: this.searchWord, aluno: this.nomeAluno} });
+        this.router.navigate(['/usuario', avlFisica.usuarioId, 'avaliacoes-fisicas'], { queryParams: { search: this.searchWord, aluno: this.nomeAluno } });
       }, (resp) => {
         this.mensagemErro = resp.error;
       });

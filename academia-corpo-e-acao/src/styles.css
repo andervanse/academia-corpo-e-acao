@@ -21,7 +21,7 @@
 .is-orange {
    background-color: rgb(255, 129, 79);
    color: #fff;
-   font-size: 20px;
+   font-size: 18px;
 }
 
 .button.is-orange {
@@ -33,7 +33,7 @@
 .card-header-title.is-orange, .notification.is-orange {
    background-color: rgb(255, 129, 79);
    color: #fff;
-   font-size: 20px;
+   font-size: 18px;
 }
 
 .ng-valid[required], .ng-valid.required  {
@@ -46,7 +46,7 @@
 
 @media only screen and (max-width: 568px) {
    router-outlet ~ * {
-      width: 95%;
+      width: 93%;
       left: 0;
       right: 0;
       margin-left: auto;
@@ -62,6 +62,23 @@
    }
 }
 
+table thead {
+   text-align: center;
+   font-weight: bolder;
+}
+
+table td {
+   text-align: center;
+}
+
+table.table {
+   width:100%;
+}
+
+td {
+   font-size: 14px;
+}
+
 p {
    font-size: 16px;
 }
@@ -69,6 +86,10 @@ p {
 .notification {
    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
+
+.card-content {
+   padding: 0.5rem 0.5rem 1.5rem 0.5rem;
+} 
 
 .is-font-white {
    color:white;
@@ -82,11 +103,6 @@ p {
    background-color: #209cee;
 }
 
-.card-content {
-   padding: 0.5rem 0.5rem 2.5rem 0.5rem;
-} 
-
 router-outlet ~ * {
    position: absolute;
-
 }

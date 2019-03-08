@@ -1,5 +1,5 @@
 <div class="tile notification is-orange" *ngIf="loading">
-  <span class="title is-5 is-font-white">Carregando...</span>
+  <span class="title is-5">Carregando...</span>
 </div>
 
 <div *ngIf="!loading">
@@ -27,15 +27,50 @@
   <article class="media">
     <div class="media-content">
       <div class="content">
+        <p class="tag is-link">{{ avaliacaoFisica.dtAtual | date:'dd/MM/yyyy' }}</p>        
         <p>
-          <strong>Data</strong> &nbsp;&nbsp; {{ avaliacaoFisica.dtAtual | date:'dd/MM/yyyy' }}
+          <strong>Peso</strong> &nbsp;&nbsp; {{ avaliacaoFisica.peso | number:'1.3-3' }} Kg.
           <br>
-          <strong>Peso</strong> &nbsp;&nbsp; {{ avaliacaoFisica.peso | number:'1.0-2' }}
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          <strong>Altura</strong> {{ avaliacaoFisica.altura | number:'1.0-2' }}
-          <br>
-          <strong>Obs.</strong> &nbsp;&nbsp; {{ avaliacaoFisica.observacao }}
+          <strong>Altura</strong> {{ avaliacaoFisica.altura | number:'1.2-2' }} Mt.          
         </p>
+        <hr>
+        <div class="title is-5">medidas</div>
+
+        <table class="table is-striped is-narrow">
+            <thead>
+              <tr>
+                <td style="width:70%;">Parte</td>
+                <td style="width:30%;">Circunferência</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Ombro</td>
+                <td>{{ avaliacaoFisica.medidas.ombro | number:'1.2-2' }}</td>
+              </tr>
+              <tr>
+                <td>Peitoral</td>
+                <td>{{ avaliacaoFisica.medidas.peitoral | number:'1.2-2' }}</td>
+               </tr>
+               <tr>
+                  <td>Braço</td>
+                  <td>{{ avaliacaoFisica.medidas.braco | number:'1.2-2' }}</td>
+                </tr> 
+                <tr>
+                  <td>Cintura</td>
+                  <td>{{ avaliacaoFisica.medidas.braco | number:'1.2-2' }}</td>
+                </tr>  
+                <tr>
+                  <td>Quadril</td>
+                  <td>{{ avaliacaoFisica.medidas.quadril | number:'1.2-2' }}</td>
+                </tr> 
+                <tr>
+                  <td>Coxa</td>
+                  <td>{{ avaliacaoFisica.medidas.coxa | number:'1.2-2' }}</td>
+                </tr>                                                 
+            </tbody>
+          </table>        
+        <br>
       </div>
       <nav class="level level-left">
         <a class="button is-info"

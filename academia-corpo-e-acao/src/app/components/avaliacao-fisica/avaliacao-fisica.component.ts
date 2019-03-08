@@ -38,8 +38,8 @@ export class AvaliacaoFisicaComponent implements OnInit {
         this.avaliacaoService.obterAvaliacoesFisicas(params['usuario']).subscribe((avaliacoesFisicas) => {
           if (avaliacoesFisicas) {
             this.avaliacoesFisicas = avaliacoesFisicas;
-            this.loading = false;
           }
+          this.loading = false;
         }, (error) => {
           console.error(error.message);
           this.loading = false;

@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { AlunoService } from '../../../services/aluno.service';
 import { Usuario } from '../../../models/usuario.model';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
-  selector: 'app-info-usuario',
-  templateUrl: './info-usuario.component.html',
-  styleUrls: ['./info-usuario.component.css']
+  selector: 'app-info-aluno',
+  templateUrl: './info-aluno.component.html',
+  styleUrls: ['./info-aluno.component.css']
 })
-export class InfoUsuarioComponent implements OnInit {
+export class InfoAlunoComponent implements OnInit {
 
   constructor(private authService: AuthService) { }
 

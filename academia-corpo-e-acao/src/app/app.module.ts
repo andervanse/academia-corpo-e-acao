@@ -27,11 +27,12 @@ import { SenhaUsuarioComponent } from './components/usuario/senha-usuario/senha-
 import { AlunoService } from './services/aluno.service';
 import { JwtInterceptor } from './services/jwt-interceptor.service';
 import { ErrorInterceptor } from './services/error-interceptor.service';
-import { InfoUsuarioComponent } from './components/usuario/info-usuario/info-usuario.component';
+import { InfoAlunoComponent } from './components/usuario/info-aluno/info-aluno.component';
 import { AvaliacaoFisicaComponent } from './components/avaliacao-fisica/avaliacao-fisica.component';
 import { AvaliacaoFisicaService } from './services/avaliacao-fisica.service';
 import { EditarAvaliacaoFisicaComponent } from './components/avaliacao-fisica/editar-avaliacao-fisica/editar-avaliacao-fisica.component';
 import { FichaTreinoAlunoComponent } from './components/ficha-treino/ficha-treino-aluno/ficha-treino-aluno.component';
+import { AvaliacaoFisicaAlunoComponent } from './components/avaliacao-fisica/avaliacao-fisica-aluno/avaliacao-fisica-aluno.component';
 
 const appRoutes :Routes = [
   { path: '', component: HomeComponent },
@@ -39,13 +40,14 @@ const appRoutes :Routes = [
   { path: 'contato', component: ContatoComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logoff', component: LogoffComponent },  
+  { path: 'info-aluno', component: InfoAlunoComponent, canActivate: [AuthGuardService] }, 
   { path: 'ficha-treino-aluno', component: FichaTreinoAlunoComponent, canActivate: [AuthGuardService] },
+  { path: 'avaliacao-fisica-aluno', component: AvaliacaoFisicaAlunoComponent, canActivate: [AuthGuardService] },  
   { path: 'ficha-treino', component: FichaTreinoComponent, canActivate: [AuthGuardService] },  
   { path: 'ficha-treino/editar/:treino', component: EditarFichaTreinoAlunoComponent, canActivate: [AuthGuardService] },  
   { path: 'usuario', component: UsuarioComponent, 
      children:[
-       { path: '', component: ListaUsuarioComponent, canActivate: [AuthGuardService] },
-       { path: 'info-usuario', component: InfoUsuarioComponent, canActivate: [AuthGuardService] },       
+       { path: '', component: ListaUsuarioComponent, canActivate: [AuthGuardService] },       
        { path: 'ficha-treino/editar/:usuario', component: EditarFichaTreinoAlunoComponent, canActivate: [AuthGuardService] },
        { path: 'senha-usuario/:usuario', component: SenhaUsuarioComponent, canActivate: [AuthGuardService] },
        { path: ':usuario/avaliacoes-fisicas', component: AvaliacaoFisicaComponent, canActivate: [AuthGuardService] },
@@ -72,10 +74,11 @@ const appRoutes :Routes = [
     ListaUsuarioComponent,
     CadastroUsuarioComponent,
     SenhaUsuarioComponent,
-    InfoUsuarioComponent,
+    InfoAlunoComponent,
     AvaliacaoFisicaComponent,
     EditarAvaliacaoFisicaComponent,
-    FichaTreinoAlunoComponent
+    FichaTreinoAlunoComponent,
+    AvaliacaoFisicaAlunoComponent
   ],
   imports: [
     BrowserModule,
