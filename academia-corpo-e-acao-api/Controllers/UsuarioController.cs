@@ -147,6 +147,9 @@ namespace academia_corpo_e_acao
         {
             if (usuario == null) return null;
 
+            Object sx;
+            Enum.TryParse(typeof(Sexo), usuario.Sexo, true, out sx);
+
             return new Usuario 
             {
                 Id = usuario.Id,
@@ -155,6 +158,8 @@ namespace academia_corpo_e_acao
                 Nome = usuario.Nome,
                 Email = usuario.Email,
                 Celular = usuario.Celular,
+                Sexo = (Sexo)sx,
+                DtNascimento = usuario.DtNascimento,                
                 DtAtualizacao = usuario.DtAtualizacao,
                 Observacao = usuario.Observacao
             };
@@ -172,6 +177,8 @@ namespace academia_corpo_e_acao
                 Nome = usuario.Nome,
                 Email = usuario.Email,
                 Celular = usuario.Celular,
+                Sexo = usuario.Sexo.ToString(),
+                DtNascimento = usuario.DtNascimento, 
                 Observacao = usuario.Observacao
             };
         }             

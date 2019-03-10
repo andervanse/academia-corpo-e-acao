@@ -44,8 +44,8 @@ export class AvaliacaoFisicaAlunoComponent implements OnInit {
     if (this.avaliacoesFisicas) {
 
       let sortedList = this.avaliacoesFisicas.sort((a, b) => {
-        let valueA = Date.parse(a.dtAtual.toString()), 
-            valueB = Date.parse(b.dtAtual.toString());
+        let valueA = Date.parse(a.dtAtualizacao.toString()), 
+            valueB = Date.parse(b.dtAtualizacao.toString());
         return valueA - valueB;
       });
 
@@ -53,17 +53,23 @@ export class AvaliacaoFisicaAlunoComponent implements OnInit {
           type: 'line',
           data: {
             labels: sortedList.map(x => { 
-              let dtAtual = new Date(x.dtAtual)
+              let dtAtual = new Date(x.dtAtualizacao)
               let idxMonth = dtAtual.getMonth();
               return this.months[idxMonth] + '-' + dtAtual.getFullYear().toString().substr(2, 2)
             }),
             datasets: [
               { 
                 label: 'Peso',
-                data: sortedList.map(x => x.peso),
+                data: sortedList.map(x => x.medidas.peso),
                 borderColor: "#3cba9f",
                 fill: false
-              }
+              },
+              { 
+                label: 'IMC',
+                data: sortedList.map(x => x.medidas.imc),
+                borderColor: "#bab53c",
+                fill: false
+              }              
             ]
           },
           options: {

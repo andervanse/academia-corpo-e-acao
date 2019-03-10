@@ -17,6 +17,7 @@ export class EditarAvaliacaoFisicaComponent implements OnInit {
   nomeAluno: string;
   avaliacaoFisica: AvaliacaoFisica;
   usuarioId: number;
+  avaliacaoFisicaId: number;
   @ViewChild('avaliacaoForm') avaliacaoForm: FormGroup;
 
   constructor(
@@ -33,14 +34,20 @@ export class EditarAvaliacaoFisicaComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.usuarioId = +params['usuario'];
 
-      if (params['avaliacao'] > 0) {
-        this.avaliacaoService.obterAvaliacaoFisica(this.usuarioId, params['avaliacao']).subscribe((avaliacaoFisica) => {
+      if (params['avaliacao']) {
+        this.avaliacaoFisicaId = +params['avaliacao'];
+
+        this.avaliacaoService.obterAvaliacaoFisica(this.usuarioId, this.avaliacaoFisicaId).subscribe((avaliacaoFisica) => {
           this.avaliacaoFisica = avaliacaoFisica;
-          this.setFormFields();
-        }, (error) => {
-          console.error(error.message);
-          if (error.status == 404) {
+          setTimeout(() => {
             this.setFormFields();
+          }, (500));
+        }, (error) => {
+          if (error.status == 404) {
+            this.avaliacaoFisica = this.avaliacaoService.criarAvaliacao(this.avaliacaoFisicaId, this.usuarioId);
+            setTimeout(() => {
+              this.setFormFields();
+            }, (500));
           }
         });
       }
@@ -52,8 +59,6 @@ export class EditarAvaliacaoFisicaComponent implements OnInit {
     if (isNullOrUndefined(this.avaliacaoFisica)) {
       this.avaliacaoFisica = {
         observacao: null,
-        altura: null,
-        peso: null,
         usuarioId: this.usuarioId,
         id: null
       };
@@ -61,55 +66,67 @@ export class EditarAvaliacaoFisicaComponent implements OnInit {
 
     if (isNullOrUndefined(this.avaliacaoFisica.medidas)) {
       this.avaliacaoFisica.medidas = {
-        ombro: null,
-        braco: null,
-        cintura: null,
-        coxa: null,
-        peitoral: null,
-        quadril: null
+        peso: null,
+        estatura: null,
       };
     }
 
-    this.avaliacaoForm.setValue({
-      id: this.avaliacaoFisica.id || '',
-      usuarioId: this.avaliacaoFisica.usuarioId || '',
-      peso: this.avaliacaoFisica.peso || '',
-      altura: this.avaliacaoFisica.altura || '',
-      ombro: this.avaliacaoFisica.medidas.ombro || '',
-      peitoral: this.avaliacaoFisica.medidas.peitoral || '',
-      braco: this.avaliacaoFisica.medidas.braco || '',
-      cintura: this.avaliacaoFisica.medidas.cintura || '',
-      quadril: this.avaliacaoFisica.medidas.quadril || '',
-      coxa: this.avaliacaoFisica.medidas.coxa || '',
-      obs: this.avaliacaoFisica.observacao || ''
-    });
+    if (!isNullOrUndefined(this.avaliacaoForm)) {
+      this.avaliacaoForm.setValue({
+        id: this.avaliacaoFisica.id || '',
+        usuarioId: this.avaliacaoFisica.usuarioId || '',
+        obs: this.avaliacaoFisica.observacao || '',
+        estatura: this.avaliacaoFisica.medidas.estatura || '',
+        peso: this.avaliacaoFisica.medidas.peso || '',
+        pressaoArterialSistolica: this.avaliacaoFisica.medidas.pressaoArterialSistolica || '',
+        pressaoArterialDiastolica: this.avaliacaoFisica.medidas.pressaoArterialDiastolica || '',
+        fcr: this.avaliacaoFisica.medidas.fcr || '',
+        fcMax: this.avaliacaoFisica.medidas.fcMax || '',
+        zonaAlvoInicial: this.avaliacaoFisica.medidas.zonaAlvoInicial || '',
+        zonaAlvoFinal: this.avaliacaoFisica.medidas.zonaAlvoFinal || '',
+        duploProduto: this.avaliacaoFisica.medidas.duploProduto || '',
+        imc: this.avaliacaoFisica.medidas.imc || ''
+      });
+    }
+
   }
 
-  onSubmit(loginForm) {
+  private obterQueryParams(): any {
+    return { search: this.searchWord, aluno: this.nomeAluno }
+  }
 
-    if (loginForm.valid) {
+  onComposicaoCorporalClick() {
+    this.irParaRota('composicao-corporal');
+  }
 
-      let avlFisica: AvaliacaoFisica = {
-        id: loginForm.value.id,
-        usuarioId: this.usuarioId,
-        peso: loginForm.value.peso,
-        altura: loginForm.value.altura,
-        medidas: {
-          ombro: loginForm.value.ombro,
-          peitoral: loginForm.value.peitoral,
-          braco: loginForm.value.braco,
-          cintura: loginForm.value.cintura,
-          quadril: loginForm.value.quadril,
-          coxa: loginForm.value.coxa
-        },
-        observacao: loginForm.value.obs
-      };
+  onMedicaoAntropometricaClick() {
+    this.irParaRota('med-antrop');
+  }
 
-      this.avaliacaoService.salvarAvaliacaoFisica(avlFisica).subscribe((resp) => {
+  private irParaRota(nmRoute: string) {
+    if (this.avaliacaoForm.valid && this.avaliacaoForm.touched) {
+      this.avaliacaoFisica.observacao = this.avaliacaoForm.value.obs;
+      let imc = this.avaliacaoFisica.medidas.imc;
+      let duploProd = this.avaliacaoFisica.medidas.duploProduto;
+      this.avaliacaoService.adicionarMedidas(this.avaliacaoForm.value);
+      this.avaliacaoFisica.medidas.imc = imc;
+      this.avaliacaoFisica.medidas.duploProduto = duploProd;
+    }
+
+    this.router.navigate(['/usuario', this.usuarioId, nmRoute, 'editar', this.avaliacaoFisicaId], { queryParams: this.obterQueryParams() });
+  }
+
+  onSubmit() {
+
+    if (this.avaliacaoForm.valid) {
+      this.avaliacaoFisica.observacao = this.avaliacaoForm.value.obs;
+      this.avaliacaoService.adicionarMedidas(this.avaliacaoForm.value);
+      this.avaliacaoService.salvarAvaliacaoFisica(this.avaliacaoFisica).subscribe((resp) => {
         this.mensagemErro = '';
-        this.router.navigate(['/usuario', avlFisica.usuarioId, 'avaliacoes-fisicas'], { queryParams: { search: this.searchWord, aluno: this.nomeAluno } });
+        this.router.navigate(['/usuario', this.usuarioId, 'avaliacoes-fisicas'], { queryParams: this.obterQueryParams() });
       }, (resp) => {
         this.mensagemErro = resp.error;
+        console.error(resp.message);
       });
     }
   }

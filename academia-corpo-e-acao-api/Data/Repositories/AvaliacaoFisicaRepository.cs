@@ -37,33 +37,14 @@ namespace academia_corpo_e_acao
                 return resp;
             }
 
-            string medidasJson = "";
-
-            try
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Medidas));
-                    ser.WriteObject(ms, avaliacaoFisica.Medidas);
-                    byte[] json = ms.ToArray();
-                    ms.Close();
-                    medidasJson = Encoding.UTF8.GetString(json, 0, json.Length);
-                }
-            }
-            catch (Exception e)
-            {
-                _log.LogError(e.Message);
-                resp.ErrorMessages.Add(e.Message);
-            }
-
             resp.Return = avaliacaoFisica;
             var attributeValues = new Dictionary<string, AttributeValue>();
             var attributeNames = new Dictionary<string, string>();
             string updExpr = String.Empty;
 
-            avaliacaoFisica.DtAtual = DateTime.Now;
+            avaliacaoFisica.DtAtualizacao = DateTime.Now;
             attributeNames.Add("#dtAt", "dt-atualizacao");
-            attributeValues.Add(":dtAt", new AttributeValue { S = avaliacaoFisica.DtAtual.ToString() });
+            attributeValues.Add(":dtAt", new AttributeValue { S = avaliacaoFisica.DtAtualizacao.ToString() });
             updExpr = "#dtAt = :dtAt";
 
             if (avaliacaoFisica.Id < 1)
@@ -75,20 +56,6 @@ namespace academia_corpo_e_acao
                 updExpr += ", #usrId = :usrId";
             }
 
-            if (avaliacaoFisica.Altura > 0)
-            {
-                attributeNames.Add("#alt", "altura");
-                attributeValues.Add(":alt", new AttributeValue { N = avaliacaoFisica.Altura.ToString() });
-                updExpr += ", #alt = :alt";
-            }
-
-            if (avaliacaoFisica.Peso > 0)
-            {
-                attributeNames.Add("#ps", "peso");
-                attributeValues.Add(":ps", new AttributeValue { N = avaliacaoFisica.Peso.ToString() });
-                updExpr += ", #ps = :ps";
-            }
-
             if (!String.IsNullOrEmpty(avaliacaoFisica.Observacao))
             {
                 attributeNames.Add("#obs", "observacao");
@@ -96,11 +63,13 @@ namespace academia_corpo_e_acao
                 updExpr += ", #obs = :obs";
             }
 
-            if (!String.IsNullOrEmpty(medidasJson))
+            string avaliacaoFisicaJson = ConvertToJson(avaliacaoFisica, resp);
+            
+            if (!String.IsNullOrEmpty(avaliacaoFisicaJson))
             {
-                attributeNames.Add("#mdd", "medidas");
-                attributeValues.Add(":mdd", new AttributeValue { S = medidasJson });
-                updExpr += ", #mdd = :mdd";
+                attributeNames.Add("#avl", "avaliacao-fisica");
+                attributeValues.Add(":avl", new AttributeValue { S = avaliacaoFisicaJson });
+                updExpr += ", #avl = :avl";
             }
 
             var request = new UpdateItemRequest
@@ -132,6 +101,30 @@ namespace academia_corpo_e_acao
                 }
                 return resp;
             }
+        }
+
+        private string ConvertToJson(AvaliacaoFisica avaliacaoFisica, Response<AvaliacaoFisica> resp)
+        {
+            string avaliacaoFisicaJson = "";
+
+            try
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(AvaliacaoFisica));
+                    ser.WriteObject(ms, avaliacaoFisica);
+                    byte[] json = ms.ToArray();
+                    ms.Close();
+                    avaliacaoFisicaJson = Encoding.UTF8.GetString(json, 0, json.Length);
+                }
+            }
+            catch (Exception e)
+            {
+                _log.LogError(e.Message);
+                resp.ErrorMessages.Add(e.Message);
+            }
+
+            return avaliacaoFisicaJson;
         }
 
         public async Task<Response<List<AvaliacaoFisica>>> ObterAsync(Usuario usuario, int? avaliacaoId)
@@ -199,29 +192,21 @@ namespace academia_corpo_e_acao
                         {
                             avaliacaoFisica.Id = int.Parse(value.N);
                         }
-                        else if (attributeName == "altura")
-                        {
-                            avaliacaoFisica.Altura = double.Parse(value.N);
-                        }
-                        else if (attributeName == "peso")
-                        {
-                            avaliacaoFisica.Peso = double.Parse(value.N);
-                        }
                         else if (attributeName == "observacao")
                         {
                             avaliacaoFisica.Observacao = value.S;
                         }
                         else if (attributeName == "dt-atualizacao")
                         {
-                            DateTime dtAtual;
-                            DateTime.TryParse(value.S, out dtAtual);
-                            avaliacaoFisica.DtAtual = dtAtual;
+                            DateTime dtAtualizacao;
+                            DateTime.TryParse(value.S, out dtAtualizacao);
+                            avaliacaoFisica.DtAtualizacao = dtAtualizacao;
                         }
                         else if (attributeName == "usuario-id")
                         {
                             avaliacaoFisica.UsuarioId = int.Parse(value.N);
                         }
-                        else if (attributeName == "medidas")
+                        else if (attributeName == "avaliacao-fisica")
                         {
                             if (!String.IsNullOrEmpty(value.S))
                             {
@@ -229,10 +214,10 @@ namespace academia_corpo_e_acao
                                 {
                                     using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(value.S)))
                                     {
-                                        DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Medidas));
-                                        var medidas = (Medidas)ser.ReadObject(ms);
+                                        DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(AvaliacaoFisica));
+                                        var avlFisica = (AvaliacaoFisica)ser.ReadObject(ms);
                                         ms.Close();
-                                        avaliacaoFisica.Medidas = medidas;
+                                        avaliacaoFisica = avlFisica;
                                     }
                                 }
                                 catch (Exception e)

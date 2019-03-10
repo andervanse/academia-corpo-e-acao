@@ -30,6 +30,21 @@
       </div>
     </div>
     <div class="field">
+      <label for="dt-nasc">Dt. Nascimento</label>
+      <div class="control" id="dt-nasc">
+        <input class="input" type="date" placeholder="Data Nascimento" name="dtNascimento" ngModel required>
+      </div>
+    </div>      
+    <div class="field">
+      <label for="sexo">Sexo</label>
+      <div class="control" id="sexo">
+        <select class="input" name="sexo" ngModel required>
+          <option value="">Selecione</option>
+          <option [value]="opt" *ngFor="let opt of sexo">{{ opt }}</option>
+        </select>
+      </div>
+    </div>    
+    <div class="field">
       <label for="observacao">Observação</label>
       <div class="control" id="observacao">
         <textarea class="textarea" type="text" rows="4" placeholder="Observação" name="obs" ngModel

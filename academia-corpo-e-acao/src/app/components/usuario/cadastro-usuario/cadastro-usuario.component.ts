@@ -16,6 +16,7 @@ export class CadastroUsuarioComponent implements OnInit {
   aluno: Usuario;
   searchWord: string;
   nomeAluno: string;
+  sexo = ['Masculino', 'Feminino'];
   @ViewChild('alunoForm') alunoForm: FormGroup;
   @ViewChild('btnSalvar') btnSalvar : ElementRef;
 
@@ -36,11 +37,16 @@ export class CadastroUsuarioComponent implements OnInit {
         this.alunoService.obterInfoUsuario(params['usuario']).subscribe((usuario) => {
           if (usuario) {
             this.aluno = usuario;
+
+            let dtNasc = this.aluno.dtNascimento ? new Date(this.aluno.dtNascimento).toISOString().substring(0, 10) : '';
+
             this.alunoForm.setValue({
               id: this.aluno.id || '',
               nome: this.aluno.nome || '',
               email: this.aluno.email || '',
               celular: this.aluno.celular || '',
+              dtNascimento: dtNasc,
+              sexo: (this.aluno.sexo === '0' ? '' : this.aluno.sexo),
               obs: this.aluno.observacao || '',
               senha: '',
               confirmaSenha: ''
@@ -69,6 +75,8 @@ export class CadastroUsuarioComponent implements OnInit {
         nome: loginForm.value.nome,
         email: loginForm.value.email,
         celular: loginForm.value.celular,
+        dtNascimento: loginForm.value.dtNascimento,
+        sexo: loginForm.value.sexo,
         observacao: loginForm.value.obs,
         senha: loginForm.value.senha,
         confirmaSenha: loginForm.value.confirmaSenha
@@ -77,7 +85,7 @@ export class CadastroUsuarioComponent implements OnInit {
       this.alunoService.salvarAluno(usrSenha).subscribe((resp) => {
         this.mensagemErro = '';
         this.btnSalvar.nativeElement.classList.remove('is-loading');
-        this.router.navigate(['./usuario']);
+        this.router.navigate(['./usuario'], { queryParams: { search: this.searchWord }});
       }, (error) => {
         console.error(error.message);
         this.mensagemErro = error.error;

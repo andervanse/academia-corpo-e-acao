@@ -7,67 +7,99 @@
   </div>
 
   <div class="title notification is-5 is-orange has-text-centered">
-    Avaliações - {{ nomeAluno }}
+    Avaliação - {{ nomeAluno }}
   </div>  
 
-  <form #avaliacaoForm="ngForm" (ngSubmit)="onSubmit(avaliacaoForm)" novalidate>
+  <form #avaliacaoForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
     <input type="hidden" name="id" ngModel>
     <input type="hidden" name="usuarioId" ngModel>
 
     <div class="columns is-mobile">
       <div class="control column is-6">
-        <label for="altura">Altura</label>
-        <input class="input" type="number" placeholder="Altura" name="altura" ngModel required>
+        <label for="estatura">Estatura</label>
+        <input class="input" type="number" placeholder="Estatura" name="estatura" ngModel required min="0" max="3" maxlength="8">
       </div>
       <div class="control column is-6">
         <label for="peso">Peso</label>
-        <input class="input" type="number" placeholder="Peso" name="peso" ngModel required>
+        <input class="input" type="number" placeholder="Peso" name="peso" ngModel required min="0" max="300" maxlength="8">
       </div>
     </div>
-
-    <hr>
-    <div class="columns is-mobile">
-      <div class="column">
-        <label for="ombro">Ombro</label>
-        <input class="input" type="number" placeholder="Ombro" name="ombro" ngModel>
+    <label for="par">P.A.R (mmHg)</label>
+    <div class="columns is-mobile" id="par">
+      <div class="column is-5">
+        <input class="input" type="number" placeholder="P.A Sistólica" name="pressaoArterialSistolica" ngModel min="0" max="299" maxlength="8">
       </div>
-      <div class="column">
-        <label for="peitoral">Peitoral</label>
-        <input class="input" type="number" placeholder="Peitoral" name="peitoral" ngModel>
+      <div class="column is-2">
+        &nbsp; <span class="subtitle"> / </span>
       </div>
-    </div>
-
-    <div class="columns is-mobile">
-      <div class="column">
-        <label for="braco">Braço</label>
-        <input class="input" type="number" placeholder="Braço" name="braco" ngModel>
-      </div>
-      <div class="column">
-        <label for="cintura">Cintura</label>
-        <input class="input" type="number" placeholder="Cintura" name="cintura" ngModel>
+      <div class="column is-5">
+        <input class="input" type="number" placeholder="P.A Diastólica" name="pressaoArterialDiastolica" ngModel min="0" max="299" maxlength="8">
       </div>
     </div>
 
     <div class="columns is-mobile">
       <div class="column">
-        <label for="quadril">Quadril</label>
-        <input class="input" type="number" placeholder="Quadril" name="quadril" ngModel>
+        <label for="fcr">F.C.R (bpm)</label>
+        <input class="input" type="number" placeholder="F.C.R" name="fcr" ngModel min="0" max="999" maxlength="8">
       </div>
+    </div>      
+
+    <div class="columns is-mobile">
       <div class="column">
-        <label for="coxa">Coxa</label>
-        <input class="input" type="number" placeholder="Coxa" name="coxa" ngModel>
+        <label for="fcMax">F.C Max (bpm)</label>
+        <input class="input" type="number" placeholder="F.C Max" name="fcMax" ngModel min="0" max="999" maxlength="8">
       </div>
     </div>
-    <hr>
+
+    <label for="zonaAlvo">Zona Alvo</label>
+    <div class="columns is-mobile" id="zonaAlvo">
+      <div class="column is-5">
+        <input class="input" type="number" name="zonaAlvoInicial" ngModel min="0" max="999" maxlength="8">
+      </div>
+      <div class="column is-2">
+        &nbsp; <span class="is-5"> à </span>
+      </div>
+      <div class="column is-5">
+        <input class="input" type="number" name="zonaAlvoFinal" ngModel min="0" max="999" maxlength="8">
+      </div>
+    </div>
+     <div class="columns is-mobile">
+      <div class="column">
+        <label for="duploProduto">Duplo Produto &nbsp; ( F.C.R * P.A.S )</label>
+        <div class="input" name="duploProduto"> {{ this.avaliacaoFisica?.medidas?.duploProduto | number:'1.2-3' }} </div>
+      </div>    
+    </div>
+  
+    <div class="columns is-mobile">
+        <div class="column">
+          <label for="imc">I.M.C &nbsp;&nbsp; ( Peso &#247; (Estatura<sup>2</sup>) )</label>          
+          <div class="input">{{ this.avaliacaoFisica?.medidas?.imc | number:'1.2-3' }}</div>
+        </div>
+    </div>
 
     <div class="field">
-      <label for="observacao">Observação</label>
-      <div class="control" id="observacao">
-        <textarea class="textarea" type="text" rows="4" placeholder="Observação" name="obs" ngModel
-          maxlength="1000"></textarea>
-      </div>
+        <label for="obs">Observação</label>
+        <div class="control" id="obs">
+          <textarea class="textarea" type="text" rows="2" placeholder="Observação" name="obs" ngModel
+            maxlength="1000"></textarea>
+        </div>
     </div>
     <br>
+
+    <div class="columns is-mobile has-text-centered">
+      <div class="column">
+        <a type="button" class="button is-success is-medium" 
+          (click)="onComposicaoCorporalClick()" >Composição Corporal</a>    
+      </div>
+    </div>
+    <div class="columns is-mobile has-text-centered">
+        <div class="column">
+            <a type="button" class="button is-success is-medium"               
+              (click)="onMedicaoAntropometricaClick()">Medidas Antropométricas</a>    
+          </div>      
+      </div>
+  
+    <hr>
     <div class="is-pulled-right">
       <a type="button" class="button is-danger is-medium" 
          [routerLink]="['/usuario', usuarioId, 'avaliacoes-fisicas']"

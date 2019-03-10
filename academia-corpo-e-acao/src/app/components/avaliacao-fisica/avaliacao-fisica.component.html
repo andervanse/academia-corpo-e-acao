@@ -27,50 +27,14 @@
   <article class="media">
     <div class="media-content">
       <div class="content">
-        <p class="tag is-link">{{ avaliacaoFisica.dtAtual | date:'dd/MM/yyyy' }}</p>        
-        <p>
-          <strong>Peso</strong> &nbsp;&nbsp; {{ avaliacaoFisica.peso | number:'1.3-3' }} Kg.
+        <p class="tag is-link">{{ avaliacaoFisica.dtAtualizacao | date:'dd/MM/yyyy' }}</p>        
+        <p *ngIf="avaliacaoFisica.medidas">
+          <strong>Peso</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ avaliacaoFisica.medidas.peso | number:'1.3-3' }} Kg.
           <br>
-          <strong>Altura</strong> {{ avaliacaoFisica.altura | number:'1.2-2' }} Mt.          
-        </p>
-        <hr>
-        <div class="title is-5">medidas</div>
-
-        <table class="table is-striped is-narrow">
-            <thead>
-              <tr>
-                <td style="width:70%;">Parte</td>
-                <td style="width:30%;">Circunferência</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Ombro</td>
-                <td>{{ avaliacaoFisica.medidas.ombro | number:'1.2-2' }}</td>
-              </tr>
-              <tr>
-                <td>Peitoral</td>
-                <td>{{ avaliacaoFisica.medidas.peitoral | number:'1.2-2' }}</td>
-               </tr>
-               <tr>
-                  <td>Braço</td>
-                  <td>{{ avaliacaoFisica.medidas.braco | number:'1.2-2' }}</td>
-                </tr> 
-                <tr>
-                  <td>Cintura</td>
-                  <td>{{ avaliacaoFisica.medidas.braco | number:'1.2-2' }}</td>
-                </tr>  
-                <tr>
-                  <td>Quadril</td>
-                  <td>{{ avaliacaoFisica.medidas.quadril | number:'1.2-2' }}</td>
-                </tr> 
-                <tr>
-                  <td>Coxa</td>
-                  <td>{{ avaliacaoFisica.medidas.coxa | number:'1.2-2' }}</td>
-                </tr>                                                 
-            </tbody>
-          </table>        
-        <br>
+          <strong>Estatura</strong> {{ avaliacaoFisica.medidas.estatura | number:'1.2-2' }} Mt.
+          <br>
+          <strong>I.M.C</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ avaliacaoFisica.medidas.imc | number:'1.2-3' }}
+        </p>             
       </div>
       <nav class="level level-left">
         <a class="button is-info"

@@ -41,7 +41,12 @@ export class AvaliacaoFisicaComponent implements OnInit {
           }
           this.loading = false;
         }, (error) => {
-          console.error(error.message);
+          if (error.status === 404) {
+            this.avaliacoesFisicas = [];
+          } else {
+            console.error(error.message);
+          }
+          
           this.loading = false;
         });
       }
@@ -56,8 +61,7 @@ export class AvaliacaoFisicaComponent implements OnInit {
   onExcluirClick() {
     if (this.avaliacaoFisicaIdSelecionada) {
       this.avaliacaoService.excluirAvaliacaoFisica(this.avaliacaoFisicaIdSelecionada).subscribe((resp) => {
-        let idx = this.avaliacoesFisicas.findIndex((v) => { return v.id == this.avaliacaoFisicaIdSelecionada; });
-        this.avaliacoesFisicas.splice(idx, 1);
+        this.avaliacoesFisicas = resp;
         this.dialogModal.nativeElement.classList.toggle('is-active');
       }, (error) => {
         console.log(error);

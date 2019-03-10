@@ -1,0 +1,59 @@
+
+  <div *ngIf="mensagemErro !== ''" class="notification is-danger" (click)="onNotificationClick()">
+      <button class="delete"></button>
+      <h4 class="title is-4 has-text-centered">
+        {{ mensagemErro }}
+      </h4>
+    </div>
+  
+    <div class="title notification is-5 is-orange has-text-centered">
+      Composição Corporal - {{ nomeAluno }}
+    </div>  
+  
+    <form #composicaoCorporalForm="ngForm" novalidate>
+      <input type="hidden" name="id" ngModel>
+      <input type="hidden" name="usuarioId" ngModel>
+  
+      <div class="columns is-mobile">
+        <div class="control column is-6">
+          <label for="subescapular">Subescapular</label>
+          <input class="input" type="number" placeholder="Subescapular" name="subescapular" ngModel required min="0" max="999" maxlength="8">
+        </div>
+        <div class="control column is-6">
+          <label for="auxiliarMedia">Auxiliar Media</label>
+          <input class="input" type="number" placeholder="Auxiliar Media" name="auxiliarMedia" ngModel required min="0" max="999" maxlength="8">
+        </div>
+      </div>
+
+      <div class="columns is-mobile">
+        <div class="column">
+          <label for="ombro">Suprailíaca</label>
+          <input class="input" type="number" placeholder="Suprailiaca" name="suprailiaca" ngModel required min="0" max="999" maxlength="8">
+        </div>
+        <div class="column">
+          <label for="triceps">Tríceps</label>
+          <input class="input" type="number" placeholder="Tríceps" name="triceps" ngModel required min="0" max="999" maxlength="8">
+        </div>
+      </div>
+  
+      <div class="columns is-mobile">
+        <div class="column">
+          <label for="coxa">Coxa</label>
+          <input class="input" type="number" placeholder="Coxa" name="coxa" ngModel required min="0" max="999" maxlength="8">
+        </div>
+        <div class="column">
+          <label for="panturilha">Panturilha</label>
+          <input class="input" type="number" placeholder="Panturilha" name="panturilha" ngModel required min="0" max="999" maxlength="8">
+        </div>
+      </div>
+  
+      <hr>
+      <div class="is-pulled-right">
+        <a type="button" class="button is-danger is-medium" 
+           (click)="onVoltarAvaliacaoFisica()">Voltar</a>
+      </div>
+  
+    </form>
+  <br>
+  <br>
+  <br>

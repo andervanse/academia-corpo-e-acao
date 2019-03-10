@@ -33,6 +33,8 @@ import { AvaliacaoFisicaService } from './services/avaliacao-fisica.service';
 import { EditarAvaliacaoFisicaComponent } from './components/avaliacao-fisica/editar-avaliacao-fisica/editar-avaliacao-fisica.component';
 import { FichaTreinoAlunoComponent } from './components/ficha-treino/ficha-treino-aluno/ficha-treino-aluno.component';
 import { AvaliacaoFisicaAlunoComponent } from './components/avaliacao-fisica/avaliacao-fisica-aluno/avaliacao-fisica-aluno.component';
+import { EditarComposicaoCorporalComponent } from './components/avaliacao-fisica/editar-composicao-corporal/editar-composicao-corporal.component';
+import { EditarMedidasAntropometricasComponent } from './components/avaliacao-fisica/editar-medidas-antropometricas/editar-medidas-antropometricas.component';
 
 const appRoutes :Routes = [
   { path: '', component: HomeComponent },
@@ -52,6 +54,8 @@ const appRoutes :Routes = [
        { path: 'senha-usuario/:usuario', component: SenhaUsuarioComponent, canActivate: [AuthGuardService] },
        { path: ':usuario/avaliacoes-fisicas', component: AvaliacaoFisicaComponent, canActivate: [AuthGuardService] },
        { path: ':usuario/avaliacoes-fisicas/editar/:avaliacao', component: EditarAvaliacaoFisicaComponent, canActivate: [AuthGuardService] },
+       { path: ':usuario/composicao-corporal/editar/:avaliacao', component: EditarComposicaoCorporalComponent, canActivate: [AuthGuardService] },
+       { path: ':usuario/med-antrop/editar/:avaliacao', component: EditarMedidasAntropometricasComponent, canActivate: [AuthGuardService] },
        { path: ':usuario', component: CadastroUsuarioComponent, canActivate: [AuthGuardService] }    
      ]  
   },
@@ -78,7 +82,9 @@ const appRoutes :Routes = [
     AvaliacaoFisicaComponent,
     EditarAvaliacaoFisicaComponent,
     FichaTreinoAlunoComponent,
-    AvaliacaoFisicaAlunoComponent
+    AvaliacaoFisicaAlunoComponent,
+    EditarComposicaoCorporalComponent,
+    EditarMedidasAntropometricasComponent
   ],
   imports: [
     BrowserModule,

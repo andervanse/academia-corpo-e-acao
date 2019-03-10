@@ -10,9 +10,9 @@ namespace academia_corpo_e_acao
         public string Login { get; set; }
         public string Email { get; set; } 
         public string Senha { get; set; }
-        public double? Altura { get; set; }
-        public double? Peso { get; set; }
         public string Celular { get; set; }
+        public string Sexo { get; set; }
+        public DateTime? DtNascimento { get; set; }
         public string Observacao { get; set; }
         public DateTime DtAtualizacao { get; set; }
         public bool Administrador { get; set; }

@@ -7,6 +7,8 @@ export class Usuario {
     objetivo?: string;
     email?: string;
     celular?: string;
+    sexo?:string;
+    dtNascimento?: Date;
     observacao?: string;
     planosTreino?: PlanoTreino[];
     administrador?: boolean;

@@ -40,6 +40,10 @@ namespace academia_corpo_e_acao
                     updExp.Append(" #dtAt = :dtAt,");
                     exprAttrNames.Add("#dtAt", "dt-atualizacao");
 
+                    exprAttrValues.Add(":sexo", new AttributeValue { S = user.Sexo.ToString() });
+                    updExp.Append(" #sexo = :sexo,");
+                    exprAttrNames.Add("#sexo", "sexo");
+
                     if (!String.IsNullOrEmpty(user.Senha))
                     {
                         var salt = SecurityCrypt.GenerateSalt();
@@ -65,6 +69,13 @@ namespace academia_corpo_e_acao
                         exprAttrValues.Add(":nome", new AttributeValue { S = user.Nome });
                         updExp.Append(" #nome = :nome,");
                         exprAttrNames.Add("#nome", "nome");
+                    }
+
+                    if (user.DtNascimento.HasValue)
+                    {
+                        exprAttrValues.Add(":dtNasc", new AttributeValue { S = user.DtNascimento.ToString() });
+                        updExp.Append(" #dtNasc = :dtNasc,");
+                        exprAttrNames.Add("#dtNasc", "dt-nascimento");
                     }
 
                     if (!String.IsNullOrEmpty(user.Email))
@@ -202,7 +213,7 @@ namespace academia_corpo_e_acao
             {
                 attrName = "email";
                 attrValue.S = usuario.Email;
-            }          
+            }                                  
 
             attributes.Add($"#{attrName}", $":{attrName}");
             QueryResponse response = null;
@@ -250,6 +261,8 @@ namespace academia_corpo_e_acao
                         { "#login", "login" },
                         { "#nome", "nome" },
                         { "#dtAt", "dt-atualizacao" },
+                        { "#dtNasc", "dt-nascimento" },
+                        { "#sexo", "sexo" },
                         { "#hashedPassword", "hashedPassword" },
                         { "#salt", "salt" },
                         { "#email", "email" },
@@ -262,7 +275,7 @@ namespace academia_corpo_e_acao
                          { ":t", new AttributeValue { S = "usuario" } },
                          { $":{attrName}", attrValue }
                     },
-                ProjectionExpression = "#id, #login, #nome, #hashedPassword, #salt, #email, #dtAt, #celular, #isAdmin, #obs"
+                ProjectionExpression = "#id, #login, #nome, #dtAt, #dtNasc, #sexo, #hashedPassword, #salt, #email, #celular, #obs, #isAdmin"
             };
         }
 
@@ -302,6 +315,18 @@ namespace academia_corpo_e_acao
                         DateTime.TryParse(value.S, out dtAtual);
                         usuario.DtAtualizacao = dtAtual;
                     }
+                    else if (attributeName == "dt-nascimento")
+                    {
+                        DateTime dtNasc;
+                        DateTime.TryParse(value.S, out dtNasc);
+                        usuario.DtNascimento = dtNasc;
+                    }                    
+                    else if (attributeName == "sexo")
+                    {
+                        Object sx = null;
+                        Enum.TryParse(typeof(Sexo), value.S, true, out sx);
+                        usuario.Sexo = (Sexo)sx;
+                    }                    
                     else if (attributeName == "email")
                     {
                         usuario.Email = value.S;

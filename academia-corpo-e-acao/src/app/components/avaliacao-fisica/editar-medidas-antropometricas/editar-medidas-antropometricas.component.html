@@ -1,0 +1,91 @@
+<div *ngIf="mensagemErro !== ''" class="notification is-danger" (click)="onNotificationClick()">
+  <button class="delete"></button>
+  <h4 class="title is-4 has-text-centered">
+    {{ mensagemErro }}
+  </h4>
+</div>
+
+<div class="title notification is-5 is-orange has-text-centered">
+  Medidas Antrop. - {{ nomeAluno }}
+</div>
+
+<form #medAntropForm="ngForm" novalidate>
+  <input type="hidden" name="id" ngModel>
+  <input type="hidden" name="usuarioId" ngModel>
+
+  <div class="columns is-mobile">
+    <div class="control column is-6">
+      <label for="ombro">Ombro</label>
+      <input class="input" type="number" placeholder="Ombro" name="ombro" ngModel required min="0" max="999" maxlength="8">
+    </div>
+    <div class="control column is-6">
+      <label for="torax">Torax</label>
+      <input class="input" type="number" placeholder="Torax" name="torax" ngModel required min="0" max="999" maxlength="8">
+    </div>
+  </div>
+
+  <div class="columns is-mobile">
+    <div class="column">
+      <label for="cintura">Cintura</label>
+      <input class="input" type="number" placeholder="Cintura" name="cintura" ngModel required min="0" max="999" maxlength="8">
+    </div>
+    <div class="column">
+      <label for="quadril">Quadril</label>
+      <input class="input" type="number" placeholder="Quadril" name="quadril" ngModel required min="0" max="999" maxlength="8">
+    </div>
+  </div>
+
+  <div class="columns is-mobile">
+    <div class="column">
+      <label for="antebracoDireito">Antebraço D</label>
+      <input class="input" type="number" placeholder="Antebraco D" name="antebracoDireito" ngModel required min="0" max="999" maxlength="8">
+    </div>
+    <div class="column">
+      <label for="antebracoEsquerdo">Antebraço E</label>
+      <input class="input" type="number" placeholder="Antebraço E" name="antebracoEsquerdo" ngModel required min="0" max="999" maxlength="8">
+    </div>
+  </div>
+
+  <div class="columns is-mobile">
+    <div class="column">
+      <label for="bracoDireito">Braço D</label>
+      <input class="input" type="number" placeholder="braço D" name="bracoDireito" ngModel required min="0" max="999" maxlength="8">
+    </div>
+    <div class="column">
+      <label for="bracoEsquerdo">Braço E</label>
+      <input class="input" type="number" placeholder="braço E" name="bracoEsquerdo" ngModel required min="0" max="999" maxlength="8">
+    </div>
+  </div>
+
+  <div class="columns is-mobile">
+    <div class="column">
+      <label for="coxaDireita">Coxa D</label>
+      <input class="input" type="number" placeholder="Coxa D" name="coxaDireita" ngModel required min="0" max="999" maxlength="8">
+    </div>
+    <div class="column">
+      <label for="coxaEsquerda">Coxa E</label>
+      <input class="input" type="number" placeholder="Coxa E" name="coxaEsquerda" ngModel required min="0" max="999" maxlength="8">
+    </div>
+  </div>
+
+  <div class="columns is-mobile">
+    <div class="column">
+      <label for="pernaDireita">Perna D</label>
+      <input class="input" type="number" placeholder="Perna D" name="pernaDireita" ngModel required min="0" max="999" maxlength="8">
+    </div>
+    <div class="column">
+      <label for="pernaEsquerda">Perna E</label>
+      <input class="input" type="number" placeholder="Perna E" name="pernaEsquerda" ngModel required min="0" max="999" maxlength="8">
+    </div>
+  </div>
+
+  <hr>
+  <div class="is-pulled-right">
+    <a type="button" class="button is-danger is-medium"
+      (click)="onVoltarAvaliacaoFisica()">Voltar</a>
+  </div>
+
+</form>
+<br>
+<br>
+<br>
