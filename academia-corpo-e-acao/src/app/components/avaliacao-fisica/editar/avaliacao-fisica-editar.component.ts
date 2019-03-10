@@ -6,11 +6,11 @@ import { AvaliacaoFisicaService } from '../../../services/avaliacao-fisica.servi
 import { isNullOrUndefined } from 'util';
 
 @Component({
-  selector: 'app-editar-avaliacao-fisica',
-  templateUrl: './editar-avaliacao-fisica.component.html',
-  styleUrls: ['./editar-avaliacao-fisica.component.css']
+  selector: 'app-avaliacao-fisica-editar',
+  templateUrl: './avaliacao-fisica-editar.component.html',
+  styleUrls: ['./avaliacao-fisica-editar.component.css']
 })
-export class EditarAvaliacaoFisicaComponent implements OnInit {
+export class AvaliacaoFisicaEditarComponent implements OnInit {
 
   mensagemErro: string = '';
   searchWord: string;
@@ -83,9 +83,7 @@ export class EditarAvaliacaoFisicaComponent implements OnInit {
         fcr: this.avaliacaoFisica.medidas.fcr || '',
         fcMax: this.avaliacaoFisica.medidas.fcMax || '',
         zonaAlvoInicial: this.avaliacaoFisica.medidas.zonaAlvoInicial || '',
-        zonaAlvoFinal: this.avaliacaoFisica.medidas.zonaAlvoFinal || '',
-        duploProduto: this.avaliacaoFisica.medidas.duploProduto || '',
-        imc: this.avaliacaoFisica.medidas.imc || ''
+        zonaAlvoFinal: this.avaliacaoFisica.medidas.zonaAlvoFinal || ''
       });
     }
 

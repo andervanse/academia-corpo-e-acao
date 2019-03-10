@@ -2,7 +2,7 @@
   <div class="tile is-parent is-vertical">
 
     <div class="tile is-child">
-      <a class="button is-info is-medium" [routerLink]="['./senha-usuario/0']">Novo</a>
+      <a class="button is-info is-medium" [routerLink]="['./senha-usuario']">Novo</a>
     </div>
 
     <div class="tile is-child notification is-orange">
@@ -38,14 +38,17 @@
             </p>
           </div>
           <nav class="level level-left">
-            <a class="button fas fa-book" aria-label="cadastro" [routerLink]="['../usuario/', aluno.id]"
+            <a class="button fas fa-book" 
+              [routerLink]="['../usuario/', aluno.id]"
               [queryParams]="{search:searchWord, aluno:aluno.nome}">
             </a>&nbsp;&nbsp;
-            <a class="button fas fa-clipboard" aria-label="ficha treino"
-              [routerLink]="['ficha-treino/editar/', aluno.id]" [queryParams]="{search:searchWord, aluno:aluno.nome}">
+            <a class="button fas fa-clipboard" 
+              [routerLink]="['../ficha-treino','editar', aluno.id]" 
+              [queryParams]="{search:searchWord, aluno:aluno.nome}">
             </a>&nbsp;&nbsp;
-            <a class="button fas fa-weight" aria-label="avaliação física"
-              [routerLink]="[aluno.id, 'avaliacoes-fisicas']" [queryParams]="{search:searchWord, aluno:aluno.nome}">
+            <a class="button fas fa-weight" 
+              [routerLink]="[aluno.id, 'avaliacoes-fisicas']" 
+              [queryParams]="{search:searchWord, aluno:aluno.nome}">
             </a>
           </nav>
         </div>

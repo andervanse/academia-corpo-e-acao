@@ -16,25 +16,30 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { FichaTreinoComponent } from './components/ficha-treino/ficha-treino.component';
 import { LogoffComponent } from './components/logoff/logoff.component';
 import { PlanoTreinoService } from './services/plano-treino.service';
-import { EditarFichaTreinoAlunoComponent } from './components/ficha-treino/editar/editar-ficha-treino-aluno.component';
+import { FichaTreinoAlunoEditarComponent } from './components/ficha-treino/editar/ficha-treino-editar.component';
 import { MinimizeTextPipe } from './pipes/minimize-text.pipe';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+
 import { UsuarioComponent } from './components/usuario/usuario.component';
-import { ListaUsuarioComponent } from './components/usuario/lista-usuario/lista-usuario.component';
-import { CadastroUsuarioComponent } from './components/usuario/cadastro-usuario/cadastro-usuario.component';
-import { SenhaUsuarioComponent } from './components/usuario/senha-usuario/senha-usuario.component';
+import { ListaUsuarioComponent } from './components/usuario/lista/lista-usuario.component';
+import { CadastroUsuarioComponent } from './components/usuario/cadastro/cadastro-usuario.component';
+import { SenhaUsuarioComponent } from './components/usuario/senha/senha-usuario.component';
+import { InfoAlunoComponent } from './components/usuario/info/info-aluno.component';
+
 import { AlunoService } from './services/aluno.service';
 import { JwtInterceptor } from './services/jwt-interceptor.service';
 import { ErrorInterceptor } from './services/error-interceptor.service';
-import { InfoAlunoComponent } from './components/usuario/info-aluno/info-aluno.component';
+
 import { AvaliacaoFisicaComponent } from './components/avaliacao-fisica/avaliacao-fisica.component';
 import { AvaliacaoFisicaService } from './services/avaliacao-fisica.service';
-import { EditarAvaliacaoFisicaComponent } from './components/avaliacao-fisica/editar-avaliacao-fisica/editar-avaliacao-fisica.component';
-import { FichaTreinoAlunoComponent } from './components/ficha-treino/ficha-treino-aluno/ficha-treino-aluno.component';
-import { AvaliacaoFisicaAlunoComponent } from './components/avaliacao-fisica/avaliacao-fisica-aluno/avaliacao-fisica-aluno.component';
 import { EditarComposicaoCorporalComponent } from './components/avaliacao-fisica/editar-composicao-corporal/editar-composicao-corporal.component';
 import { EditarMedidasAntropometricasComponent } from './components/avaliacao-fisica/editar-medidas-antropometricas/editar-medidas-antropometricas.component';
+import { AvaliacaoFisicaEditarComponent } from './components/avaliacao-fisica/editar/avaliacao-fisica-editar.component';
+import { AvaliacaoFisicaAlunoComponent } from './components/avaliacao-fisica/aluno/avaliacao-fisica-aluno.component';
+
+import { FichaTreinoAlunoComponent } from './components/ficha-treino/aluno/ficha-treino-aluno.component';
+import { FichaTreinoListaComponent } from './components/ficha-treino/lista/ficha-treino-lista.component';
 
 const appRoutes :Routes = [
   { path: '', component: HomeComponent },
@@ -43,19 +48,24 @@ const appRoutes :Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'logoff', component: LogoffComponent },  
   { path: 'info-aluno', component: InfoAlunoComponent, canActivate: [AuthGuardService] }, 
-  { path: 'ficha-treino-aluno', component: FichaTreinoAlunoComponent, canActivate: [AuthGuardService] },
-  { path: 'avaliacao-fisica-aluno', component: AvaliacaoFisicaAlunoComponent, canActivate: [AuthGuardService] },  
-  { path: 'ficha-treino', component: FichaTreinoComponent, canActivate: [AuthGuardService] },  
-  { path: 'ficha-treino/editar/:treino', component: EditarFichaTreinoAlunoComponent, canActivate: [AuthGuardService] },  
+  { path: 'avaliacao-fisica-aluno', component: AvaliacaoFisicaAlunoComponent, canActivate: [AuthGuardService] },
+
+  { path: 'ficha-treino', component: FichaTreinoComponent, 
+    children: [
+      { path: '', component: FichaTreinoListaComponent, canActivate: [AuthGuardService] },
+      { path: 'aluno', component: FichaTreinoAlunoComponent, canActivate: [AuthGuardService] },
+      { path: 'editar/:usuario', component: FichaTreinoAlunoEditarComponent, canActivate: [AuthGuardService] }
+    ]
+  },
+
   { path: 'usuario', component: UsuarioComponent, 
-     children:[
+     children: [
        { path: '', component: ListaUsuarioComponent, canActivate: [AuthGuardService] },       
-       { path: 'ficha-treino/editar/:usuario', component: EditarFichaTreinoAlunoComponent, canActivate: [AuthGuardService] },
-       { path: 'senha-usuario/:usuario', component: SenhaUsuarioComponent, canActivate: [AuthGuardService] },
+       { path: 'senha-usuario', component: SenhaUsuarioComponent, canActivate: [AuthGuardService] },
        { path: ':usuario/avaliacoes-fisicas', component: AvaliacaoFisicaComponent, canActivate: [AuthGuardService] },
-       { path: ':usuario/avaliacoes-fisicas/editar/:avaliacao', component: EditarAvaliacaoFisicaComponent, canActivate: [AuthGuardService] },
        { path: ':usuario/composicao-corporal/editar/:avaliacao', component: EditarComposicaoCorporalComponent, canActivate: [AuthGuardService] },
        { path: ':usuario/med-antrop/editar/:avaliacao', component: EditarMedidasAntropometricasComponent, canActivate: [AuthGuardService] },
+       { path: ':usuario/avaliacoes-fisicas/editar/:avaliacao', component: AvaliacaoFisicaEditarComponent, canActivate: [AuthGuardService] },
        { path: ':usuario', component: CadastroUsuarioComponent, canActivate: [AuthGuardService] }    
      ]  
   },
@@ -71,20 +81,22 @@ const appRoutes :Routes = [
     FooterComponent,
     ContatoComponent,
     LoginComponent,
-    FichaTreinoComponent,
     LogoffComponent,
-    EditarFichaTreinoAlunoComponent,
+    FichaTreinoAlunoEditarComponent,
     UsuarioComponent,
     ListaUsuarioComponent,
     CadastroUsuarioComponent,
     SenhaUsuarioComponent,
     InfoAlunoComponent,
-    AvaliacaoFisicaComponent,
-    EditarAvaliacaoFisicaComponent,
+    FichaTreinoComponent,    
     FichaTreinoAlunoComponent,
     AvaliacaoFisicaAlunoComponent,
     EditarComposicaoCorporalComponent,
-    EditarMedidasAntropometricasComponent
+    EditarMedidasAntropometricasComponent,
+    FichaTreinoListaComponent,
+    AvaliacaoFisicaComponent,
+    AvaliacaoFisicaEditarComponent,
+    AvaliacaoFisicaAlunoComponent
   ],
   imports: [
     BrowserModule,

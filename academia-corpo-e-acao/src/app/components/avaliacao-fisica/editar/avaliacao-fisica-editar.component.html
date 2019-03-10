@@ -66,14 +66,14 @@
      <div class="columns is-mobile">
       <div class="column">
         <label for="duploProduto">Duplo Produto &nbsp; ( F.C.R * P.A.S )</label>
-        <div class="input" name="duploProduto"> {{ this.avaliacaoFisica?.medidas?.duploProduto | number:'1.2-3' }} </div>
+        <div class="input" disabled> {{ this.avaliacaoFisica?.medidas?.duploProduto | number:'1.2-3' }} </div>
       </div>    
     </div>
   
     <div class="columns is-mobile">
         <div class="column">
           <label for="imc">I.M.C &nbsp;&nbsp; ( Peso &#247; (Estatura<sup>2</sup>) )</label>          
-          <div class="input">{{ this.avaliacaoFisica?.medidas?.imc | number:'1.2-3' }}</div>
+          <div class="input" disabled>{{ this.avaliacaoFisica?.medidas?.imc | number:'1.2-3' }}</div>
         </div>
     </div>
 
