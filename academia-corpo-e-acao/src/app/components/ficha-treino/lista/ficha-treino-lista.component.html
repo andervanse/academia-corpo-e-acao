@@ -1,3 +1,4 @@
+<br>
 <div class="tile is-ancestor" *ngIf="loading">
   <div class="tile is-parent is-vertical">
     <div class="tile is-child notification is-orange">
@@ -8,9 +9,9 @@
 
 <div class="tile is-ancestor" *ngIf="!loading">
   <div class="tile is-parent is-vertical">
-
+    
     <div class="tile is-child">
-      <a type="button" class="button is-info is-medium" [routerLink]="['editar', 0]">Novo</a>
+      <a type="button" class="button is-info is-medium" [routerLink]="['editar', 'template', 0]">Novo</a>
     </div>  
 
     <div class="tile is-child notification is-orange" *ngIf="planosTreino.length == 0">
@@ -35,7 +36,7 @@
             </p>
           </div>
           <nav class="level level-left">
-            <a class="button is-info" [routerLink]="['editar', planoTreino.id]">Editar</a>
+            <a class="button is-info" [routerLink]="['editar', 'template', planoTreino.id]">Editar</a>
             &nbsp;
             <a class="button is-danger" (click)="onToggleModal(planoTreino.id)">Excluir</a>
           </nav>

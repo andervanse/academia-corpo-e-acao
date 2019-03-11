@@ -8,16 +8,9 @@ div p {
 }    
 
 @media only screen and (max-width: 1020px) {
-    .hero-body {
-        padding: 0px;
-    }
-
-    section.hero {
-        height: 140px;
-    }
 
     .container img {
-        height: 100px;
+        height: 96px;
     }
 
     .navbar-item {

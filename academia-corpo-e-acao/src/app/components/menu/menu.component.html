@@ -27,7 +27,7 @@
          Fichas
       </a>  
 
-        <a *ngIf="isAuthenticated() && !isAdmin()" routerLink="ficha-treino-aluno" class="navbar-item" (click)="onNavBarClick()">
+        <a *ngIf="isAuthenticated() && !isAdmin()" [routerLink]="['ficha-treino', 'aluno']" class="navbar-item" (click)="onNavBarClick()">
           Minha Ficha
         </a>
         <a *ngIf="isAuthenticated() && !isAdmin()" [routerLink]="['info-aluno']" class="navbar-item"  (click)="onNavBarClick()">

@@ -54,6 +54,7 @@ const appRoutes :Routes = [
     children: [
       { path: '', component: FichaTreinoListaComponent, canActivate: [AuthGuardService] },
       { path: 'aluno', component: FichaTreinoAlunoComponent, canActivate: [AuthGuardService] },
+      { path: 'editar/template/:treino', component: FichaTreinoAlunoEditarComponent, canActivate: [AuthGuardService] },
       { path: 'editar/:usuario', component: FichaTreinoAlunoEditarComponent, canActivate: [AuthGuardService] }
     ]
   },
