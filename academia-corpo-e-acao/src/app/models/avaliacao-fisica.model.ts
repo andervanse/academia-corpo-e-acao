@@ -13,14 +13,7 @@ export class AvaliacaoFisica
 export class Medidas
 {
     peso: number;
-    estatura: number;
-    pressaoArterialSistolica?: number;
-    pressaoArterialDiastolica?: number;
-    fcr?: number; //Frequência Cardíaca Repouso
-    fcMax?: number;
-    zonaAlvoInicial?:number;
-    zonaAlvoFinal?:number;
-    duploProduto?: number;
+    estatura: number;    
     imc?: number;
     igc?: number; // Indice Gordura Corporal   
 }

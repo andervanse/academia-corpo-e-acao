@@ -17,18 +17,7 @@ namespace academia_corpo_e_acao
     public class Medidas
     {
         public double Peso { get; set; }
-        public double Estatura { get; set; }        
-        public double PressaoArterialSistolica { get; set; }
-        public double PressaoArterialDiastolica { get; set; }
-        public double FCR { get; set; }
-        public double FCMax { get; set; }
-        public double ZonaAlvoInicial { get; set; }
-        public double ZonaAlvoFinal { get; set; }
-
-        public  double DuploProduto 
-        {
-            get { return this.PressaoArterialSistolica * this.FCR; }
-        }
+        public double Estatura { get; set; }                
         public double IMC
         {
             get { return this.Peso / (this.Estatura * 2); }

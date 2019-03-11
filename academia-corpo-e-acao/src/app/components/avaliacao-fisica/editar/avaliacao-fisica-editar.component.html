@@ -24,51 +24,6 @@
         <input class="input" type="number" placeholder="Peso" name="peso" ngModel required min="0" max="300" maxlength="8">
       </div>
     </div>
-    <label for="par">P.A.R (mmHg)</label>
-    <div class="columns is-mobile" id="par">
-      <div class="column is-5">
-        <input class="input" type="number" placeholder="P.A Sistólica" name="pressaoArterialSistolica" ngModel min="0" max="299" maxlength="8">
-      </div>
-      <div class="column is-2">
-        &nbsp; <span class="subtitle"> / </span>
-      </div>
-      <div class="column is-5">
-        <input class="input" type="number" placeholder="P.A Diastólica" name="pressaoArterialDiastolica" ngModel min="0" max="299" maxlength="8">
-      </div>
-    </div>
-
-    <div class="columns is-mobile">
-      <div class="column">
-        <label for="fcr">F.C.R (bpm)</label>
-        <input class="input" type="number" placeholder="F.C.R" name="fcr" ngModel min="0" max="999" maxlength="8">
-      </div>
-    </div>      
-
-    <div class="columns is-mobile">
-      <div class="column">
-        <label for="fcMax">F.C Max (bpm)</label>
-        <input class="input" type="number" placeholder="F.C Max" name="fcMax" ngModel min="0" max="999" maxlength="8">
-      </div>
-    </div>
-
-    <label for="zonaAlvo">Zona Alvo</label>
-    <div class="columns is-mobile" id="zonaAlvo">
-      <div class="column is-5">
-        <input class="input" type="number" name="zonaAlvoInicial" ngModel min="0" max="999" maxlength="8">
-      </div>
-      <div class="column is-2">
-        &nbsp; <span class="is-5"> à </span>
-      </div>
-      <div class="column is-5">
-        <input class="input" type="number" name="zonaAlvoFinal" ngModel min="0" max="999" maxlength="8">
-      </div>
-    </div>
-     <div class="columns is-mobile">
-      <div class="column">
-        <label for="duploProduto">Duplo Produto &nbsp; ( F.C.R * P.A.S )</label>
-        <div class="input" disabled> {{ this.avaliacaoFisica?.medidas?.duploProduto | number:'1.2-3' }} </div>
-      </div>    
-    </div>
   
     <div class="columns is-mobile">
         <div class="column">
@@ -88,13 +43,13 @@
 
     <div class="columns is-mobile has-text-centered">
       <div class="column">
-        <a type="button" class="button is-success is-medium" 
+        <a type="button" class="button is-success is-medium is-fullwidth" 
           (click)="onComposicaoCorporalClick()" >Composição Corporal</a>    
       </div>
     </div>
     <div class="columns is-mobile has-text-centered">
         <div class="column">
-            <a type="button" class="button is-success is-medium"               
+            <a type="button" class="button is-success is-medium is-fullwidth"               
               (click)="onMedicaoAntropometricaClick()">Medidas Antropométricas</a>    
           </div>      
       </div>

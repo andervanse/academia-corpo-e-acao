@@ -46,7 +46,7 @@
 
 @media only screen and (max-width: 568px) {
    router-outlet ~ * {
-      width: 93%;
+      width: 94%;
       left: 0;
       right: 0;
       margin-left: auto;
@@ -69,10 +69,6 @@ table thead {
 
 table td {
    text-align: center;
-}
-
-table.table {
-   width:100%;
 }
 
 td {
