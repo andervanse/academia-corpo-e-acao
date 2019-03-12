@@ -6,11 +6,11 @@ import { AvaliacaoFisicaService } from '../../../services/avaliacao-fisica.servi
 import { isNullOrUndefined } from 'util';
 
 @Component({
-  selector: 'app-avaliacao-fisica-editar',
-  templateUrl: './avaliacao-fisica-editar.component.html',
-  styleUrls: ['./avaliacao-fisica-editar.component.css']
+  selector: 'app-editar-avaliacao-fisica',
+  templateUrl: './editar-avaliacao-fisica.component.html',
+  styleUrls: ['./editar-avaliacao-fisica.component.css']
 })
-export class AvaliacaoFisicaEditarComponent implements OnInit {
+export class EditarAvaliacaoFisicaComponent implements OnInit {
 
   mensagemErro: string = '';
   searchWord: string;
@@ -111,7 +111,7 @@ export class AvaliacaoFisicaEditarComponent implements OnInit {
       this.avaliacaoFisica.medidas.duploProduto = duploProd;
     }
 
-    this.router.navigate(['/usuario', this.usuarioId, nmRoute, 'editar', this.avaliacaoFisicaId], { queryParams: this.obterQueryParams() });
+    this.router.navigate(['../../', nmRoute, 'editar', this.avaliacaoFisicaId], { relativeTo: this.route, queryParams: this.obterQueryParams() });
   }
 
   onSubmit() {
@@ -121,7 +121,7 @@ export class AvaliacaoFisicaEditarComponent implements OnInit {
       this.avaliacaoService.adicionarMedidas(this.avaliacaoForm.value);
       this.avaliacaoService.salvarAvaliacaoFisica(this.avaliacaoFisica).subscribe((resp) => {
         this.mensagemErro = '';
-        this.router.navigate(['/usuario', this.usuarioId, 'avaliacoes-fisicas'], { queryParams: this.obterQueryParams() });
+        this.router.navigate(['avaliacao-fisica', this.usuarioId], { queryParams: this.obterQueryParams() });
       }, (resp) => {
         this.mensagemErro = resp.error;
         console.error(resp.message);

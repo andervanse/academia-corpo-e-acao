@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './components/menu/menu.component';
@@ -31,47 +30,14 @@ import { AlunoService } from './services/aluno.service';
 import { JwtInterceptor } from './services/jwt-interceptor.service';
 import { ErrorInterceptor } from './services/error-interceptor.service';
 
-import { AvaliacaoFisicaComponent } from './components/avaliacao-fisica/avaliacao-fisica.component';
 import { AvaliacaoFisicaService } from './services/avaliacao-fisica.service';
-import { EditarComposicaoCorporalComponent } from './components/avaliacao-fisica/editar-composicao-corporal/editar-composicao-corporal.component';
-import { EditarMedidasAntropometricasComponent } from './components/avaliacao-fisica/editar-medidas-antropometricas/editar-medidas-antropometricas.component';
-import { AvaliacaoFisicaEditarComponent } from './components/avaliacao-fisica/editar/avaliacao-fisica-editar.component';
+
 import { AvaliacaoFisicaAlunoComponent } from './components/avaliacao-fisica/aluno/avaliacao-fisica-aluno.component';
 
 import { FichaTreinoAlunoComponent } from './components/ficha-treino/aluno/ficha-treino-aluno.component';
 import { FichaTreinoListaComponent } from './components/ficha-treino/lista/ficha-treino-lista.component';
-
-const appRoutes :Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', redirectTo: '' },
-  { path: 'contato', component: ContatoComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'logoff', component: LogoffComponent },  
-  { path: 'info-aluno', component: InfoAlunoComponent, canActivate: [AuthGuardService] }, 
-  { path: 'avaliacao-fisica-aluno', component: AvaliacaoFisicaAlunoComponent, canActivate: [AuthGuardService] },
-
-  { path: 'ficha-treino', component: FichaTreinoComponent, 
-    children: [
-      { path: '', component: FichaTreinoListaComponent, canActivate: [AuthGuardService] },
-      { path: 'aluno', component: FichaTreinoAlunoComponent, canActivate: [AuthGuardService] },
-      { path: 'editar/template/:treino', component: FichaTreinoAlunoEditarComponent, canActivate: [AuthGuardService] },
-      { path: 'editar/:usuario', component: FichaTreinoAlunoEditarComponent, canActivate: [AuthGuardService] }
-    ]
-  },
-
-  { path: 'usuario', component: UsuarioComponent, 
-     children: [
-       { path: '', component: ListaUsuarioComponent, canActivate: [AuthGuardService] },       
-       { path: 'senha-usuario', component: SenhaUsuarioComponent, canActivate: [AuthGuardService] },
-       { path: ':usuario/avaliacoes-fisicas', component: AvaliacaoFisicaComponent, canActivate: [AuthGuardService] },
-       { path: ':usuario/composicao-corporal/editar/:avaliacao', component: EditarComposicaoCorporalComponent, canActivate: [AuthGuardService] },
-       { path: ':usuario/med-antrop/editar/:avaliacao', component: EditarMedidasAntropometricasComponent, canActivate: [AuthGuardService] },
-       { path: ':usuario/avaliacoes-fisicas/editar/:avaliacao', component: AvaliacaoFisicaEditarComponent, canActivate: [AuthGuardService] },
-       { path: ':usuario', component: CadastroUsuarioComponent, canActivate: [AuthGuardService] }    
-     ]  
-  },
-  { path: '**', redirectTo: '' }
-]
+import { AvaliacaoFisicaModule } from './components/avaliacao-fisica/avaliacao-fisica.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -91,20 +57,16 @@ const appRoutes :Routes = [
     InfoAlunoComponent,
     FichaTreinoComponent,    
     FichaTreinoAlunoComponent,
-    AvaliacaoFisicaAlunoComponent,
-    EditarComposicaoCorporalComponent,
-    EditarMedidasAntropometricasComponent,
     FichaTreinoListaComponent,
-    AvaliacaoFisicaComponent,
-    AvaliacaoFisicaEditarComponent,
-    AvaliacaoFisicaAlunoComponent
+    AvaliacaoFisicaAlunoComponent    
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes, { useHash: true }),
+    AvaliacaoFisicaModule,   
+    AppRoutingModule,     
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [

@@ -110,7 +110,7 @@ export class EditarMedidasAntropometricasComponent implements OnInit {
       }
     }
 
-    this.router.navigate(['/usuario', this.avaliacaoFisica.usuarioId, 'avaliacoes-fisicas', 'editar', this.avaliacaoFisica.id], { queryParams: { search: this.searchWord, aluno: this.nomeAluno } });        
+    this.router.navigate(['avaliacao-fisica', this.usuarioId, 'editar', this.avaliacaoId], { queryParams: { search: this.searchWord, aluno: this.nomeAluno } });        
   }
 
 }
