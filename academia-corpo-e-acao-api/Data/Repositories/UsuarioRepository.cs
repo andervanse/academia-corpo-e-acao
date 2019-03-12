@@ -40,10 +40,12 @@ namespace academia_corpo_e_acao
                     updExp.Append(" #dtAt = :dtAt,");
                     exprAttrNames.Add("#dtAt", "dt-atualizacao");
 
-                    exprAttrValues.Add(":sexo", new AttributeValue { S = user.Sexo.ToString() });
-                    updExp.Append(" #sexo = :sexo,");
-                    exprAttrNames.Add("#sexo", "sexo");
-
+                    if (user.Sexo.HasValue) {
+                        exprAttrValues.Add(":sexo", new AttributeValue { S = user.Sexo.ToString() });
+                        updExp.Append(" #sexo = :sexo,");
+                        exprAttrNames.Add("#sexo", "sexo");
+                    }
+                    
                     if (!String.IsNullOrEmpty(user.Senha))
                     {
                         var salt = SecurityCrypt.GenerateSalt();

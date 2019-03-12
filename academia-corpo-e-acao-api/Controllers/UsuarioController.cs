@@ -147,22 +147,26 @@ namespace academia_corpo_e_acao
         {
             if (usuario == null) return null;
 
-            Object sx;
-            Enum.TryParse(typeof(Sexo), usuario.Sexo, true, out sx);
-
-            return new Usuario 
+            var usr =  new Usuario 
             {
                 Id = usuario.Id,
                 Senha = usuario.Senha,
                 Login = usuario.Login,
                 Nome = usuario.Nome,
                 Email = usuario.Email,
-                Celular = usuario.Celular,
-                Sexo = (Sexo)sx,
+                Celular = usuario.Celular,            
                 DtNascimento = usuario.DtNascimento,                
                 DtAtualizacao = usuario.DtAtualizacao,
                 Observacao = usuario.Observacao
             };
+
+            if (!string.IsNullOrEmpty(usuario.Sexo)) {
+                Object sx;
+                Enum.TryParse(typeof(Sexo), usuario.Sexo, true, out sx);
+                usr.Sexo = (Sexo)sx;
+            }            
+
+            return usr;
         } 
 
         private static UsuarioViewModel ConvertToViewModel(Usuario usuario) 

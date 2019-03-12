@@ -1,72 +1,20 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AvaliacaoFisicaService } from '../../services/avaliacao-fisica.service';
-import { AvaliacaoFisica } from '../../models/avaliacao-fisica.model';
-
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { fadeInOutAnimation } from '../../services/animation';
 @Component({
   selector: 'app-avaliacao-fisica',
   templateUrl: './avaliacao-fisica.component.html',
-  styleUrls: ['./avaliacao-fisica.component.css']
+  styleUrls: ['./avaliacao-fisica.component.css'],
+  animations: [fadeInOutAnimation]
 })
 export class AvaliacaoFisicaComponent implements OnInit {
 
-  mensagemErro: string = '';
-  searchWord: string;
-  nomeAluno: string;
-  avaliacoesFisicas: AvaliacaoFisica[] = [];
-  avaliacaoFisicaIdSelecionada: number;
-  usuarioId: number;
-  loading: boolean = false;
-  @ViewChild('dialogModal') dialogModal: ElementRef;
+  constructor() { }
 
-  constructor(
-    private route: ActivatedRoute,
-    private avaliacaoService: AvaliacaoFisicaService) { }
+  ngOnInit() { }
 
-  ngOnInit() {
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet.isActivated ? outlet.activatedRoute : '';
+  }  
 
-    this.route.queryParams.subscribe((params) => {
-      this.searchWord = params['search'];
-      this.nomeAluno = params['aluno'];
-    });
-
-    this.route.params.subscribe((params) => {
-      this.usuarioId = params['usuario'];
-      this.loading = true;
-
-      if (params['usuario']) {
-        this.avaliacaoService.obterAvaliacoesFisicas(params['usuario']).subscribe((avaliacoesFisicas) => {
-          if (avaliacoesFisicas) {
-            this.avaliacoesFisicas = avaliacoesFisicas;
-          }
-          this.loading = false;
-        }, (error) => {
-          if (error.status === 404) {
-            this.avaliacoesFisicas = [];
-          } else {
-            console.error(error.message);
-          }
-          
-          this.loading = false;
-        });
-      }
-    });
-  }
-
-  onToggleModal(avaliacaoFisicaId: number) {
-    this.avaliacaoFisicaIdSelecionada = avaliacaoFisicaId;
-    this.dialogModal.nativeElement.classList.toggle('is-active');
-  }
-
-  onExcluirClick() {
-    if (this.avaliacaoFisicaIdSelecionada) {
-      this.avaliacaoService.excluirAvaliacaoFisica(this.avaliacaoFisicaIdSelecionada).subscribe((resp) => {
-        this.avaliacoesFisicas = resp;
-        this.dialogModal.nativeElement.classList.toggle('is-active');
-      }, (error) => {
-        console.log(error);
-        this.dialogModal.nativeElement.classList.toggle('is-active');
-      });
-    }
-  }
 }
