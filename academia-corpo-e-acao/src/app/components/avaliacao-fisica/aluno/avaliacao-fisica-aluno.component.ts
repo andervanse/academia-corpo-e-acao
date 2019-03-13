@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AvaliacaoFisicaService } from '../../../services/avaliacao-fisica.service';
 import { AvaliacaoFisica } from '../../../models/avaliacao-fisica.model';
 import { AuthService } from '../../../services/auth.service';
@@ -37,7 +37,6 @@ export class AvaliacaoFisicaAlunoComponent implements OnInit {
       this.loading = false;
     });   
   }
-
 
   private initializeChart() {
 

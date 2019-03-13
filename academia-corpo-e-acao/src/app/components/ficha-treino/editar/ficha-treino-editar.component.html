@@ -65,8 +65,7 @@
         <tbody>
           <tr *ngFor="let item of grupo.exercicios">
             <td>
-              <span class="is-mobile">{{ item.descricao | minimizeText:7 }}</span>
-              <span class="is-desktop">{{ item.descricao }}</span>
+              <span>{{ item.descricao }}</span>
             </td>
             <td>{{ item.ordem }}</td>
             <td>{{ item.repeticao }}</td>
