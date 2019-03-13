@@ -77,13 +77,7 @@ export class EditarAvaliacaoFisicaComponent implements OnInit {
         usuarioId: this.avaliacaoFisica.usuarioId || '',
         obs: this.avaliacaoFisica.observacao || '',
         estatura: this.avaliacaoFisica.medidas.estatura || '',
-        peso: this.avaliacaoFisica.medidas.peso || '',
-        pressaoArterialSistolica: this.avaliacaoFisica.medidas.pressaoArterialSistolica || '',
-        pressaoArterialDiastolica: this.avaliacaoFisica.medidas.pressaoArterialDiastolica || '',
-        fcr: this.avaliacaoFisica.medidas.fcr || '',
-        fcMax: this.avaliacaoFisica.medidas.fcMax || '',
-        zonaAlvoInicial: this.avaliacaoFisica.medidas.zonaAlvoInicial || '',
-        zonaAlvoFinal: this.avaliacaoFisica.medidas.zonaAlvoFinal || ''
+        peso: this.avaliacaoFisica.medidas.peso || ''
       });
     }
 
@@ -105,10 +99,8 @@ export class EditarAvaliacaoFisicaComponent implements OnInit {
     if (this.avaliacaoForm.valid && this.avaliacaoForm.touched) {
       this.avaliacaoFisica.observacao = this.avaliacaoForm.value.obs;
       let imc = this.avaliacaoFisica.medidas.imc;
-      let duploProd = this.avaliacaoFisica.medidas.duploProduto;
       this.avaliacaoService.adicionarMedidas(this.avaliacaoForm.value);
       this.avaliacaoFisica.medidas.imc = imc;
-      this.avaliacaoFisica.medidas.duploProduto = duploProd;
     }
 
     this.router.navigate(['../../', nmRoute, 'editar', this.avaliacaoFisicaId], { relativeTo: this.route, queryParams: this.obterQueryParams() });

@@ -7,10 +7,7 @@ import { LogoffComponent } from "./components/logoff/logoff.component";
 import { InfoAlunoComponent } from "./components/usuario/info/info-aluno.component";
 import { AuthGuardService } from "./services/auth-guard.service";
 import { AvaliacaoFisicaAlunoComponent } from "./components/avaliacao-fisica/aluno/avaliacao-fisica-aluno.component";
-import { FichaTreinoComponent } from "./components/ficha-treino/ficha-treino.component";
-import { FichaTreinoListaComponent } from "./components/ficha-treino/lista/ficha-treino-lista.component";
 import { FichaTreinoAlunoComponent } from "./components/ficha-treino/aluno/ficha-treino-aluno.component";
-import { FichaTreinoAlunoEditarComponent } from "./components/ficha-treino/editar/ficha-treino-editar.component";
 import { UsuarioComponent } from "./components/usuario/usuario.component";
 import { ListaUsuarioComponent } from "./components/usuario/lista/lista-usuario.component";
 import { SenhaUsuarioComponent } from "./components/usuario/senha/senha-usuario.component";
@@ -27,13 +24,8 @@ const appRoutes :Routes = [
     { path: 'avaliacao-fisica-aluno', component: AvaliacaoFisicaAlunoComponent, canActivate: [AuthGuardService] },
     { path: 'ficha-treino/aluno', component: FichaTreinoAlunoComponent, canActivate: [AuthGuardService] },
 
-    { path: 'ficha-treino', component: FichaTreinoComponent, 
-      children: [
-        { path: '', component: FichaTreinoListaComponent, canActivate: [AuthGuardService] },
-        { path: 'editar/template/:treino', component: FichaTreinoAlunoEditarComponent, canActivate: [AuthGuardService] },
-        { path: 'editar/:usuario', component: FichaTreinoAlunoEditarComponent, canActivate: [AuthGuardService] }
-      ]
-    },
+    { path: 'avaliacao-fisica', loadChildren:'./components/avaliacao-fisica/avaliacao-fisica.module#AvaliacaoFisicaModule' },
+    { path: 'ficha-treino', loadChildren:'./components/ficha-treino/ficha-treino.module#FichaTreinoModule' },
 
     { path: 'usuario', component: UsuarioComponent, 
        children: [

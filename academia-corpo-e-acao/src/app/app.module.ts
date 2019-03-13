@@ -12,11 +12,9 @@ import { ContatoComponent } from './components/contato/contato.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
-import { FichaTreinoComponent } from './components/ficha-treino/ficha-treino.component';
 import { LogoffComponent } from './components/logoff/logoff.component';
 import { PlanoTreinoService } from './services/plano-treino.service';
-import { FichaTreinoAlunoEditarComponent } from './components/ficha-treino/editar/ficha-treino-editar.component';
-import { MinimizeTextPipe } from './pipes/minimize-text.pipe';
+
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
@@ -31,17 +29,13 @@ import { JwtInterceptor } from './services/jwt-interceptor.service';
 import { ErrorInterceptor } from './services/error-interceptor.service';
 
 import { AvaliacaoFisicaService } from './services/avaliacao-fisica.service';
-
 import { AvaliacaoFisicaAlunoComponent } from './components/avaliacao-fisica/aluno/avaliacao-fisica-aluno.component';
 
-import { FichaTreinoAlunoComponent } from './components/ficha-treino/aluno/ficha-treino-aluno.component';
-import { FichaTreinoListaComponent } from './components/ficha-treino/lista/ficha-treino-lista.component';
-import { AvaliacaoFisicaModule } from './components/avaliacao-fisica/avaliacao-fisica.module';
 import { AppRoutingModule } from './app-routing.module';
+import { FichaTreinoAlunoComponent } from './components/ficha-treino/aluno/ficha-treino-aluno.component';
 
 @NgModule({
   declarations: [
-    MinimizeTextPipe,
     AppComponent,
     MenuComponent,
     HomeComponent,
@@ -49,15 +43,12 @@ import { AppRoutingModule } from './app-routing.module';
     ContatoComponent,
     LoginComponent,
     LogoffComponent,
-    FichaTreinoAlunoEditarComponent,
     UsuarioComponent,
     ListaUsuarioComponent,
     CadastroUsuarioComponent,
     SenhaUsuarioComponent,
     InfoAlunoComponent,
-    FichaTreinoComponent,    
     FichaTreinoAlunoComponent,
-    FichaTreinoListaComponent,
     AvaliacaoFisicaAlunoComponent    
   ],
   imports: [
@@ -65,7 +56,8 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    AvaliacaoFisicaModule,   
+    //AvaliacaoFisicaModule, 
+    //FichaTreinoModule, 
     AppRoutingModule,     
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

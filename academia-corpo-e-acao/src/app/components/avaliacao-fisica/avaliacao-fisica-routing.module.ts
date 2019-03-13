@@ -9,7 +9,7 @@ import { CommonModule } from "@angular/common";
 import { ListaAvaliacaoFisicaComponent } from "./lista/lista-avaliacao-fisica.component";
 
 const appRoutes :Routes = [  
-    { path: 'avaliacao-fisica', component: AvaliacaoFisicaComponent, 
+    { path: '', component: AvaliacaoFisicaComponent, 
        children: [
         { path: ':usuario', component: ListaAvaliacaoFisicaComponent, canActivate: [AuthGuardService] }, 
         { path: ':usuario/editar/:avaliacao', component: EditarAvaliacaoFisicaComponent, canActivate: [AuthGuardService] }, 
