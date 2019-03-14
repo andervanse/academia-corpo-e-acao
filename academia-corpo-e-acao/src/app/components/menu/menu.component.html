@@ -30,7 +30,7 @@
         <a *ngIf="isAuthenticated() && !isAdmin()" [routerLink]="['ficha-treino', 'aluno']" class="navbar-item" (click)="onNavBarClick()">
           Minha Ficha
         </a>
-        <a *ngIf="isAuthenticated() && !isAdmin()" [routerLink]="['info-aluno']" class="navbar-item"  (click)="onNavBarClick()">
+        <a *ngIf="isAuthenticated() && !isAdmin()" [routerLink]="['usuario', 'info-aluno']" class="navbar-item"  (click)="onNavBarClick()">
           Meus Dados
         </a>
         <a *ngIf="isAuthenticated() && !isAdmin()"  [routerLink]="['avaliacao-fisica-aluno']" class="navbar-item" (click)="onNavBarClick()">

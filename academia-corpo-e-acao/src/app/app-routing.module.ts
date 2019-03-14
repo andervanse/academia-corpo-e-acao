@@ -4,15 +4,9 @@ import { HomeComponent } from "./components/home/home.component";
 import { ContatoComponent } from "./components/contato/contato.component";
 import { LoginComponent } from "./components/login/login.component";
 import { LogoffComponent } from "./components/logoff/logoff.component";
-import { InfoAlunoComponent } from "./components/usuario/info/info-aluno.component";
 import { AuthGuardService } from "./services/auth-guard.service";
 import { AvaliacaoFisicaAlunoComponent } from "./components/avaliacao-fisica/aluno/avaliacao-fisica-aluno.component";
 import { FichaTreinoAlunoComponent } from "./components/ficha-treino/aluno/ficha-treino-aluno.component";
-import { UsuarioComponent } from "./components/usuario/usuario.component";
-import { ListaUsuarioComponent } from "./components/usuario/lista/lista-usuario.component";
-import { SenhaUsuarioComponent } from "./components/usuario/senha/senha-usuario.component";
-import { CadastroUsuarioComponent } from "./components/usuario/cadastro/cadastro-usuario.component";
-
 
 const appRoutes :Routes = [
     { path: '', component: HomeComponent },
@@ -20,20 +14,12 @@ const appRoutes :Routes = [
     { path: 'contato', component: ContatoComponent },
     { path: 'login', component: LoginComponent },
     { path: 'logoff', component: LogoffComponent },  
-    { path: 'info-aluno', component: InfoAlunoComponent, canActivate: [AuthGuardService] }, 
     { path: 'avaliacao-fisica-aluno', component: AvaliacaoFisicaAlunoComponent, canActivate: [AuthGuardService] },
     { path: 'ficha-treino/aluno', component: FichaTreinoAlunoComponent, canActivate: [AuthGuardService] },
-
     { path: 'avaliacao-fisica', loadChildren:'./components/avaliacao-fisica/avaliacao-fisica.module#AvaliacaoFisicaModule' },
     { path: 'ficha-treino', loadChildren:'./components/ficha-treino/ficha-treino.module#FichaTreinoModule' },
+    { path: 'usuario', loadChildren:'./components/usuario/usuario.module#UsuarioModule' },
 
-    { path: 'usuario', component: UsuarioComponent, 
-       children: [
-         { path: '', component: ListaUsuarioComponent, canActivate: [AuthGuardService] },       
-         { path: 'senha-usuario', component: SenhaUsuarioComponent, canActivate: [AuthGuardService] },
-         { path: ':usuario', component: CadastroUsuarioComponent, canActivate: [AuthGuardService] },
-       ]  
-    },
     { path: '**', redirectTo: '' }
   ]
 

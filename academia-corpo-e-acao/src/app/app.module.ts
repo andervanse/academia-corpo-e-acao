@@ -17,21 +17,12 @@ import { PlanoTreinoService } from './services/plano-treino.service';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-
-import { UsuarioComponent } from './components/usuario/usuario.component';
-import { ListaUsuarioComponent } from './components/usuario/lista/lista-usuario.component';
-import { CadastroUsuarioComponent } from './components/usuario/cadastro/cadastro-usuario.component';
-import { SenhaUsuarioComponent } from './components/usuario/senha/senha-usuario.component';
-import { InfoAlunoComponent } from './components/usuario/info/info-aluno.component';
-
 import { AlunoService } from './services/aluno.service';
 import { JwtInterceptor } from './services/jwt-interceptor.service';
 import { ErrorInterceptor } from './services/error-interceptor.service';
-
 import { AvaliacaoFisicaService } from './services/avaliacao-fisica.service';
-import { AvaliacaoFisicaAlunoComponent } from './components/avaliacao-fisica/aluno/avaliacao-fisica-aluno.component';
-
 import { AppRoutingModule } from './app-routing.module';
+import { AvaliacaoFisicaAlunoComponent } from './components/avaliacao-fisica/aluno/avaliacao-fisica-aluno.component';
 import { FichaTreinoAlunoComponent } from './components/ficha-treino/aluno/ficha-treino-aluno.component';
 
 @NgModule({
@@ -43,13 +34,8 @@ import { FichaTreinoAlunoComponent } from './components/ficha-treino/aluno/ficha
     ContatoComponent,
     LoginComponent,
     LogoffComponent,
-    UsuarioComponent,
-    ListaUsuarioComponent,
-    CadastroUsuarioComponent,
-    SenhaUsuarioComponent,
-    InfoAlunoComponent,
-    FichaTreinoAlunoComponent,
-    AvaliacaoFisicaAlunoComponent    
+    AvaliacaoFisicaAlunoComponent,
+    FichaTreinoAlunoComponent  
   ],
   imports: [
     BrowserModule,
