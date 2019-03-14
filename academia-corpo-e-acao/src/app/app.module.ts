@@ -56,8 +56,6 @@ import { FichaTreinoAlunoComponent } from './components/ficha-treino/aluno/ficha
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    //AvaliacaoFisicaModule, 
-    //FichaTreinoModule, 
     AppRoutingModule,     
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
