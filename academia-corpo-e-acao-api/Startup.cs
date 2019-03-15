@@ -35,6 +35,7 @@ namespace academia_corpo_e_acao
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IPlanoTreinoRepository, PlanoTreinoRepository>();
             services.AddScoped<IAvaliacaoFisicaRepository, AvaliacaoFisicaRepository>();
+            services.AddSingleton<IUploadFile, UploadFileAWS>();
             services.AddSingleton<IConfiguration>(x => Configuration);
             services.AddScoped<DynamoDbContext>();
 

@@ -15,5 +15,6 @@ export class Usuario {
     login?: string;
     senha?: string;
     confirmaSenha?: string;
+    urlFoto?: string;
 }
 

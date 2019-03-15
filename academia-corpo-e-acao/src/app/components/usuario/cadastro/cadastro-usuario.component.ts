@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { Usuario } from '../../../models/usuario.model';
 import { AlunoService } from '../../../services/aluno.service';
 import { isNullOrUndefined } from 'util';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -16,6 +17,8 @@ export class CadastroUsuarioComponent implements OnInit {
   aluno: Usuario;
   searchWord: string;
   nomeAluno: string;
+  imagemUpload: any;
+  progress: number;
   sexo = ['Masculino', 'Feminino'];
   @ViewChild('alunoForm') alunoForm: FormGroup;
   @ViewChild('btnSalvar') btnSalvar : ElementRef;
@@ -82,6 +85,25 @@ export class CadastroUsuarioComponent implements OnInit {
         confirmaSenha: loginForm.value.confirmaSenha
       };
 
+      if (this.imagemUpload) {
+        const formData = new FormData();
+        formData.append('file', this.imagemUpload, usrSenha.nome);
+
+        this.alunoService.uploadFotoAluno(formData).subscribe((event) => {
+          
+          if (event.type === HttpEventType.UploadProgress)
+             this.progress = Math.round(100 * event.loaded / event.total);
+          else if (event.type === HttpEventType.Response) {
+            console.log('Upload success.');
+             //this.message = 'Upload success.';
+             //this.onUploadFinished.emit(event.body);
+        }
+
+        });
+      }
+
+      console.log(usrSenha);
+
       this.alunoService.salvarAluno(usrSenha).subscribe((resp) => {
         this.mensagemErro = '';
         this.btnSalvar.nativeElement.classList.remove('is-loading');
@@ -98,4 +120,17 @@ export class CadastroUsuarioComponent implements OnInit {
     this.mensagemErro = '';
   }
 
+  imageUpload(e) {
+
+    if (e.target.files[0]) {
+      let reader = new FileReader();
+      let file = e.target.files[0];
+
+      reader.onloadend = () => {
+        this.imagemUpload = reader.result;
+      }
+
+      reader.readAsDataURL(file);
+    }
+  }  
 }

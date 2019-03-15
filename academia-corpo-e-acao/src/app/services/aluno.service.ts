@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -38,5 +38,16 @@ export class AlunoService {
         })
       );
   }  
+
+  uploadFotoAluno(file: any): Observable<any> {
+    const headers = new HttpHeaders().append("enctype", "multipart/form-data");
+
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/uploadFile`, file, {headers: headers, reportProgress: true, observe: 'events'})
+      .pipe(
+        map((resp) => {
+          return resp;
+        })
+      );
+  }    
 
 }

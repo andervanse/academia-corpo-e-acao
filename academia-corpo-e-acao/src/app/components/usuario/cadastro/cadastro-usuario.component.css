@@ -16,3 +16,29 @@
    }   
 }
   
+
+
+div.fileinputs {
+	position: relative;
+}
+
+div.fakefile {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+}
+
+input.file {
+	height: 40px;
+	max-width: 80px;
+}
+
+input.file {
+	position: relative;
+    text-align: right;
+    filter:alpha(opacity 0);
+    width:60px;
+    opacity: 0;
+	z-index: 2;
+}

@@ -52,6 +52,15 @@
       </div>
     </div>
 
+    <div class="field">
+      <div class="fileinputs" id="file-upload">
+         <input type="file" class="file" accept="image/*" (change)="imageUpload($event)" />
+         <div class="fakefile">
+             <img src="../../../assets/img/icons/icon-upload-32x32.png" />
+         </div>
+      </div>
+    </div>
+
     <label for="novaSenha">Nova senha (Opcional)</label>
     <div class="box" id="novaSenha">
       <div class="field">
