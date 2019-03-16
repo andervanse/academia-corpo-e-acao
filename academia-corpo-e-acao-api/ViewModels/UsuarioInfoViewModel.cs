@@ -12,6 +12,7 @@ namespace academia_corpo_e_acao
         public string Senha { get; set; }
         public string Celular { get; set; }
         public string Sexo { get; set; }
+        public string UrlFoto {get; set; } 
         public DateTime? DtNascimento { get; set; }
         public string Observacao { get; set; }
         public DateTime DtAtualizacao { get; set; }

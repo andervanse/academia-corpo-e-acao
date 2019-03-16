@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace academia_corpo_e_acao
 {
-    [Authorize]
+    [Authorize(Roles = Role.Admin)]
     [Route("api/[controller]")]
     public class UploadFileController : AcademiaControllerBase
     {
@@ -33,14 +33,12 @@ namespace academia_corpo_e_acao
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] IFormCollection form)
         {
-
             long size =  form.Files.Sum(f => f.Length);
 
             if (size > 0)
             {
-                //var filePath = Path.GetTempPath();
-                var user = this.ObterUsuario();
                 var formFile = form.Files[0];
+                var urlLocation = "";
 
                 if (formFile.Length > 0 && !String.IsNullOrEmpty(formFile.FileName))
                 {
@@ -48,14 +46,12 @@ namespace academia_corpo_e_acao
                     {                        
                         using (var stream = formFile.OpenReadStream())
                         {
-                            await _uploadFile.UploadFileAsync(stream, $"{user.Id}_{formFile.FileName}");
+                            var fileId = Guid.NewGuid();
+                            urlLocation = await _uploadFile.UploadFileAsync(stream, $"{fileId}");
                         }
                     }
                 }
-
-                var resp = await _userRepo.SalvarAsync(user);
-
-                return Ok(new { size });
+                return Ok(new { urlLocation = urlLocation });
             }
             else
             {

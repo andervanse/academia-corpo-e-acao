@@ -157,6 +157,7 @@ namespace academia_corpo_e_acao
                 Celular = usuario.Celular,            
                 DtNascimento = usuario.DtNascimento,                
                 DtAtualizacao = usuario.DtAtualizacao,
+                UrlFoto = usuario.UrlFoto,
                 Observacao = usuario.Observacao
             };
 
@@ -183,6 +184,7 @@ namespace academia_corpo_e_acao
                 Celular = usuario.Celular,
                 Sexo = usuario.Sexo.ToString(),
                 DtNascimento = usuario.DtNascimento, 
+                UrlFoto = usuario.UrlFoto,
                 Observacao = usuario.Observacao
             };
         }             

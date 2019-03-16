@@ -17,9 +17,8 @@
 }
   
 
-
 div.fileinputs {
-	position: relative;
+   position: relative;
 }
 
 div.fakefile {
@@ -30,15 +29,15 @@ div.fakefile {
 }
 
 input.file {
-	height: 40px;
-	max-width: 80px;
+	height: 90px;
+	max-width: 120px;
 }
 
 input.file {
-	position: relative;
+	position: absolute;
     text-align: right;
     filter:alpha(opacity 0);
-    width:60px;
+    width:190px;
     opacity: 0;
 	z-index: 2;
 }

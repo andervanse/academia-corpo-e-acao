@@ -4,7 +4,6 @@ import { FormGroup } from '@angular/forms';
 import { Usuario } from '../../../models/usuario.model';
 import { AlunoService } from '../../../services/aluno.service';
 import { isNullOrUndefined } from 'util';
-import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-cadastro-usuario',
@@ -17,6 +16,7 @@ export class CadastroUsuarioComponent implements OnInit {
   aluno: Usuario;
   searchWord: string;
   nomeAluno: string;
+  urlFoto: string;
   imagemUpload: any;
   uploadedFile: File;
   progress: number;
@@ -41,7 +41,7 @@ export class CadastroUsuarioComponent implements OnInit {
         this.alunoService.obterInfoUsuario(params['usuario']).subscribe((usuario) => {
           if (usuario) {
             this.aluno = usuario;
-
+            this.urlFoto = this.aluno.urlFoto;
             let dtNasc = this.aluno.dtNascimento ? new Date(this.aluno.dtNascimento).toISOString().substring(0, 10) : '';
 
             this.alunoForm.setValue({
@@ -62,58 +62,57 @@ export class CadastroUsuarioComponent implements OnInit {
     });
   }
 
-  onSubmit(loginForm) {
+  onSubmit(usuarioForm) {
 
-    if (loginForm.valid) {
+    if (usuarioForm.valid) {
       this.btnSalvar.nativeElement.classList.add('is-loading');
 
-      if ((!isNullOrUndefined(loginForm.value.password) && !isNullOrUndefined(loginForm.value.confirmPassword))
-          && (loginForm.value.password !== loginForm.value.confirmPassword) ){
+      if ((!isNullOrUndefined(usuarioForm.value.password) && !isNullOrUndefined(usuarioForm.value.confirmPassword))
+          && (usuarioForm.value.password !== usuarioForm.value.confirmPassword) ){
         this.mensagemErro = 'Senha e confirmação de senha diferentes!';
         this.btnSalvar.nativeElement.classList.remove('is-loading');
         return;
       }
 
       let usrSenha: Usuario = {
-        id: loginForm.value.id,
-        nome: loginForm.value.nome,
-        email: loginForm.value.email,
-        celular: loginForm.value.celular,
-        dtNascimento: loginForm.value.dtNascimento,
-        sexo: loginForm.value.sexo,
-        observacao: loginForm.value.obs,
-        senha: loginForm.value.senha,
-        confirmaSenha: loginForm.value.confirmaSenha
+        id: usuarioForm.value.id,
+        nome: usuarioForm.value.nome,
+        email: usuarioForm.value.email,
+        celular: usuarioForm.value.celular,
+        dtNascimento: usuarioForm.value.dtNascimento,
+        sexo: usuarioForm.value.sexo,
+        observacao: usuarioForm.value.obs,
+        senha: usuarioForm.value.senha,
+        confirmaSenha: usuarioForm.value.confirmaSenha
       };
 
       if (this.imagemUpload) {
-        console.log(this.imageUpload);
         const formData = new FormData();
         formData.append('image', this.uploadedFile);
 
-        this.alunoService.uploadFotoAluno(formData).subscribe((event) => {
-          
-          if (event.type === HttpEventType.UploadProgress)
-             this.progress = Math.round(100 * event.loaded / event.total);
-          else if (event.type === HttpEventType.Response) {
-            console.log('Upload success.');
-             //this.message = 'Upload success.';
-             //this.onUploadFinished.emit(event.body);
-        }
-
+        this.alunoService.uploadFotoAluno(formData).subscribe((resp) => { 
+          usrSenha.urlFoto = resp.urlLocation;
+          this.salvarAluno(usrSenha);
+        }, (error) => {
+          console.error(error.message);
+          this.mensagemErro = error.message;
         });
+      } else {
+        this.salvarAluno(usrSenha);
       }
-
-      this.alunoService.salvarAluno(usrSenha).subscribe((resp) => {
-        this.mensagemErro = '';
-        this.btnSalvar.nativeElement.classList.remove('is-loading');
-        this.router.navigate(['./usuario'], { queryParams: { search: this.searchWord }});
-      }, (error) => {
-        console.error(error.message);
-        this.mensagemErro = error.error;
-        this.btnSalvar.nativeElement.classList.remove('is-loading');
-      });
     }
+  }
+
+  private salvarAluno(usr: Usuario) {
+    this.alunoService.salvarAluno(usr).subscribe((resp) => {
+      this.mensagemErro = '';
+      this.btnSalvar.nativeElement.classList.remove('is-loading');
+      this.router.navigate(['./usuario'], { queryParams: { search: this.searchWord }});
+    }, (error) => {
+      console.error(error.message);
+      this.mensagemErro = error.message;
+      this.btnSalvar.nativeElement.classList.remove('is-loading');
+    });
   }
 
   onNotificationClick() {

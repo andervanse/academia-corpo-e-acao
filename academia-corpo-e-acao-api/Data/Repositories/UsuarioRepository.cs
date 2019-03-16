@@ -94,6 +94,13 @@ namespace academia_corpo_e_acao
                         exprAttrNames.Add("#celular", "celular");
                     }
 
+                    if (!String.IsNullOrEmpty(user.UrlFoto))
+                    {
+                        exprAttrValues.Add(":urlFoto", new AttributeValue { S = user.UrlFoto });
+                        updExp.Append(" #urlFoto = :urlFoto,");
+                        exprAttrNames.Add("#urlFoto", "url-foto");
+                    }                    
+
                     if (!String.IsNullOrEmpty(user.Observacao))
                     {
                         exprAttrValues.Add(":obs", new AttributeValue { S = user.Observacao });
@@ -269,6 +276,7 @@ namespace academia_corpo_e_acao
                         { "#salt", "salt" },
                         { "#email", "email" },
                         { "#celular", "celular" },
+                        { "#urlFoto", "url-foto" },
                         { "#obs", "obs" },
                         { "#isAdmin", "admin" }
                     },
@@ -277,7 +285,7 @@ namespace academia_corpo_e_acao
                          { ":t", new AttributeValue { S = "usuario" } },
                          { $":{attrName}", attrValue }
                     },
-                ProjectionExpression = "#id, #login, #nome, #dtAt, #dtNasc, #sexo, #hashedPassword, #salt, #email, #celular, #obs, #isAdmin"
+                ProjectionExpression = "#id, #login, #nome, #dtAt, #dtNasc, #sexo, #hashedPassword, #salt, #email, #celular, #urlFoto, #obs, #isAdmin"
             };
         }
 
@@ -311,6 +319,10 @@ namespace academia_corpo_e_acao
                     {
                         usuario.Observacao = value.S;
                     }
+                    else if (attributeName == "url-foto")
+                    {
+                        usuario.UrlFoto = value.S;
+                    }                    
                     else if (attributeName == "dt-atualizacao")
                     {
                         DateTime dtAtual;

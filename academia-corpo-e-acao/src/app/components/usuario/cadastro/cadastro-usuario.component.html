@@ -1,93 +1,100 @@
 <p class="notification title is-5 is-orange has-text-centered">
-    Cadastro  -  {{ nomeAluno }}
+  Cadastro - {{ nomeAluno }}
 </p>
 
-  <div *ngIf="mensagemErro !== ''" class="notification is-danger" (click)="onNotificationClick()">
-    <button class="delete"></button>
-    <h4 class="title is-4 has-text-centered">
-      {{ mensagemErro }}
-    </h4>
-  </div>
-    
-  <form #alunoForm="ngForm" (ngSubmit)="onSubmit(alunoForm)" novalidate>
-    <input type="hidden" name="id" ngModel>
-    <div class="field">
-      <label for="Nome">*Nome</label>
-      <div class="control" id="nome">
-        <input class="input" type="text" placeholder="Nome" name="nome" ngModel required minlength="8" maxlength="60">
-      </div>
-    </div>
-    <div class="field">
-      <label for="email">E-mail</label>
-      <div class="control" id="email">
-        <input class="input" type="text" placeholder="Email" name="email" ngModel minlength="6" maxlength="60">
-      </div>
-    </div>
-    <div class="field">
-      <label for="celular">Celular</label>
-      <div class="control" id="celular">
-        <input class="input" type="text" placeholder="Celular" name="celular" ngModel maxlength="20">
-      </div>
-    </div>
-    <div class="field">
-      <label for="dt-nasc">Dt. Nascimento</label>
-      <div class="control" id="dt-nasc">
-        <input class="input" type="date" placeholder="Data Nascimento" name="dtNascimento" ngModel required>
-      </div>
-    </div>      
-    <div class="field">
-      <label for="sexo">Sexo</label>
-      <div class="control" id="sexo">
-        <select class="input" name="sexo" ngModel required>
-          <option value="">Selecione</option>
-          <option [value]="opt" *ngFor="let opt of sexo">{{ opt }}</option>
-        </select>
-      </div>
-    </div>    
-    <div class="field">
-      <label for="observacao">Observação</label>
-      <div class="control" id="observacao">
-        <textarea class="textarea" type="text" rows="4" placeholder="Observação" name="obs" ngModel
-          maxlength="1000"></textarea>
-      </div>
-    </div>
+<div *ngIf="mensagemErro !== ''" class="notification is-danger" (click)="onNotificationClick()">
+  <button class="delete"></button>
+  <h4 class="title is-4 has-text-centered">
+    {{ mensagemErro }}
+  </h4>
+</div>
 
-    <div class="field">
+<form #alunoForm="ngForm" (ngSubmit)="onSubmit(alunoForm)" novalidate autocomplete="off">
+  <input type="hidden" name="id" ngModel>
+
+  <div class="columns is-mobile has-text-centered">
+    <div class="column is-3"></div>
+    <div class="column is-8">
       <div class="fileinputs" id="file-upload">
-         <input type="file" class="file" accept="image/*" (change)="imageUpload($event)" />
-         <div class="fakefile">
-             <img src="../../../assets/img/icons/icon-upload-32x32.png" />
-         </div>
+        <input type="file" class="file" accept="image/*" (change)="imageUpload($event)" />
+
+        <figure class="image is-128x128 fakefile">
+          <img class="is-rounded" *ngIf="imagemUpload" [src]="imagemUpload" />
+          <img class="is-rounded" *ngIf="!imagemUpload" [src]="urlFoto" />
+        </figure>
       </div>
     </div>
+  </div>
 
-    <label for="novaSenha">Nova senha (Opcional)</label>
-    <div class="box" id="novaSenha">
-      <div class="field">
-        <label for="altura">Senha</label>
-        <div class="control" id="senha">
-          <input class="input" type="password" placeholder="Senha" name="senha" ngModel minlength="8" maxlength="30">
-        </div>
-      </div>
-      <div class="field">
-        <label for="confirmaSenha">Confirmação da Senha</label>
-        <div class="control" id="confirmaSenha">
-          <input class="input" type="password" placeholder="Confirmar Senha" name="confirmaSenha" ngModel minlength="8"
-            maxlength="30">
-        </div>
+  <div class="field">
+    <label for="Nome">*Nome</label>
+    <div class="control" id="nome">
+      <input class="input" type="text" placeholder="Nome" name="nome" ngModel required minlength="8" maxlength="60">
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="email">E-mail</label>
+    <div class="control" id="email">
+      <input class="input" type="text" placeholder="Email" name="email" ngModel minlength="6" maxlength="60">
+    </div>
+  </div>
+
+
+  <div class="field">
+    <label for="celular">Celular</label>
+    <div class="control" id="celular">
+      <input class="input" type="text" placeholder="Celular" name="celular" ngModel maxlength="20">
+    </div>
+  </div>
+  <div class="field">
+    <label for="dt-nasc">Dt. Nascimento</label>
+    <div class="control" id="dt-nasc">
+      <input class="input" type="date" placeholder="Data Nascimento" name="dtNascimento" ngModel required>
+    </div>
+  </div>
+  <div class="field">
+    <label for="sexo">Sexo</label>
+    <div class="control" id="sexo">
+      <select class="input" name="sexo" ngModel required>
+        <option value="">Selecione</option>
+        <option [value]="opt" *ngFor="let opt of sexo">{{ opt }}</option>
+      </select>
+    </div>
+  </div>
+  <div class="field">
+    <label for="observacao">Observação</label>
+    <div class="control" id="observacao">
+      <textarea class="textarea" type="text" rows="4" placeholder="Observação" name="obs" ngModel
+        maxlength="1000"></textarea>
+    </div>
+  </div>
+
+  <label for="novaSenha">Nova senha (Opcional)</label>
+  <div class="box" id="novaSenha">
+    <div class="field">
+      <label for="altura">Senha</label>
+      <div class="control" id="senha">
+        <input class="input" type="password" placeholder="Senha" name="senha" ngModel minlength="8" maxlength="30">
       </div>
     </div>
-
-    <div class="is-pulled-right">
-      <a class="button is-danger is-medium" 
-         [routerLink]="['/usuario']"
-         [queryParams]="{search:searchWord}">Voltar</a>
-      &nbsp;
-      <button type="submit" class="button is-info is-medium" [disabled]="!alunoForm.form.valid" #btnSalvar>Salvar</button>
+    <div class="field">
+      <label for="confirmaSenha">Confirmação da Senha</label>
+      <div class="control" id="confirmaSenha">
+        <input class="input" type="password" placeholder="Confirmar Senha" name="confirmaSenha" ngModel minlength="8"
+          maxlength="30">
+      </div>
     </div>
+  </div>
 
-  </form>
+  <div class="is-pulled-right">
+    <a class="button is-danger is-medium" [routerLink]="['/usuario']" [queryParams]="{search:searchWord}">Voltar</a>
+    &nbsp;
+    <button type="submit" class="button is-info is-medium" [disabled]="!alunoForm.form.valid" #btnSalvar>Salvar</button>
+  </div>
 
+</form>
+<br>
 <br>
 <br>
 <br>
