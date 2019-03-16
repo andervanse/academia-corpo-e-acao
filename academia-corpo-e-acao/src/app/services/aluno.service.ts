@@ -40,9 +40,7 @@ export class AlunoService {
   }  
 
   uploadFotoAluno(file: any): Observable<any> {
-    const headers = new HttpHeaders().append("enctype", "multipart/form-data");
-
-    return this.http.post<any>(`${environment.apiBaseUrl}/api/uploadFile`, file, {headers: headers, reportProgress: true, observe: 'events'})
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/uploadFile`, file)
       .pipe(
         map((resp) => {
           return resp;

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Amazon;
 using Amazon.S3;
 using Amazon.S3.Transfer;
 using Microsoft.Extensions.Configuration;
@@ -11,10 +12,13 @@ namespace academia_corpo_e_acao
     public class UploadFileAWS:IUploadFile
     {
         private static IAmazonS3 s3Client;
+        
         private readonly IConfiguration _configuration;
         private readonly ILogger _log;
 
-        public UploadFileAWS (IConfiguration configuration, ILoggerFactory logger)
+        public UploadFileAWS (
+            IConfiguration configuration,
+            ILoggerFactory logger)
         {
             _configuration = configuration;
             _log = logger.CreateLogger("UploadFileAWS");            
@@ -24,9 +28,12 @@ namespace academia_corpo_e_acao
         {
             try
             {
-                var bucketName = _configuration["Website:S3Bucket"];
-                var fileTransferUtility = new TransferUtility(s3Client);
-                await fileTransferUtility.UploadAsync(fileStream, bucketName, keyName);
+                using (var client = new AmazonS3Client(RegionEndpoint.SAEast1))
+                {
+                    var bucketName = _configuration["Website:S3Bucket"];
+                    var fileTransferUtility = new TransferUtility(client);
+                    await fileTransferUtility.UploadAsync(fileStream, bucketName, keyName);
+                }
             }
             catch (AmazonS3Exception e)
             {

@@ -18,6 +18,7 @@ export class CadastroUsuarioComponent implements OnInit {
   searchWord: string;
   nomeAluno: string;
   imagemUpload: any;
+  uploadedFile: File;
   progress: number;
   sexo = ['Masculino', 'Feminino'];
   @ViewChild('alunoForm') alunoForm: FormGroup;
@@ -86,8 +87,9 @@ export class CadastroUsuarioComponent implements OnInit {
       };
 
       if (this.imagemUpload) {
+        console.log(this.imageUpload);
         const formData = new FormData();
-        formData.append('file', this.imagemUpload, usrSenha.nome);
+        formData.append('image', this.uploadedFile);
 
         this.alunoService.uploadFotoAluno(formData).subscribe((event) => {
           
@@ -101,8 +103,6 @@ export class CadastroUsuarioComponent implements OnInit {
 
         });
       }
-
-      console.log(usrSenha);
 
       this.alunoService.salvarAluno(usrSenha).subscribe((resp) => {
         this.mensagemErro = '';
@@ -124,13 +124,13 @@ export class CadastroUsuarioComponent implements OnInit {
 
     if (e.target.files[0]) {
       let reader = new FileReader();
-      let file = e.target.files[0];
+      this.uploadedFile = e.target.files[0];
 
       reader.onloadend = () => {
         this.imagemUpload = reader.result;
       }
 
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(this.uploadedFile);
     }
   }  
 }

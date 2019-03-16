@@ -31,27 +31,36 @@ namespace academia_corpo_e_acao
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(List<IFormFile> files)
+        public async Task<IActionResult> Post([FromForm] IFormCollection form)
         {
-            long size = files.Sum(f => f.Length);
-            var filePath = Path.GetTempFileName();
-            var user = this.ObterUsuario();
-            var formFile = files[0];
 
-            if (formFile.Length > 0 && !String.IsNullOrEmpty(formFile.FileName))
+            long size =  form.Files.Sum(f => f.Length);
+
+            if (size > 0)
             {
-                if (ImageHelper.CheckIfImageFile(formFile))
+                //var filePath = Path.GetTempPath();
+                var user = this.ObterUsuario();
+                var formFile = form.Files[0];
+
+                if (formFile.Length > 0 && !String.IsNullOrEmpty(formFile.FileName))
                 {
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await _uploadFile.UploadFileAsync(stream, $"{user.Id}_{formFile.FileName}");
+                    if (ImageHelper.CheckIfImageFile(formFile))
+                    {                        
+                        using (var stream = formFile.OpenReadStream())
+                        {
+                            await _uploadFile.UploadFileAsync(stream, $"{user.Id}_{formFile.FileName}");
+                        }
                     }
                 }
+
+                var resp = await _userRepo.SalvarAsync(user);
+
+                return Ok(new { size });
             }
-
-            var resp = await _userRepo.SalvarAsync(user);
-
-            return Ok(new { size, filePath });
+            else
+            {
+                return BadRequest("Empty file");
+            }
         }
     }
 }
