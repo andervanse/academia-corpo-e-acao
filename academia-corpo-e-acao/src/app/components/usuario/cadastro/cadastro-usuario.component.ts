@@ -20,9 +20,10 @@ export class CadastroUsuarioComponent implements OnInit {
   imagemUpload: any;
   uploadedFile: File;
   progress: number;
+  loading: boolean;
   sexo = ['Masculino', 'Feminino'];
   @ViewChild('alunoForm') alunoForm: FormGroup;
-  @ViewChild('btnSalvar') btnSalvar : ElementRef;
+  @ViewChild('btnSalvar') btnSalvar: ElementRef;
 
   constructor(
     private router: Router,
@@ -30,6 +31,8 @@ export class CadastroUsuarioComponent implements OnInit {
     private alunoService: AlunoService) { }
 
   ngOnInit() {
+    this.loading = true;
+    
     this.route.queryParams.subscribe((params) => {
       this.searchWord = params['search'];
       this.nomeAluno = params['aluno'];
@@ -42,21 +45,31 @@ export class CadastroUsuarioComponent implements OnInit {
           if (usuario) {
             this.aluno = usuario;
             this.urlFoto = this.aluno.urlFoto;
+
+            if (isNullOrUndefined(this.aluno.urlFoto)) {
+              this.urlFoto = '../../assets/img/profile-icon_126x126.png';
+            }
+
             let dtNasc = this.aluno.dtNascimento ? new Date(this.aluno.dtNascimento).toISOString().substring(0, 10) : '';
 
-            this.alunoForm.setValue({
-              id: this.aluno.id || '',
-              nome: this.aluno.nome || '',
-              email: this.aluno.email || '',
-              celular: this.aluno.celular || '',
-              dtNascimento: dtNasc,
-              sexo: (this.aluno.sexo === '0' ? '' : this.aluno.sexo),
-              obs: this.aluno.observacao || '',
-              senha: '',
-              confirmaSenha: ''
-            });
+            if (this.alunoForm) {
+              this.alunoForm.setValue({
+                id: this.aluno.id || '',
+                nome: this.aluno.nome || '',
+                email: this.aluno.email || '',
+                celular: this.aluno.celular || '',
+                dtNascimento: dtNasc,
+                sexo: (this.aluno.sexo === '0' ? '' : this.aluno.sexo),
+                obs: this.aluno.observacao || '',
+                senha: '',
+                confirmaSenha: ''
+              });
+            }
           }
-
+          this.loading = false;
+        }, (error) => {
+          this.loading = false;
+          console.error(error.message);
         });
       }
     });
@@ -68,7 +81,7 @@ export class CadastroUsuarioComponent implements OnInit {
       this.btnSalvar.nativeElement.classList.add('is-loading');
 
       if ((!isNullOrUndefined(usuarioForm.value.password) && !isNullOrUndefined(usuarioForm.value.confirmPassword))
-          && (usuarioForm.value.password !== usuarioForm.value.confirmPassword) ){
+        && (usuarioForm.value.password !== usuarioForm.value.confirmPassword)) {
         this.mensagemErro = 'Senha e confirmação de senha diferentes!';
         this.btnSalvar.nativeElement.classList.remove('is-loading');
         return;
@@ -90,7 +103,7 @@ export class CadastroUsuarioComponent implements OnInit {
         const formData = new FormData();
         formData.append('image', this.uploadedFile);
 
-        this.alunoService.uploadFotoAluno(formData).subscribe((resp) => { 
+        this.alunoService.uploadFotoAluno(formData).subscribe((resp) => {
           usrSenha.urlFoto = resp.urlLocation;
           this.salvarAluno(usrSenha);
         }, (error) => {
@@ -107,7 +120,7 @@ export class CadastroUsuarioComponent implements OnInit {
     this.alunoService.salvarAluno(usr).subscribe((resp) => {
       this.mensagemErro = '';
       this.btnSalvar.nativeElement.classList.remove('is-loading');
-      this.router.navigate(['./usuario'], { queryParams: { search: this.searchWord }});
+      this.router.navigate(['./usuario'], { queryParams: { search: this.searchWord } });
     }, (error) => {
       console.error(error.message);
       this.mensagemErro = error.message;
@@ -131,5 +144,5 @@ export class CadastroUsuarioComponent implements OnInit {
 
       reader.readAsDataURL(this.uploadedFile);
     }
-  }  
+  }
 }

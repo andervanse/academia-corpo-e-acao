@@ -1,0 +1,68 @@
+<div *ngIf="mensagemErro !== ''" class="notification is-danger" (click)="onNotificationClick()">
+  <button class="delete"></button>
+  <h4 class="title is-4 has-text-centered">
+    {{ mensagemErro }}
+  </h4>
+</div>
+
+<div class="title notification is-5 is-orange has-text-centered">
+  Postagem
+</div>
+
+<form #postagemForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+  <input type="hidden" name="id" ngModel>
+  <input type="hidden" name="usuarioId" ngModel>
+
+  <div class="field">
+    <div class="control is-6">
+      <label for="ordem">Ordem</label>
+      <input class="input" type="number" placeholder="Ordem" name="ordem" ngModel required min="0" max="2" maxlength="3">
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="obs">Título</label>
+    <div class="control" id="titulo">
+      <input class="input" type="text" placeholder="Título" name="titulo" ngModel required maxlength="100" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="obs">Texto</label>
+    <div class="control" id="texto">
+      <textarea class="textarea" type="text" rows="2" placeholder="Texto" name="texto" ngModel required maxlength="1000"></textarea>
+    </div>
+  </div>
+
+  <div class="is-mobile" *ngIf="!loading">
+    <div class="is-half fileinputs" id="file-upload">
+      <input type="file" class="file" accept="image/*" (change)="imageUpload($event)" />
+      <figure class="image is-32x32">
+        <img src="../../assets/img/icons/icon-upload-32x32.png" />
+      </figure>
+    </div>
+  </div>
+  <br>
+  <div class="card" *ngIf="imagemUpload">
+    <div class="fileinputs" id="file-upload">
+      <figure class="image is-256x256">
+        <img width="256" height="256" [src]="imagemUpload" />
+      </figure>
+    </div>
+    <br>
+    <div class="is-pulled-right">
+      <a type="button" class="button is-danger fas fa-times" (click)="apagarImagem()"></a>
+    </div>
+  </div>
+  <br>
+  <hr>
+  <div class="is-pulled-right">
+    <a type="button" class="button is-danger is-medium" [routerLink]="['../../']">Voltar</a>
+    &nbsp;
+    <button type="submit" class="button is-info is-medium" #btnSalvar [disabled]="!postagemForm.form.valid">Salvar</button>
+  </div>
+
+</form>
+<br>
+<br>
+<br>

@@ -1,12 +1,4 @@
 
-.ng-valid[required], .ng-valid.required  {
-   border-left: 5px solid #42A948; /* green */
-}
-   
-.ng-invalid:not(form):not(.ng-pristine)  {
-   border-left: 5px solid #a94442; /* red */
-}
-
 @media only screen and (max-width: 1020px) {
    div .container {
       width: 96%;
@@ -15,29 +7,13 @@
       padding: 0.5rem 0.5rem 2.5rem 0.5rem;
    }   
 }
-  
-
-div.fileinputs {
-   position: relative;
-}
-
-div.fakefile {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	z-index: 1;
-}
 
 input.file {
-	height: 90px;
-	max-width: 120px;
-}
-
-input.file {
+	height: 190px;
+	max-width: 100%;
 	position: absolute;
-    text-align: right;
-    filter:alpha(opacity 0);
-    width:190px;
-    opacity: 0;
+   text-align: center;
+   filter:alpha(opacity 0);
+   opacity: 0;
 	z-index: 2;
 }

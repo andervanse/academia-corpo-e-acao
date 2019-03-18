@@ -6,7 +6,6 @@ export class MinimizeTextPipe implements PipeTransform {
   transform(value: string, size: number): string {
     
     if (!isNullOrUndefined(value) && value.length > size) {
-        console.log(value.substr(0, size-1) + '.')
         return value.substr(0, size-1) + '.';
     } else {
         return value;

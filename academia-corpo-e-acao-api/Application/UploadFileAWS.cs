@@ -12,8 +12,6 @@ namespace academia_corpo_e_acao
 {
     public class UploadFileAWS :IUploadFile
     {
-        private static IAmazonS3 s3Client;
-        
         private readonly IConfiguration _configuration;
         private readonly ILogger _log;
 
@@ -42,17 +40,42 @@ namespace academia_corpo_e_acao
             }
             catch (AmazonS3Exception e)
             {
-                _log.LogError("Error encountered on server. Message:'{0}' when writing an object", e.Message);
+                _log.LogError("Error encountered on server when writing an object. Message:'{0}'", e.Message);
                 
             }
             catch (Exception e)
             {
-                _log.LogError("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
+                _log.LogError("Unknown error encountered on server when writing an object. Message:'{0}'", e.Message);
             }
 
             return urlLocation;
 
         }
+
+        public async Task<string> DeleteFileAsync(string keyName)
+        {
+            string urlLocation = null;
+
+            try
+            {                
+                using (var client = new AmazonS3Client(RegionEndpoint.SAEast1))
+                {
+                    var bucketName = _configuration["Website:S3Bucket"];
+                    var fileLocation = $"usuarios/fotos/{keyName}";
+                    var resp = await client.DeleteObjectAsync(bucketName, fileLocation);
+                }
+            }
+            catch (AmazonS3Exception e)
+            {
+                _log.LogError("Error encountered when deleting object. Message:'{0}'", e.Message);
+                
+            }
+            catch (Exception e)
+            {
+                _log.LogError("Unknown error encountered on server when deleting object. Message:'{0}'", e.Message);
+            }
+            return urlLocation;
+        }        
 
     }
 

@@ -9,7 +9,7 @@
   Novo do Aluno
 </p>
 
-<form #alunoForm="ngForm" (ngSubmit)="onSubmit(alunoForm)" novalidate>
+<form #alunoForm="ngForm" (ngSubmit)="onSubmit(alunoForm)" novalidate autocomplete="off">
   <input type="hidden" name="id" ngModel>
   <div class="field">
     <label for="login">Login</label>

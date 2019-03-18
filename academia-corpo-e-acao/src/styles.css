@@ -68,6 +68,11 @@
   td a {
       font-size: 12px;
    }    
+  
+  .img-post {
+      width: 100%;
+      margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+  }
 }
 
 @media only screen and (min-width: 1020px) {
@@ -75,9 +80,15 @@
       left: 20%;
       width: 60%;
    }
+
+   .img-post {
+      width:40%;
+   }   
 }
 
-
+.img-post {
+   margin: auto;
+}
 
 table thead {
    text-align: center;

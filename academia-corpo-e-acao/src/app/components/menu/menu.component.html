@@ -20,6 +20,9 @@
       <a class="navbar-item" routerLink="home" (click)="onNavBarClick()">
         Home
       </a>
+      <a *ngIf="isAdmin()" [routerLink]="['home-postagens']" class="navbar-item" (click)="onNavBarClick()">
+          Editar Home
+       </a>     
       <a *ngIf="isAdmin()" [routerLink]="['usuario']" class="navbar-item" (click)="onNavBarClick()">
         Alunos
       </a>

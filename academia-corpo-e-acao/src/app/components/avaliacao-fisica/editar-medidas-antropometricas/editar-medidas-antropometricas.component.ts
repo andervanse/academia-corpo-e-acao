@@ -106,7 +106,7 @@ export class EditarMedidasAntropometricasComponent implements OnInit {
       try {
         this.avaliacaoService.adicionarMedidasAntropometricas(this.medAntropForm.value);        
       } catch (error) {
-        console.log(error);
+        console.error(error.message);
       }
     }
 

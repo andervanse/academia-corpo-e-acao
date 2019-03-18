@@ -24,6 +24,7 @@ import { AvaliacaoFisicaService } from './services/avaliacao-fisica.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AvaliacaoFisicaAlunoComponent } from './components/avaliacao-fisica/aluno/avaliacao-fisica-aluno.component';
 import { FichaTreinoAlunoComponent } from './components/ficha-treino/aluno/ficha-treino-aluno.component';
+import { PostagemHomeService } from './services/postagem-home.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { FichaTreinoAlunoComponent } from './components/ficha-treino/aluno/ficha
     AuthGuardService,
     PlanoTreinoService,
     AlunoService,
-    AvaliacaoFisicaService],
+    AvaliacaoFisicaService,
+    PostagemHomeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

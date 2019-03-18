@@ -24,12 +24,13 @@
       <article class="media">
         <div class="media-left">
           <figure class="image is-64x64">
-            <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+            <img *ngIf="!aluno?.urlFoto" [src]="'../../assets/img/profile-icon_126x126.png'" alt="image">
+            <img *ngIf="aluno.urlFoto" [src]="aluno.urlFoto" alt="image" />
           </figure>
         </div>
         <div class="media-content">
           <div class="content">
-            <p>
+            <p class="subtitle">
               {{ aluno.nome }}
               <br>
               {{ aluno.email }}
@@ -37,19 +38,18 @@
               {{ aluno.celular }}
             </p>
           </div>
-          <nav class="level level-left">
-            <a class="button fas fa-book" 
-              [routerLink]="['../usuario/', aluno.id]"
-              [queryParams]="{search:searchWord, aluno:aluno.nome}">
-            </a>&nbsp;&nbsp;
-            <a class="button fas fa-clipboard" 
-              [routerLink]="['../ficha-treino','editar', aluno.id]" 
-              [queryParams]="{search:searchWord, aluno:aluno.nome}">
-            </a>&nbsp;&nbsp;
-            <a class="button fas fa-weight" 
-              [routerLink]="['../avaliacao-fisica', aluno.id]" 
-              [queryParams]="{search:searchWord, aluno:aluno.nome}">
-            </a>
+          <nav class="level">
+            <div class="level-left">
+              <a class="button fas fa-book" [routerLink]="['../usuario/', aluno.id]"
+                [queryParams]="{search:searchWord, aluno:aluno.nome}">
+              </a>&nbsp;&nbsp;
+              <a class="button fas fa-clipboard" [routerLink]="['../ficha-treino','editar', aluno.id]"
+                [queryParams]="{search:searchWord, aluno:aluno.nome}">
+              </a>&nbsp;&nbsp;
+              <a class="button fas fa-weight" [routerLink]="['../avaliacao-fisica', aluno.id]"
+                [queryParams]="{search:searchWord, aluno:aluno.nome}">
+              </a>
+            </div>
           </nav>
         </div>
       </article>

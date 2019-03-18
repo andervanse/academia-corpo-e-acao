@@ -19,6 +19,7 @@ const appRoutes :Routes = [
     { path: 'avaliacao-fisica', loadChildren:'./components/avaliacao-fisica/avaliacao-fisica.module#AvaliacaoFisicaModule' },
     { path: 'ficha-treino', loadChildren:'./components/ficha-treino/ficha-treino.module#FichaTreinoModule' },
     { path: 'usuario', loadChildren:'./components/usuario/usuario.module#UsuarioModule' },
+    { path: 'home-postagens', loadChildren:'./components/home/home-postagens/home-postagens.module#HomePostagensModule' },
 
     { path: '**', redirectTo: '' }
   ]

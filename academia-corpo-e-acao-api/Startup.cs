@@ -34,6 +34,7 @@ namespace academia_corpo_e_acao
             services.AddScoped<IEmailLoginConfirmation, EmailLoginConfirmation>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IPlanoTreinoRepository, PlanoTreinoRepository>();
+            services.AddScoped<IPostagemHomeRepository, PostagemHomeRepository>();
             services.AddScoped<IAvaliacaoFisicaRepository, AvaliacaoFisicaRepository>();
             services.AddSingleton<IUploadFile, UploadFileAWS>();
             services.AddSingleton<IConfiguration>(x => Configuration);

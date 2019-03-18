@@ -6,6 +6,7 @@ namespace academia_corpo_e_acao
     public interface IUploadFile
     {
         Task<string> UploadFileAsync(Stream fileStream, string keyName);
+        Task<string> DeleteFileAsync(string keyName);
         
     }
 }

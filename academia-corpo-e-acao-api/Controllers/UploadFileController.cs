@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace academia_corpo_e_acao
         private readonly IUploadFile _uploadFile;
         private readonly IUsuarioRepository _userRepo;
         private readonly IConfiguration _config;
+        private readonly ILogger _log;
 
         public UploadFileController(
             IUploadFile uploadFile,
@@ -28,12 +30,13 @@ namespace academia_corpo_e_acao
             _uploadFile = uploadFile;
             _userRepo = userRepo;
             _config = configuration;
+            _log = logger.CreateLogger("UploadFileController");
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] IFormCollection form)
         {
-            long size =  form.Files.Sum(f => f.Length);
+            long size = form.Files.Sum(f => f.Length);
 
             if (size > 0)
             {
@@ -43,11 +46,25 @@ namespace academia_corpo_e_acao
                 if (formFile.Length > 0 && !String.IsNullOrEmpty(formFile.FileName))
                 {
                     if (ImageHelper.CheckIfImageFile(formFile))
-                    {                        
-                        using (var stream = formFile.OpenReadStream())
+                    {
+                        using (var img = Image.FromStream(formFile.OpenReadStream()))
                         {
-                            var fileId = Guid.NewGuid();
-                            urlLocation = await _uploadFile.UploadFileAsync(stream, $"{fileId}");
+                            var ext = Path.GetExtension(formFile.FileName);
+                            var fileId = $"{Guid.NewGuid()}{ext}";
+
+                            try
+                            {
+                                using (Stream ms = new MemoryStream())
+                                {
+                                    img.Resize(512, 512).Save(ms, img.RawFormat);
+                                    urlLocation = await _uploadFile.UploadFileAsync(ms, $"{fileId}");
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                _log.LogError(e.Message);
+                                return BadRequest(e.Message);
+                            }
                         }
                     }
                 }
@@ -58,5 +75,21 @@ namespace academia_corpo_e_acao
                 return BadRequest("Empty file");
             }
         }
+
+        [HttpDelete("{keyName}")]
+        public async Task<IActionResult> Delete(string keyName)
+        {
+            try
+            {
+                await _uploadFile.DeleteFileAsync(keyName);
+            }
+            catch (Exception e)
+            {
+                _log.LogError(e.Message);
+                return BadRequest(e.Message);
+            }
+
+            return Ok();
+        }        
     }
 }

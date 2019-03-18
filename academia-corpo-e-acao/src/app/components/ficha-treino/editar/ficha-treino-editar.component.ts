@@ -191,7 +191,7 @@ export class FichaTreinoAlunoEditarComponent implements OnInit {
       this.loading = false;
       this.navigateToOrigin();    
     }, (error) => {
-      console.log(error);
+      console.error(error.message);
       this.loading = false;
     });
   }

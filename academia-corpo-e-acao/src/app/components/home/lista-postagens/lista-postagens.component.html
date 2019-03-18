@@ -1,0 +1,72 @@
+<div class="tile is-ancestor">
+  <div class="tile is-parent is-vertical">
+
+    <div *ngIf="!loading">
+      <div class="tile is-child notification is-orange">
+        <p class="title is-4 has-text-centered">
+          Postagens
+        </p>
+      </div>
+      <br>
+      <div class="tile is-child">
+        <a type="button" class="button is-info is-medium" [routerLink]="['./editar', 0]">Nova</a>
+      </div>
+      <br>
+    </div>
+
+    <div class="tile is-child notification is-orange" *ngFor="let postagem of postagensHome">
+      <span class="title">{{ postagem.titulo }}</span>
+      <br>
+      ordem {{ postagem.ordem }} &nbsp;&nbsp;
+      <br>
+      data {{ postagem.dataAtualizacao | date:'dd/MM/yyyy' }}
+
+      <hr>
+      <div class="img-post">
+        <figure class="image is-256x256" *ngIf="postagem.urlImagem">
+          <img width="256" height="256" [src]="postagem.urlImagem" />
+        </figure>
+      </div>
+      <br>
+      <div class="tile is-child has-text-centered">
+        <p class="subtitle">
+          {{ postagem.texto }}
+        </p>
+      </div>
+      <hr>
+      <div class="tile is-child">
+        <div class="is-pulled-right">
+          <a class="button is-info is-medium" [routerLink]="['./editar', postagem.id]">Editar</a>
+          &nbsp;
+          <a class="button is-danger is-medium" (click)="onToggleModal(postagem.id)">Excluir</a>
+        </div>
+      </div>
+      <br>
+      <br>
+    </div>
+  </div>
+</div>
+
+<div class="modal" #dialogModal>
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head is-blue">
+      <p class="modal-card-title">
+      </p>
+      <button class="delete" aria-label="close" (click)="onToggleModal(undefined)"></button>
+    </header>
+
+    <section class="modal-card-body">
+      <p class="title is-5">
+        Deseja excluir este item?
+      </p>
+    </section>
+
+    <footer class="modal-card-foot">
+      <div class="is-pulled-right">
+        <a class="button is-success" (click)="onExcluirClick()">Sim</a>
+        <a class="button is-danger" (click)="onToggleModal(undefined)">Não</a>
+      </div>
+    </footer>
+  </div>
+</div>
