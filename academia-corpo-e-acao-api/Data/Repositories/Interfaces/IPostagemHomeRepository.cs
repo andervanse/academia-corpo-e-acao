@@ -7,7 +7,7 @@ namespace academia_corpo_e_acao
     {
         Task<Response<PostagemHome>> SalvarAsync(PostagemHome postagemHome);
 
-        Task<Response<List<PostagemHome>>> ObterAsync(Usuario usuario, int? postagemHomeId);
+        Task<Response<List<PostagemHome>>> ObterAsync(int? postagemHomeId);
 
         Task<Response<bool>> ExcluirAsync(int postagemHomeId);        
     }

@@ -17,6 +17,7 @@ export class EditarPostagemComponent implements OnInit {
   postagemHomeId: number;
   postagemHome: PostagemHome;
   mensagemErro: string;
+  loading: boolean;
   uploadedFile: any;
   imagemUpload: any;
   private oldUrlImagem: string;
@@ -38,15 +39,17 @@ export class EditarPostagemComponent implements OnInit {
 
       if (params['postagem']) {
         this.postagemHomeId = +params['postagem'];
-
+        this.loading = true;
         this.postagemHomeService.obterPostagemHome(this.postagemHomeId).subscribe((postagemHome) => {
           this.postagemHome = postagemHome;
           this.oldUrlImagem = postagemHome.urlImagem;
 
           setTimeout(() => {
             this.setFormFields();
+            this.loading = false;
           }, (500));
         }, (error) => {
+          this.loading = false;
           if (error.status == 404) {
             this.postagemHome = this.postagemHomeService.novaPostagem(this.usuarioId);
             setTimeout(() => {
@@ -81,12 +84,14 @@ export class EditarPostagemComponent implements OnInit {
 
   onSubmit() {
     if (this.postagemForm.valid) {
+
       this.btnSalvar.nativeElement.classList.add('is-loading');
-      this.postagemHome.id = this.postagemForm.value.id,
-        this.postagemHome.usuarioId = this.usuarioId,
-        this.postagemHome.ordem = this.postagemForm.value.ordem,
-        this.postagemHome.titulo = this.postagemForm.value.titulo,
-        this.postagemHome.texto = this.postagemForm.value.texto;
+      this.postagemHome.id = this.postagemForm.value.id;
+      this.postagemHome.usuarioId = this.usuarioId;
+      this.postagemHome.ordem = this.postagemForm.value.ordem;
+      this.postagemHome.titulo = this.postagemForm.value.titulo;
+      this.postagemHome.texto = this.postagemForm.value.texto;
+      this.loading = true;
 
       if (this.uploadedFile) {
         const formData = new FormData();
@@ -108,7 +113,9 @@ export class EditarPostagemComponent implements OnInit {
 
           this.salvarPostagem(this.postagemHome);
           this.btnSalvar.nativeElement.classList.remove('is-loading');
+          this.loading = false;
         }, (error) => {
+          this.loading = false;
           console.error(error.message);
           this.mensagemErro = error.message;
           this.btnSalvar.nativeElement.classList.remove('is-loading');
@@ -136,7 +143,9 @@ export class EditarPostagemComponent implements OnInit {
     this.postagemHomeService.salvarPostagemHome(postagem).subscribe((resp) => {
       this.mensagemErro = '';
       this.router.navigate(['../home-postagens']);
+      this.loading = false;
     }, (resp) => {
+      this.loading = false;
       this.mensagemErro = resp.error;
       console.error(resp.message);
     });

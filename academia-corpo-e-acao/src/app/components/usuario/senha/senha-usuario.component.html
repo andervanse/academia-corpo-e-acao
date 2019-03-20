@@ -1,6 +1,6 @@
 <div *ngIf="mensagemErro !== ''" class="notification is-danger" (click)="onNotificationClick()">
   <button class="delete"></button>
-  <p class="title is-6 has-text-centered">
+  <p class="title is-5 has-text-centered">
     {{ mensagemErro }}
   </p>
 </div>
@@ -33,9 +33,9 @@
   </div>
   <br>
   <div class="is-pulled-right">
-    <a type="button" class="button is-danger is-medium" [routerLink]="['/usuario']">Voltar</a>
+    <a type="button" class="button is-danger" [routerLink]="['/usuario']">Voltar</a>
     &nbsp;
-    <button type="submit" class="button is-info is-medium" [disabled]="!alunoForm.form.valid" #btnSalvar>Salvar</button>
+    <button type="submit" class="button is-info" [disabled]="!alunoForm.form.valid" #btnSalvar>Salvar</button>
   </div>
 </form>
 

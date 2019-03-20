@@ -27,11 +27,12 @@ namespace academia_corpo_e_acao
             _log = logger.CreateLogger("PostagemHomeController");
         }        
 
+
+        [AllowAnonymous]
         [HttpGet(Name = "ObterPostagemHome")]
         public async Task<IActionResult> GetAsync()
         {           
-            var usr = this.ObterUsuario();
-            var response = await _postagemRepo.ObterAsync(usr, null); 
+            var response = await _postagemRepo.ObterAsync(null); 
 
             if (response.Return == null)
                return NotFound();
@@ -46,7 +47,7 @@ namespace academia_corpo_e_acao
         public async Task<IActionResult> GetAsync(int postagemHomeId)
         {           
             var usr = this.ObterUsuario();
-            var response = await _postagemRepo.ObterAsync(usr, postagemHomeId); 
+            var response = await _postagemRepo.ObterAsync(postagemHomeId); 
 
             if (response.Return == null)
                return NotFound();

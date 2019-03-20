@@ -13,6 +13,7 @@ export class ListaPostagensComponent implements OnInit {
 
   postagemHomeIdSelecionado :number;
   loading :boolean;
+  mensagemErro :string;
   postagemHome :PostagemHome;
   postagensHome :PostagemHome[];
   @ViewChild('dialogModal') dialogModal: ElementRef;
@@ -24,6 +25,7 @@ export class ListaPostagensComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
+    this.mensagemErro = '';
     let usr = this.authService.obterUsuario();
 
     this.postagemHomeService.obterPostagensHome().subscribe((postagens) => {
@@ -34,9 +36,9 @@ export class ListaPostagensComponent implements OnInit {
     }, (error) => {
       if (error.status === 404) {
         this.postagensHome = [];
-      } else {
-        console.error(error.message);
       }
+      console.error(error.message);
+      this.mensagemErro = error.message;      
       this.loading = false;
     });
   }
@@ -52,10 +54,15 @@ export class ListaPostagensComponent implements OnInit {
         this.postagensHome = resp;
         this.dialogModal.nativeElement.classList.toggle('is-active');
       }, (error) => {
+        this.mensagemErro = error.message;
         console.error(error.message);
         this.dialogModal.nativeElement.classList.toggle('is-active');
       });
     }
-  }  
+  }
+  
+  onNotificationClick() {
+    this.mensagemErro = '';
+  }
 
 }

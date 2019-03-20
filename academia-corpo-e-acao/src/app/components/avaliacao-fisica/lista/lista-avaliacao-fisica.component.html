@@ -7,7 +7,7 @@
     Avaliações - {{ nomeAluno }}
   </div>
   <div>
-    <a type="button" class="button is-info is-medium" [routerLink]="['editar', 0]"
+    <a type="button" class="button is-info" [routerLink]="['editar', 0]"
       [queryParams]="{search:searchWord, aluno:nomeAluno}">Novo</a>
   </div>
   <br>
@@ -47,7 +47,7 @@
   </article>
 </div>
 <div class="is-pulled-right" *ngIf="!loading">
-  <a type="button" class="button is-danger is-medium" [routerLink]="['/usuario']"
+  <a type="button" class="button is-danger" [routerLink]="['/usuario']"
     [queryParams]="{search:searchWord, aluno:nomeAluno}">Voltar</a>
 </div>
 <br>

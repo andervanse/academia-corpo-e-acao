@@ -3,7 +3,7 @@ export class PostagemHome
     id: number;
     usuarioId: number;
     ordem: number;
-    dtAtualizacao?: Date;
+    dataAtualizacao?: Date;
     titulo?: string;
     texto?: string;
     urlImagem?: string;

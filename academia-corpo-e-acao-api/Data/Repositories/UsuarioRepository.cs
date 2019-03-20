@@ -36,7 +36,7 @@ namespace academia_corpo_e_acao
                     }
 
                     user.DtAtualizacao = DateTime.Now;
-                    exprAttrValues.Add(":dtAt", new AttributeValue { S = user.DtAtualizacao.ToString() });
+                    exprAttrValues.Add(":dtAt", new AttributeValue { S = user.DtAtualizacao.Value.ToString("dd/MM/yyyy hh:mm:ss") });
                     updExp.Append(" #dtAt = :dtAt,");
                     exprAttrNames.Add("#dtAt", "dt-atualizacao");
 

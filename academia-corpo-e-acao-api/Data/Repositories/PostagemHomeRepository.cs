@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Globalization;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.Model;
 using Amazon.Runtime.Internal.Util;
@@ -45,7 +46,7 @@ namespace academia_corpo_e_acao
 
             postagemHome.DataAtualizacao = DateTime.Now;
             attributeNames.Add("#dtAt", "dt-atualizacao");
-            attributeValues.Add(":dtAt", new AttributeValue { S = postagemHome.DataAtualizacao.ToString() });
+            attributeValues.Add(":dtAt", new AttributeValue { S = postagemHome.DataAtualizacao.ToString("dd/MM/yyyy hh:mm:ss") });
             updExpr = "#dtAt = :dtAt";
 
             attributeNames.Add("#ordem", "ordem");
@@ -116,16 +117,10 @@ namespace academia_corpo_e_acao
             }
         }
 
-        public async Task<Response<List<PostagemHome>>> ObterAsync(Usuario usuario, int? postagemHomeId)
+        public async Task<Response<List<PostagemHome>>> ObterAsync(int? postagemHomeId)
         {
             var resp = new Response<List<PostagemHome>>();
             var list = new List<PostagemHome>();
-
-            if (usuario.Id == 0)
-            {
-                resp.ErrorMessages.Add("Usuario não informado");
-                return resp;
-            }
 
             var attrNames = new Dictionary<string, string>();
             attrNames.Add("#type", "tipo");
@@ -197,7 +192,12 @@ namespace academia_corpo_e_acao
                         else if (attributeName == "dt-atualizacao")
                         {
                             DateTime dtAtualizacao;
-                            DateTime.TryParse(value.S, out dtAtualizacao);
+                            DateTime.TryParseExact(value.S, 
+                                                   "dd/MM/yyyy hh:mm:ss",
+                                                   CultureInfo.InvariantCulture, 
+                                                   DateTimeStyles.None,
+                                                   out dtAtualizacao);
+
                             postagemHome.DataAtualizacao = dtAtualizacao;
                         }
                         else if (attributeName == "usuario-id")

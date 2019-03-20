@@ -1,9 +1,9 @@
 
   <div *ngIf="mensagemErro !== ''" class="notification is-danger" (click)="onNotificationClick()">
     <button class="delete"></button>
-    <h4 class="title is-4 has-text-centered">
+    <div class="title is-5">
       {{ mensagemErro }}
-    </h4>
+    </div>
   </div>
 
   <div class="title notification is-5 is-orange has-text-centered">
@@ -43,24 +43,24 @@
 
     <div class="columns is-mobile has-text-centered">
       <div class="column">
-        <a type="button" class="button is-success is-medium is-fullwidth" 
+        <a type="button" class="button is-success is-fullwidth" 
           (click)="onComposicaoCorporalClick()" >Composição Corporal</a>    
       </div>
     </div>
     <div class="columns is-mobile has-text-centered">
         <div class="column">
-            <a type="button" class="button is-success is-medium is-fullwidth"               
+            <a type="button" class="button is-success is-fullwidth"               
               (click)="onMedicaoAntropometricaClick()">Medidas Antropométricas</a>    
           </div>      
       </div>
   
     <hr>
     <div class="is-pulled-right">
-      <a type="button" class="button is-danger is-medium" 
+      <a type="button" class="button is-danger" 
          [routerLink]="['../../']"
          [queryParams]="{search:searchWord, aluno:nomeAluno}">Voltar</a>
       &nbsp;
-      <button type="submit" class="button is-info is-medium" [disabled]="!avaliacaoForm.form.valid">Salvar</button>
+      <button type="submit" class="button is-info" [disabled]="!avaliacaoForm.form.valid">Salvar</button>
     </div>
 
   </form>

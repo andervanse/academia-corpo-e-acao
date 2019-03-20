@@ -5,16 +5,20 @@
       <img class="img" src="assets/img/corpo-e-acao-academia.png">
     </article>
 
+    <div *ngIf="mensagemErro !== ''" class="notification is-danger" (click)="onNotificationClick()">
+      <button class="delete"></button>
+      <div class="title is-5">
+        {{ mensagemErro }}
+      </div>
+    </div>
+
     <div class="tile notification is-orange" *ngIf="loading">
       <span class="title is-5">Carregando...</span>
     </div>
 
     <div class="tile is-child notification is-orange" *ngFor="let postagem of postagensHome">
-      <span class="tag is-info"> {{ postagem.dataAtualizacao | date:'dd/MM/yyyy hh:mm' }} </span>
-      <br>
-      <br>
       <div class="has-text-centered">
-        <span class="title">{{ postagem.titulo }}</span>
+        <span class="title">{{ postagem.titulo }}</span>        
       </div>
       <br>
       <div class="tile is-child">

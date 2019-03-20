@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Globalization;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2.Model;
 using Microsoft.Extensions.Logging;
@@ -44,7 +45,7 @@ namespace academia_corpo_e_acao
 
             avaliacaoFisica.DtAtualizacao = DateTime.Now;
             attributeNames.Add("#dtAt", "dt-atualizacao");
-            attributeValues.Add(":dtAt", new AttributeValue { S = avaliacaoFisica.DtAtualizacao.ToString() });
+            attributeValues.Add(":dtAt", new AttributeValue { S = avaliacaoFisica.DtAtualizacao.ToString("dd/MM/yyyy hh:mm:ss") });
             updExpr = "#dtAt = :dtAt";
 
             if (avaliacaoFisica.Id < 1)
@@ -199,7 +200,12 @@ namespace academia_corpo_e_acao
                         else if (attributeName == "dt-atualizacao")
                         {
                             DateTime dtAtualizacao;
-                            DateTime.TryParse(value.S, out dtAtualizacao);
+                            DateTime.TryParseExact(value.S, 
+                                                   "dd/MM/yyyy hh:mm:ss",
+                                                   CultureInfo.InvariantCulture, 
+                                                   DateTimeStyles.None,
+                                                   out dtAtualizacao);
+
                             avaliacaoFisica.DtAtualizacao = dtAtualizacao;
                         }
                         else if (attributeName == "usuario-id")

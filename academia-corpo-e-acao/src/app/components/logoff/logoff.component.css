@@ -11,8 +11,19 @@ a.card-footer-item {
     margin: 8px;
 }
 
+div.container {
+    padding: 2rem;
+    width: 40%;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);
+    color: #4a4a4a;      
+ }
+
 @media only screen and (max-width: 1020px) {
     div.container {
-       width: 255px;
+       width: 94%;
+       padding: 0.5rem 0.5rem 2rem 0.5rem;
     } 
 }
+

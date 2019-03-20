@@ -11,14 +11,15 @@ import { PostagemHome } from '../../models/postagem-home.model';
 export class HomeComponent implements OnInit {
 
   loading: boolean;
+  mensagemErro: string;
   postagensHome: PostagemHome[];
 
   constructor(
     private authService: AuthService,
     private postagemHomeService: PostagemHomeService) { }
 
-
   ngOnInit() {
+    this.mensagemErro = '';
     this.loading = true;
     let usr = this.authService.obterUsuario();
 
@@ -28,13 +29,20 @@ export class HomeComponent implements OnInit {
       }
       this.loading = false;
     }, (error) => {
+
       if (error.status === 404) {
         this.postagensHome = [];
-      } else {
-        console.error(error.message);
-      }
+      } 
+
+      this.mensagemErro = error.message;      
+      console.error(error.message);
       this.loading = false;
     });
+  }
+
+
+  onNotificationClick() {
+    this.mensagemErro = '';
   }
 
 }
