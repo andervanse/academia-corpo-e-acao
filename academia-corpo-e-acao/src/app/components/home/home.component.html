@@ -12,10 +12,6 @@
       </div>
     </div>
 
-    <div class="tile notification is-orange" *ngIf="loading">
-      <span class="title is-5">Carregando...</span>
-    </div>
-
     <div class="tile is-child notification is-orange" *ngFor="let postagem of postagensHome">
       <div class="has-text-centered">
         <span class="title">{{ postagem.titulo }}</span>        

@@ -10,22 +10,25 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class FichaTreinoAlunoComponent implements OnInit {
 
+  mensagemErro :string;
   planoTreino :PlanoTreino;
-  loading :boolean;
 
   constructor(private planoTreinoService: PlanoTreinoService,
               private authService: AuthService) { }
 
   ngOnInit() {
-    this.loading = true;
+    this.mensagemErro = '';
     var usuario = this.authService.obterUsuario();
     
     this.planoTreinoService.obterUltimoPlanoTreino(usuario.id).subscribe((resp) => {
-      this.loading = false;
       this.planoTreino = resp;
     }, (error) => {
-      this.loading = false;
+      this.mensagemErro = error.message;
     });
+  }
+
+  onNotificationClick() {
+    this.mensagemErro = '';
   }
 
 }

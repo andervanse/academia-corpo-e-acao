@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgxLoadingModule } from 'ngx-loading';
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './components/menu/menu.component';
@@ -18,13 +19,15 @@ import { PlanoTreinoService } from './services/plano-treino.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AlunoService } from './services/aluno.service';
-import { JwtInterceptor } from './services/jwt-interceptor.service';
-import { ErrorInterceptor } from './services/error-interceptor.service';
+import { JwtInterceptor } from './services/interceptors/jwt-interceptor.service';
+import { ErrorInterceptor } from './services/interceptors/error-interceptor.service';
 import { AvaliacaoFisicaService } from './services/avaliacao-fisica.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AvaliacaoFisicaAlunoComponent } from './components/avaliacao-fisica/aluno/avaliacao-fisica-aluno.component';
 import { FichaTreinoAlunoComponent } from './components/ficha-treino/aluno/ficha-treino-aluno.component';
 import { PostagemHomeService } from './services/postagem-home.service';
+import { LoadingService } from './services/loading.service';
+import { LoadingInterceptor } from './services/interceptors/loading-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -44,17 +47,20 @@ import { PostagemHomeService } from './services/postagem-home.service';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,     
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    NgxLoadingModule.forRoot({})
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     AuthService,
     AuthGuardService,
     PlanoTreinoService,
     AlunoService,
     AvaliacaoFisicaService,
-    PostagemHomeService],
+    PostagemHomeService,
+    LoadingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

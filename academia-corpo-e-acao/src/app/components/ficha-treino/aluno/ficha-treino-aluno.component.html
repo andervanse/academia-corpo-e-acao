@@ -1,20 +1,11 @@
-<br>
-<div class="tile is-child notification is-orange" *ngIf="loading">
-  <span class="title is-5 is-font-white">Aguarde...</span>
-</div>
-
 <div class="tile is-ancestor">
-  <div class="tile is-parent is-vertical" *ngIf="!loading">
+  <div class="tile is-parent is-vertical" *ngIf="planoTreino">
     
-      <div class="tile is-child notification is-orange" *ngIf="!planoTreino?.gruposMusculares">
-        <p class="title is-5">Não há plano de treino definido</p>
-      </div>
-      
       <div class="tile is-child notification is-orange has-text-centered">
-        <p class="title is-5">{{ planoTreino.descricao }}</p>
+        <p class="title is-5">{{ planoTreino?.descricao }}</p>
       </div>
 
-      <article class="tile is-child notification is-orange" *ngFor="let grupo of planoTreino.gruposMusculares">
+      <article class="tile is-child notification is-orange" *ngFor="let grupo of planoTreino?.gruposMusculares">
         <p class="title is-5">{{ grupo.descricao }}</p>
         <p class="subtitle"></p>
         <table class="table is-striped is-narrow">
@@ -37,7 +28,7 @@
 
       <div class="notification is-orange">
         <p class="title is-5 has-text-centered">Observação</p>
-        <textarea class="textarea" readonly>{{ planoTreino.observacao }}</textarea>
+        <textarea class="textarea" readonly>{{ planoTreino?.observacao }}</textarea>
       </div>
 
   </div>

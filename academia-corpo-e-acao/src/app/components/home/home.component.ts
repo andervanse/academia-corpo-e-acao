@@ -10,7 +10,6 @@ import { PostagemHome } from '../../models/postagem-home.model';
 })
 export class HomeComponent implements OnInit {
 
-  loading: boolean;
   mensagemErro: string;
   postagensHome: PostagemHome[];
 
@@ -20,14 +19,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.mensagemErro = '';
-    this.loading = true;
     let usr = this.authService.obterUsuario();
 
     this.postagemHomeService.obterPostagensHome().subscribe((postagens) => {
       if (postagens) {
         this.postagensHome = postagens;
       }
-      this.loading = false;
     }, (error) => {
 
       if (error.status === 404) {
@@ -36,10 +33,8 @@ export class HomeComponent implements OnInit {
 
       this.mensagemErro = error.message;      
       console.error(error.message);
-      this.loading = false;
     });
   }
-
 
   onNotificationClick() {
     this.mensagemErro = '';

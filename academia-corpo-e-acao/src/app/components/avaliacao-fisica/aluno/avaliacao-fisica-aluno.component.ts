@@ -11,8 +11,8 @@ import { Chart } from 'chart.js';
 })
 export class AvaliacaoFisicaAlunoComponent implements OnInit {
 
+  mensagemErro: string;
   nomeAluno: string;
-  loading: boolean = false;
   avaliacoesFisicas: AvaliacaoFisica[];
   chart = []; 
   months = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
@@ -22,19 +22,18 @@ export class AvaliacaoFisicaAlunoComponent implements OnInit {
     private avaliacaoService: AvaliacaoFisicaService) { }
 
   ngOnInit() {
+    this.mensagemErro = '';
     let usuario = this.authService.obterUsuario();
     this.nomeAluno = usuario.nome;
-    this.loading = true;
 
     this.avaliacaoService.obterAvaliacoesFisicas(usuario.id).subscribe((avaliacoesFisicas) => {
       if (avaliacoesFisicas) {
         this.avaliacoesFisicas = avaliacoesFisicas;
         this.initializeChart();
       }
-      this.loading = false;
     }, (error) => {
+      this.mensagemErro = error.message;
       console.error(error.message);
-      this.loading = false;
     });   
   }
 
@@ -86,6 +85,10 @@ export class AvaliacaoFisicaAlunoComponent implements OnInit {
           }
         }); 
     }
+  }
+
+  onNotificationClick() {
+    this.mensagemErro = '';
   }
 
 }
