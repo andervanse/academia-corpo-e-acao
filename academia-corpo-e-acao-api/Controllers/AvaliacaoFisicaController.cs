@@ -18,11 +18,11 @@ namespace academia_corpo_e_acao
         public AvaliacaoFisicaController(
             IAvaliacaoFisicaRepository avaliacaoRepo,
             IConfiguration configuration,
-            ILoggerFactory logger) : base(configuration, logger)
+            ILogger<AvaliacaoFisicaController> log) : base(configuration, log)
         {
             _avaliacaoRepo = avaliacaoRepo;
             _configuration = configuration;
-            _log = logger.CreateLogger("AvaliacaoFisicaController");
+            _log = log;
         }
 
         [HttpGet("{userId}/{avaliacaoId?}", Name = "ObterAvaliacaoFisica")]

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +8,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 namespace academia_corpo_e_acao
 {
@@ -25,12 +31,12 @@ namespace academia_corpo_e_acao
             IUploadFile uploadFile,
             IUsuarioRepository userRepo,
             IConfiguration configuration,
-            ILoggerFactory logger) : base(configuration, logger)
+            ILogger<UploadFileController> log) : base(configuration, log)
         {
             _uploadFile = uploadFile;
             _userRepo = userRepo;
             _config = configuration;
-            _log = logger.CreateLogger("UploadFileController");
+            _log = log;
         }
 
         [HttpPost]
@@ -45,29 +51,33 @@ namespace academia_corpo_e_acao
 
                 if (formFile.Length > 0 && !String.IsNullOrEmpty(formFile.FileName))
                 {
-                    if (ImageHelper.CheckIfImageFile(formFile))
+
+                    var resizeOptions = new ResizeOptions
                     {
-                        using (var img = Image.FromStream(formFile.OpenReadStream()))
+                        Size = new SixLabors.Primitives.Size { Width = 512, Height = 512 },
+                        Mode = ResizeMode.Stretch
+                    };
+
+                    try
+                    {
+                        using (var mmStream = new MemoryStream())
                         {
                             var ext = Path.GetExtension(formFile.FileName);
                             var fileId = $"{Guid.NewGuid()}{ext}";
-
-                            try
-                            {
-                                using (Stream ms = new MemoryStream())
-                                {
-                                    img.Resize(512, 512).Save(ms, img.RawFormat);
-                                    urlLocation = await _uploadFile.UploadFileAsync(ms, $"{fileId}");
-                                }
-                            }
-                            catch (Exception e)
-                            {
-                                _log.LogError(e.Message);
-                                return BadRequest(e.Message);
-                            }
+                            await formFile.CopyToAsync(mmStream); 
+                            mmStream.Seek(0, SeekOrigin.Begin);                           
+                            urlLocation = await _uploadFile.UploadFileAsync(mmStream, $"{fileId}");
                         }
                     }
+                    catch (Exception e)
+                    {
+                        var msgErro = "Falha ao processar imagem.";
+                        _log.LogError(e.Message, msgErro);
+                        return StatusCode(500, new { message = msgErro });
+                    }
+
                 }
+
                 return Ok(new { urlLocation = urlLocation });
             }
             else
@@ -90,6 +100,6 @@ namespace academia_corpo_e_acao
             }
 
             return Ok();
-        }        
+        }
     }
 }

@@ -1,9 +1,11 @@
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 
-namespace academia_corpo_e_acao 
+namespace academia_corpo_e_acao
 {
     public class ImageHelper
     {
@@ -62,5 +64,26 @@ namespace academia_corpo_e_acao
 
             return GetImageFormat(fileBytes) != ImageFormat.unknown;
         }
+    }
+
+    public static class FileUploadValidator
+    {
+        public static bool FileIsWebFriendlyImage(Stream stream)
+        {
+            try
+            {
+                var i = Image.FromStream(stream);
+                stream.Seek(0, SeekOrigin.Begin);
+
+                if (ImageFormat.Jpeg.Equals(i.RawFormat))
+                    return true;
+                return ImageFormat.Png.Equals(i.RawFormat) || ImageFormat.Gif.Equals(i.RawFormat);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

@@ -9,7 +9,7 @@
               "Handler": "academia-corpo-e-acao::academia_corpo_e_acao.LambdaEntryPoint::FunctionHandlerAsync",
               "Runtime": "dotnetcore2.1",
               "CodeUri": "",
-              "MemorySize": 128,
+              "MemorySize": 256,
               "Timeout": 30,
               "Role": null,
               "Policies": [

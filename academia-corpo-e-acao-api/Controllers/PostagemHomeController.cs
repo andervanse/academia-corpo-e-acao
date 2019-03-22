@@ -20,11 +20,11 @@ namespace academia_corpo_e_acao
         public PostagemHomeController (
             IPostagemHomeRepository postagemRepo,
             IConfiguration configuration,
-            ILoggerFactory logger) : base(configuration, logger)
+            ILogger<PostagemHomeController> log) : base(configuration, log)
         {
             _postagemRepo = postagemRepo;
             _configuration = configuration;
-            _log = logger.CreateLogger("PostagemHomeController");
+            _log = log;
         }        
 
 

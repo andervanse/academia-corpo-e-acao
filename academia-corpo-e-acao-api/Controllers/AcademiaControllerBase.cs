@@ -16,10 +16,10 @@ namespace academia_corpo_e_acao
         private readonly ILogger _log;
 
         public AcademiaControllerBase(IConfiguration configuration,
-                                      ILoggerFactory logger)
+                                      ILogger<AcademiaControllerBase> logger)
         {
             _config = configuration;
-            _log = logger.CreateLogger("ControllerBase");
+            _log = logger;
         }
 
         protected Usuario ObterUsuario()

@@ -27,6 +27,8 @@ namespace academia_corpo_e_acao
         {
             string urlLocation = null;
 
+            _log.LogInformation("File Name: {0}", keyName);
+
             try
             {                
                 using (var client = new AmazonS3Client(RegionEndpoint.SAEast1))
@@ -34,14 +36,14 @@ namespace academia_corpo_e_acao
                     var bucketName = _configuration["Website:S3Bucket"];
                     var fileTransferUtility = new TransferUtility(client);
                     var fileLocation = "usuarios/fotos/" + keyName;
+                    _log.LogInformation("location: {0}", fileLocation);
                     await fileTransferUtility.UploadAsync(fileStream, bucketName, fileLocation);
                     urlLocation = $"{_configuration["Website:S3BucketUrl"]}/{fileLocation}";
                 }
             }
             catch (AmazonS3Exception e)
             {
-                _log.LogError("Error encountered on server when writing an object. Message:'{0}'", e.Message);
-                
+                _log.LogError("Error encountered on server when writing an object. Message:'{0}'", e.Message);                
             }
             catch (Exception e)
             {
@@ -49,7 +51,6 @@ namespace academia_corpo_e_acao
             }
 
             return urlLocation;
-
         }
 
         public async Task<string> DeleteFileAsync(string keyName)

@@ -28,10 +28,10 @@ namespace academia_corpo_e_acao
         {
         }
 
-        public DynamoDbContext(IConfiguration configuration, ILoggerFactory logger)
+        public DynamoDbContext(IConfiguration configuration, ILogger<DynamoDbContext> log)
         {
             _tableName = configuration["AWS:DynamoDb:Table"];
-            _log = logger.CreateLogger("DynamoDbContext");
+            _log = log;
             _log.LogInformation($"TableName.: {_tableName}");
         }        
 

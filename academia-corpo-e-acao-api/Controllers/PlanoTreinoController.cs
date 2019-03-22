@@ -19,11 +19,11 @@ namespace academia_corpo_e_acao
 
         public PlanoTreinoController(IPlanoTreinoRepository grpRepo,
                                      IConfiguration configuration,
-                                     ILoggerFactory logger) :base(configuration, logger)
+                                     ILogger<PlanoTreinoController> log) :base(configuration, log)
         {
             _planoTreinoRepository = grpRepo;
             _configuration = configuration;
-            _log = logger.CreateLogger("PlanoTreinoController");
+            _log = log;
         }
 
         [HttpGet("usuario/{userId}", Name = "ObterPlanoTreino")]

@@ -26,12 +26,12 @@ namespace academia_corpo_e_acao
         public UsuarioController(IUsuarioRepository userRepo,
                                  IEmailLoginConfirmation emailLoginConfirmation,
                                  IConfiguration configuration,
-                                 ILoggerFactory logger): base(configuration, logger)
+                                 ILogger<UsuarioController> log): base(configuration, log)
         {
             _userRepo = userRepo;
             _emailLoginConfirmation = emailLoginConfirmation;
             _config = configuration;
-            _log = logger.CreateLogger("UsuarioController");
+            _log = log;
         }
 
         [HttpGet("{nome}", Name = "GetUser")]
