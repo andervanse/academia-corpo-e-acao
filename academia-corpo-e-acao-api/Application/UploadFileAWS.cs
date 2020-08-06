@@ -34,11 +34,18 @@ namespace academia_corpo_e_acao
                 using (var client = new AmazonS3Client(RegionEndpoint.SAEast1))
                 {
                     var bucketName = _configuration["Website:S3Bucket"];
-                    var fileTransferUtility = new TransferUtility(client);
+                    var fileTransferUtility = new TransferUtility(client);                    
                     var fileLocation = "usuarios/fotos/" + keyName;
                     _log.LogInformation("location: {0}", fileLocation);
-                    await fileTransferUtility.UploadAsync(fileStream, bucketName, fileLocation);
                     urlLocation = $"{_configuration["Website:S3BucketUrl"]}/{fileLocation}";
+
+                    var uploadRequest = new TransferUtilityUploadRequest();
+                    uploadRequest.ContentType = "image/png";
+                    uploadRequest.InputStream = fileStream;
+                    uploadRequest.Key = fileLocation;
+                    uploadRequest.CannedACL = S3CannedACL.PublicRead;
+                    uploadRequest.BucketName = bucketName;
+                    await fileTransferUtility.UploadAsync(uploadRequest);
                 }
             }
             catch (AmazonS3Exception e)

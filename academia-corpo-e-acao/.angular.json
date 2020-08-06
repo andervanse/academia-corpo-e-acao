@@ -48,7 +48,19 @@
               "vendorChunk": false,
               "buildOptimizer": true,
               "serviceWorker": true
-            }
+            },
+            "dev": {              
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": false,
+              "serviceWorker": true
+            }            
           }
         },
         "serve": {

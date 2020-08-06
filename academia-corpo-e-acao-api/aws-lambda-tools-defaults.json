@@ -15,5 +15,5 @@
 	"framework"     : "netcoreapp2.1",
 	"s3-prefix"     : "academia-corpo-e-acao-api/",
 	"template"      : "serverless.template",
-	"template-parameters" : "ShouldCreateBucket=true;BucketName="
+	"template-parameters" : "ShouldCreateBucket=true;BucketName=academia-corpo-e-acao-api"
 }

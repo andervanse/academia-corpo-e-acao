@@ -9,10 +9,12 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "deploy": "s3p sync -f",
     "bundle-report": "webpack-bundle-analyzer dist/stats.json"
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/build-angular": "^0.13.0",
     "@angular/animations": "^6.1.0",
     "@angular/common": "^6.1.0",
     "@angular/compiler": "^6.1.0",
@@ -30,10 +32,10 @@
     "ng-simple-slideshow": "^1.2.6",
     "ngx-loading": "^2.0.1",
     "rxjs": "~6.2.0",
+    "s3-publish": "^2.1.0",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.13.5",
     "@angular/cli": "~6.2.7",
     "@angular/compiler-cli": "^6.1.0",
     "@angular/language-service": "^6.1.0",
@@ -52,6 +54,6 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~2.9.2",
-    "webpack-bundle-analyzer": "^3.0.4"
+    "webpack-bundle-analyzer": "^3.8.0"
   }
 }

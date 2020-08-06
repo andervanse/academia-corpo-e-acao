@@ -3,6 +3,7 @@ import { AvaliacaoFisicaService } from '../../../services/avaliacao-fisica.servi
 import { AvaliacaoFisica } from '../../../models/avaliacao-fisica.model';
 import { AuthService } from '../../../services/auth.service';
 import { Chart } from 'chart.js';
+import { LoadingService } from '../../../services/loading.service';
 
 @Component({
   selector: 'app-avaliacao-fisica-aluno',
@@ -10,7 +11,7 @@ import { Chart } from 'chart.js';
   styleUrls: ['./avaliacao-fisica-aluno.component.css']
 })
 export class AvaliacaoFisicaAlunoComponent implements OnInit {
-
+  loading: boolean = false;
   mensagemErro: string;
   nomeAluno: string;
   avaliacoesFisicas: AvaliacaoFisica[];
@@ -18,6 +19,7 @@ export class AvaliacaoFisicaAlunoComponent implements OnInit {
   months = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 
   constructor(
+    private loadingService: LoadingService,
     private authService: AuthService,
     private avaliacaoService: AvaliacaoFisicaService) { }
 
@@ -35,6 +37,12 @@ export class AvaliacaoFisicaAlunoComponent implements OnInit {
       this.mensagemErro = error.message;
       console.error(error.message);
     });   
+  }
+  
+  ngAfterContentInit(): void {
+    this.loadingService.loading.subscribe((l) => { 
+      this.loading = l;  
+    });      
   }
 
   private initializeChart() {
