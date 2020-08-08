@@ -20,6 +20,7 @@ namespace academia_corpo_e_acao
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
     }

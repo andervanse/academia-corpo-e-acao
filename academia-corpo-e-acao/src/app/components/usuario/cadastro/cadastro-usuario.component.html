@@ -11,12 +11,14 @@
   </div>
 
   <label for="file-upload">Foto do Perfil</label>
+  <br>
+  <br>
   <div class="is-mobile" *ngIf="!loading">    
-    <div class="is-half fileinputs" id="file-upload">      
+    <div class="fileinputs" id="file-upload">      
       <input type="file" class="file" accept="image/*" (change)="imageUpload($event)" />
-      <figure class="image is-4by4 is-256x256">
-        <img *ngIf="imagemUpload" [src]="imagemUpload" />
-        <img *ngIf="!imagemUpload" [src]="urlFoto" />
+      <figure class="image is-4by4 is-128x128">
+        <img width="256" height="256" *ngIf="imagemUpload" [src]="imagemUpload" />
+        <img width="256" height="256" *ngIf="!imagemUpload" [src]="urlFoto" />
       </figure>
     </div>
   </div>

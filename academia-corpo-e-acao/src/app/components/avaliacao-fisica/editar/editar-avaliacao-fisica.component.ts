@@ -80,7 +80,6 @@ export class EditarAvaliacaoFisicaComponent implements OnInit {
         peso: this.avaliacaoFisica.medidas.peso || ''
       });
     }
-
   }
 
   private obterQueryParams(): any {
@@ -95,12 +94,14 @@ export class EditarAvaliacaoFisicaComponent implements OnInit {
     this.irParaRota('med-antrop');
   }
 
+  onPesoFocusOut() {
+    this.avaliacaoFisica.medidas.imc = this.avaliacaoForm.value.peso / (this.avaliacaoFisica.medidas.estatura*2);
+  }
+
   private irParaRota(nmRoute: string) {
     if (this.avaliacaoForm.valid && this.avaliacaoForm.touched) {
       this.avaliacaoFisica.observacao = this.avaliacaoForm.value.obs;
-      let imc = this.avaliacaoFisica.medidas.imc;
       this.avaliacaoService.adicionarMedidas(this.avaliacaoForm.value);
-      this.avaliacaoFisica.medidas.imc = imc;
     }
 
     this.router.navigate(['../../', nmRoute, 'editar', this.avaliacaoFisicaId], { relativeTo: this.route, queryParams: this.obterQueryParams() });
